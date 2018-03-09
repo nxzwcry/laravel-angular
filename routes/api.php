@@ -17,4 +17,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/index', 'Api\IndexController@index');
+Route::middleware('auth:api')->get('/index', 'Api\IndexController@index');
