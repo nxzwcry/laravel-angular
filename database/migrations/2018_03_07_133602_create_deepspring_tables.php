@@ -19,12 +19,23 @@ class CreateDeepspringTables extends Migration
             $table->string('ename');
             $table->unsignedInteger('sex');
             $table->date('birthday');
-            $table->unsignedInteger('grade-birthday');
+            $table->Integer('grade'); // 6表示一年级
             $table->unsignedInteger('agent_user_id');
             $table->unsignedInteger('cteacher_user_id');
             $table->string('email');
+            $table->string('address');
             $table->unsignedInteger('team_id');
-            $table->Integer('kk_value');
+            $table->Integer('kk_value'); // 1表示不适用 正常情况下小于等于0
+            $table->longText('desc');
+            $table->timestamps();
+            $table->softDeletes();
+        });
+
+        Schema::create('student_values', function (Blueprint $table) {
+            $table->increments('id');
+            $table->unsignedInteger('student_id')->unique();
+            $table->Integer('fuxi');
+            $table->Integer('jingpin');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -32,7 +43,7 @@ class CreateDeepspringTables extends Migration
         Schema::create('teams', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->Integer('kk_recharge');
+            $table->Integer('kk_recharge'); // 班课充值数
             $table->timestamps();
             $table->softDeletes();
         });
@@ -49,8 +60,10 @@ class CreateDeepspringTables extends Migration
             $table->Integer('waijiao');
             $table->Integer('zhongjiao');
             $table->Integer('jingpin');
+            $table->Integer('leave');
             $table->Integer('money');
             $table->unsignedInteger('student_id');
+            $table->unsignedInteger('user_id');
             $table->longText('note');
             $table->timestamps();
             $table->softDeletes();
@@ -75,7 +88,7 @@ class CreateDeepspringTables extends Migration
             $table->softDeletes();
         });
 
-        Schema::create('massages', function (Blueprint $table) {
+        Schema::create('messages', function (Blueprint $table) {
             $table->increments('id');
             $table->string('massage_type');
             $table->unsignedInteger('to_id');
@@ -97,13 +110,14 @@ class CreateDeepspringTables extends Migration
             $table->unsignedInteger('video_id');
             $table->unsignedInteger('report_id');
             $table->unsignedInteger('file_id');
-            $table->morphs('courseware');
+            $table->unsignedInteger('courseware_id');
             $table->Integer('waijiao_cost');
             $table->Integer('zhongjiao_cost');
             $table->Integer('jingpin_cost');
-            $table->string('lesson_type');
+            $table->string('lesson_type');  // w：外教课 b：班课 f：复习课 J：精品课 bu：补课
             $table->Integer('score');
             $table->unsignedInteger('team_id');
+            $table->unsignedInteger('syn_code');
             $table->unsignedInteger('place_id');
             $table->unsignedInteger('status');
             $table->longText('note');
@@ -114,14 +128,18 @@ class CreateDeepspringTables extends Migration
         Schema::create('courses', function (Blueprint $table) {
             $table->increments('id');
             $table->string('lesson_type');
-            $table->unsignedInteger('student_or_team_id');
+            $table->unsignedInteger('student_id');
+            $table->unsignedInteger('team_id');
             $table->unsignedInteger('cteacher_id');
             $table->unsignedInteger('fteacher_id');
             $table->string('name');
             $table->Integer('dow');
             $table->time('start_time');
             $table->time('end_time');
-            $table->morphs('courseware');
+            $table->unsignedInteger('courseware_id');
+            $table->Integer('waijiao_cost');
+            $table->Integer('zhongjiao_cost');
+            $table->Integer('jingpin_cost');
             $table->unsignedInteger('place_id');
             $table->timestamps();
             $table->softDeletes();
@@ -152,13 +170,13 @@ class CreateDeepspringTables extends Migration
 
         Schema::create('files', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('type');
+            $table->string('type'); // 本地url、阿里云url等
             $table->string('url');
             $table->timestamps();
             $table->softDeletes();
         });
 
-        Schema::create('courseware_teams', function (Blueprint $table) {
+        Schema::create('courseware', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
             $table->string('url');
@@ -197,7 +215,7 @@ class CreateDeepspringTables extends Migration
         Schema::dropIfExists('recharges');
         Schema::dropIfExists('phones');
         Schema::dropIfExists('wechats');
-        Schema::dropIfExists('massages');
+        Schema::dropIfExists('messages');
         Schema::dropIfExists('lessons');
         Schema::dropIfExists('courses');
         Schema::dropIfExists('videos');
