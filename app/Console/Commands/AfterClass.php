@@ -133,5 +133,5 @@ class AfterClass extends Command
     {
     }
       
-    use CourseToNewLesson;
+//    use CourseToNewLesson;
 }
