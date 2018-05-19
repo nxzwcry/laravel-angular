@@ -2,6 +2,7 @@ import { AdminDashboard2Component } from './../admin-dashboard2/admin-dashboard2
 import { AdminDashboard1Component } from './../admin-dashboard1/admin-dashboard1.component';
 import { AdminUserCreateComponent } from './../admin-user/admin-user-create/admin-user-create.component';
 import { AdminUserManageComponent } from './../admin-user/admin-user-manage/admin-user-manage.component';
+import { AdminStudentlistOne2oneComponent } from './../admin-studentlist/admin-studentlist-one2one/admin-studentlist-one2one.component';
 import { AdminComponent } from './../admin.component';
 import { NgModule, Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -44,6 +45,10 @@ import {AdminPermissionManageComponent} from "../admin-user/admin-permission-man
           {
               path: 'user/permissions',
               component: AdminPermissionManageComponent
+          },
+          {
+              path: 'student_list/one2one',
+              component: AdminStudentlistOne2oneComponent
           },
         ]
       }

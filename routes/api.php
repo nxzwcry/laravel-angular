@@ -18,3 +18,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::middleware('auth:api')->get('/index', 'Api\IndexController@index');
+
+Route::get('students', 'Api\StudentController@index');
+Route::get('students/{student}', 'Api\StudentController@show');
+Route::post('students', 'StudentController@store');
+Route::put('students/{student}', 'StudentController@update');
+Route::delete('students/{student}', 'StudentController@delete');

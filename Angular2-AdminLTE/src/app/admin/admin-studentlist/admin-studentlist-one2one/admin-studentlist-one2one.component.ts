@@ -3,11 +3,11 @@ import { Component, OnInit } from '@angular/core';
 declare var AdminLTE: any;
 
 @Component({
-  selector: 'app-admin-user-create',
-  templateUrl: './admin-user-create.component.html',
-  styleUrls: ['./admin-user-create.component.css']
+  selector: 'app-admin-studentlist-one2one',
+  templateUrl: './admin-studentlist-one2one.component.html',
+  styleUrls: ['./admin-studentlist-one2one.component.css']
 })
-export class AdminUserCreateComponent implements OnInit {
+export class AdminStudentlistOne2oneComponent implements OnInit {
 
   constructor() { }
 

@@ -13,6 +13,7 @@ import { AdminUserManageComponent } from './admin-user/admin-user-manage/admin-u
 import { AdminRoleManageComponent } from './admin-user/admin-role-manage/admin-role-manage.component';
 import { AdminPermissionManageComponent } from './admin-user/admin-permission-manage/admin-permission-manage.component';
 import { AdminUserCreateComponent } from './admin-user/admin-user-create/admin-user-create.component';
+import { AdminStudentlistOne2oneComponent } from './admin-studentlist/admin-studentlist-one2one/admin-studentlist-one2one.component';
 
 @NgModule({
   imports: [
@@ -31,7 +32,8 @@ import { AdminUserCreateComponent } from './admin-user/admin-user-create/admin-u
     AdminUserManageComponent,
     AdminRoleManageComponent,
     AdminPermissionManageComponent,
-    AdminUserCreateComponent
+    AdminUserCreateComponent,
+    AdminStudentlistOne2oneComponent
   ],
   exports: [AdminComponent]
 })

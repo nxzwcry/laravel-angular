@@ -39,6 +39,20 @@
                 <li><a [routerLink]="['./user/permissions']"><i class="fa fa-circle-o"></i>权限管理</a></li>
             </ul>
         </li>
+        <li class="active treeview">
+            <a href="#">
+                <i class="fa fa-dashboard"></i> <span>学员管理</span>
+                <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+            </a>
+            <ul class="treeview-menu">
+                <li class="active"><a routerLink="./student_list/one2one"><i class="fa fa-circle-o"></i>1对1学生</a></li>
+                <li><a [routerLink]="['./student_list/class']"><i class="fa fa-circle-o"></i>班级列表</a></li>
+                <li><a [routerLink]="['./student_list/class_student']"><i class="fa fa-circle-o"></i>班级学生</a></li>
+                <li><a [routerLink]="['./student_list/stop_student']"><i class="fa fa-circle-o"></i>停课学生</a></li>
+            </ul>
+        </li>
       <li class="treeview">
         <a href="#">
             <i class="fa fa-dashboard"></i> <span>Dashboard</span>
