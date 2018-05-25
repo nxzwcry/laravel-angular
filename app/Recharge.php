@@ -14,7 +14,7 @@ class Recharge extends Model
      * @var string
      */
     //指定表名
-    protected $table = 'recharge';
+    protected $table = 'recharges';
     //指定关键字
     protected $primaryKey = 'id';
     //自动维护时间戳

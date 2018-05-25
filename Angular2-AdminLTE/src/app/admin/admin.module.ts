@@ -14,11 +14,17 @@ import { AdminRoleManageComponent } from './admin-user/admin-role-manage/admin-r
 import { AdminPermissionManageComponent } from './admin-user/admin-permission-manage/admin-permission-manage.component';
 import { AdminUserCreateComponent } from './admin-user/admin-user-create/admin-user-create.component';
 import { AdminStudentlistOne2oneComponent } from './admin-studentlist/admin-studentlist-one2one/admin-studentlist-one2one.component';
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { HttpModule } from "@angular/http";
+import { FilterPipe } from './pipe/filter.pipe';
 
 @NgModule({
   imports: [
     CommonModule,
-    AdminRoutingModule
+    AdminRoutingModule,
+      HttpModule,
+      ReactiveFormsModule,
+      FormsModule
   ],
   declarations: [
     AdminComponent,
@@ -33,8 +39,12 @@ import { AdminStudentlistOne2oneComponent } from './admin-studentlist/admin-stud
     AdminRoleManageComponent,
     AdminPermissionManageComponent,
     AdminUserCreateComponent,
-    AdminStudentlistOne2oneComponent
+    AdminStudentlistOne2oneComponent,
+    FilterPipe
   ],
-  exports: [AdminComponent]
+  exports: [
+      AdminComponent,
+      FilterPipe
+  ]
 })
 export class AdminModule { }

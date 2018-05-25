@@ -5,6 +5,7 @@ namespace App;
 use Laravel\Passport\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
@@ -36,5 +37,15 @@ class User extends Authenticatable
     public function findForPassport($email)
     {
         return self::where('email', $email)->first();
+    }
+
+    public function agentStudents()
+    {
+        return $this->hasMany('App\Student', 'agent_user_id');
+    }
+
+    public function teacherStudents()
+    {
+        return $this->hasMany('App\Student', 'cteacher_user_id');
     }
 }

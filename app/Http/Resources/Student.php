@@ -18,8 +18,10 @@ class Student extends Resource
             'id' => $this->id,
             'name' => $this->name,
             'ename' => $this->ename,
-            'sex' => $this->sex,
-            'grade' => $this->grade,
+            'waijiao' => $this->getLeftWaijiao(),
+            'cteacher' => $this->cteacher ? $this->cteacher->name : '',
+            'fteacher' => $this->fteacher() ? $this->fteacher()->name : '',
+            'agent' => $this->agent ? $this->agent->name : '',
         ];
     }
 
@@ -27,6 +29,8 @@ class Student extends Resource
     {
         return [
             'data' => [
+                'sex' => $this->sex,
+                'grade' => $this->grade,
                 'birthday' => $this->birthday,
                 'email' => $this->email,
                 'ename' => $this->ename,

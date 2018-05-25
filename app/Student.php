@@ -45,10 +45,7 @@ class Student extends Model
         $lessons = $this->lessons()
             ->where('status', 1)
             ->get();
-        if($lessons->first())
-            return $lessons;
-        else
-            return null;
+        return $lessons;
     }
 
     public function getNotNewLessons()
@@ -111,9 +108,29 @@ class Student extends Model
         return $this->hasOne('App\StudentValue', 'student_id');
     }
 
+    public function cteacher()
+    {
+        return $this->belongsTo('App\User', 'cteacher_user_id');
+    }
+
+    public function agent()
+    {
+        return $this->belongsTo('App\User', 'agent_user_id');
+    }
+
     public function getAge()
     {
         return Carbon::now()->diffInYears($this->birthday, 'true');
+    }
+
+    public function fteacher()
+    {
+        $course = $this->courses()->first();
+        if ($course)
+        {
+            return $course->fteacher();
+        }
+        return null;
     }
 
     // 获取每周外教课节数
