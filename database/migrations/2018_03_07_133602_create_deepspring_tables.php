@@ -20,12 +20,12 @@ class CreateDeepspringTables extends Migration
             $table->unsignedInteger('sex')->nullable($value = true); // 1:男 2:女
             $table->date('birthday')->nullable($value = true);
             $table->Integer('grade')->nullable($value = true); // 6表示一年级
-            $table->unsignedInteger('agent_user_id');
-            $table->unsignedInteger('cteacher_user_id');
+            $table->unsignedInteger('agent_user_id')->nullable($value = true);
+            $table->unsignedInteger('cteacher_user_id')->nullable($value = true);
             $table->string('email')->nullable($value = true);
             $table->string('address')->nullable($value = true);
             $table->unsignedInteger('team_id')->nullable($value = true);
-            $table->Integer('kk_value'); // 1表示不适用 正常情况下小于等于0
+            $table->Integer('kk_value')->default(1); // 1表示不适用 正常情况下小于等于0
             $table->longText('desc')->nullable($value = true);
             $table->timestamps();
             $table->softDeletes();
