@@ -10,6 +10,7 @@ import { StarterLeftSideComponent } from './starter/starter-left-side/starter-le
 import { StarterContentComponent } from './starter/starter-content/starter-content.component';
 import { StarterFooterComponent } from './starter/starter-footer/starter-footer.component';
 import { StarterControlSidebarComponent } from './starter/starter-control-sidebar/starter-control-sidebar.component';
+import {ListService} from "./shared/list.service";
 
 @NgModule({
   declarations: [
@@ -26,7 +27,7 @@ import { StarterControlSidebarComponent } from './starter/starter-control-sideba
     AppRoutingModule,
     AdminModule
   ],
-  providers: [],
+  providers: [ListService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

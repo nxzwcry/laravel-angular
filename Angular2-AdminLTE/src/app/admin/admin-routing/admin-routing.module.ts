@@ -9,6 +9,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import {AdminRoleManageComponent} from "../admin-user/admin-role-manage/admin-role-manage.component";
 import {AdminPermissionManageComponent} from "../admin-user/admin-permission-manage/admin-permission-manage.component";
+import {AdminStudentlistCreateComponent} from "../admin-studentlist/admin-studentlist-create/admin-studentlist-create.component";
 
 @NgModule({
   imports: [
@@ -49,6 +50,10 @@ import {AdminPermissionManageComponent} from "../admin-user/admin-permission-man
           {
               path: 'student_list/one2one',
               component: AdminStudentlistOne2oneComponent
+          },
+          {
+              path: 'student_list/create_student',
+              component: AdminStudentlistCreateComponent
           },
         ]
       }

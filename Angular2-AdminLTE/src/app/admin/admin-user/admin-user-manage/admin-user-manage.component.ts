@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import {Observable} from "rxjs/Observable";
+import {Http} from "@angular/http";
+import {FormControl} from "@angular/forms";
 // Variable in assets/js/scripts.js file
 declare var AdminLTE: any;
 
@@ -9,11 +12,29 @@ declare var AdminLTE: any;
 })
 export class AdminUserManageComponent implements OnInit {
 
-  constructor() { }
+    dataSource:Observable<any>;
 
-  ngOnInit() {
-      // Actualiza la barra latera y el footer
-      AdminLTE.init();
-  }
+    private keyword:string;
 
+    private wordFilter:FormControl = new FormControl();
+
+    users:Array<any> = [];
+
+    constructor(private http: Http) {
+        this.dataSource = this.http.get('/api/users')
+            .map((res) => res.json());
+        this.wordFilter.valueChanges
+            .debounceTime(500)
+            .subscribe(
+                value => this.keyword = value
+            );
+    }
+
+    ngOnInit() {
+        // Actualiza la barra latera y el footer
+        AdminLTE.init();
+        this.dataSource.subscribe(
+            (data) => this.users = data.data
+        );
+    }
 }

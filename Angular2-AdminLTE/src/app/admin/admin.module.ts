@@ -17,6 +17,7 @@ import { AdminStudentlistOne2oneComponent } from './admin-studentlist/admin-stud
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { HttpModule } from "@angular/http";
 import { FilterPipe } from './pipe/filter.pipe';
+import { AdminStudentlistCreateComponent } from './admin-studentlist/admin-studentlist-create/admin-studentlist-create.component';
 
 @NgModule({
   imports: [
@@ -40,7 +41,8 @@ import { FilterPipe } from './pipe/filter.pipe';
     AdminPermissionManageComponent,
     AdminUserCreateComponent,
     AdminStudentlistOne2oneComponent,
-    FilterPipe
+    FilterPipe,
+    AdminStudentlistCreateComponent
   ],
   exports: [
       AdminComponent,
