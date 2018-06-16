@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, Validator, Validators} from "@angular/forms";
 import {Observable} from "rxjs/Observable";
 import {ListService} from "../../../shared/list.service";
-import {Http} from "@angular/http";
+import {HttpClient} from "@angular/common/http";
 // Variable in assets/js/scripts.js file
 declare var AdminLTE: any;
 
@@ -20,7 +20,7 @@ export class AdminStudentlistCreateComponent implements OnInit {
 
 
 
-  constructor(private listService:ListService, private http: Http) {
+  constructor(private listService:ListService, private http: HttpClient) {
     let fb = new FormBuilder();
     this.formModel = fb.group({
       name: ['', [Validators.required]],

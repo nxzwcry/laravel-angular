@@ -13,22 +13,50 @@ use Illuminate\Http\Request;
 |
 */
 
+Route::post('login', 'Api\AuthenticateController@login');
+Route::post('passwordreset', 'Api\ResetPasswordController@reset')->name('password.reset');
+
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
 Route::middleware('auth:api')->get('/index', 'Api\IndexController@index');
 
-Route::get('students', 'Api\StudentController@index');
-Route::get('students/{student}', 'Api\StudentController@show');
-Route::post('students', 'Api\StudentController@store');
-Route::put('students/{student}', 'Api\StudentController@update');
-Route::delete('students/{student}', 'Api\StudentController@delete');
+Route::middleware('auth:api')->group(function () {
 
-Route::get('users', 'Api\UserController@index');
-Route::get('users/{user}', 'Api\UserController@show');
-Route::post('users', 'StudentController@store');
-Route::put('users/{user}', 'StudentController@update');
-Route::delete('users/{user}', 'StudentController@delete');
-Route::get('agents', 'Api\UserController@getAgents');
-Route::get('cteachers', 'Api\UserController@getCteachers');
+    Route::prefix('students')->group(function () {
+        Route::get('', 'Api\StudentController@index');
+        Route::get('{student}', 'Api\StudentController@show');
+        Route::post('', 'Api\StudentController@store');
+        Route::put('{student}', 'Api\StudentController@update');
+        Route::delete('{student}', 'Api\StudentController@delete');
+    });
+
+    Route::prefix('users')->group(function () {
+        Route::get('', 'Api\UserController@index');
+        Route::get('{user}', 'Api\UserController@store');
+        Route::post('', 'Api\StudentController@store');
+        Route::put('{user}', 'StudentController@update');
+        Route::delete('{user}', 'StudentController@delete');
+    });
+
+    Route::get('agents', 'Api\UserController@getAgents');
+    Route::get('cteachers', 'Api\UserController@getCteachers');
+    Route::get('logout', 'Api\AuthenticateController@logout');
+    Route::post('sendResetEmail', 'Api\UserController@sendResetEmail');
+});
+
+
+//test
+//Route::get('email', function(){
+//    $data = [
+//        'url'  => 'https://laravel.com',
+//        'name' => 'laravel'
+//    ];
+//
+//    Mail::send('emails.register', $data, function ($message) {
+//        $message->from('test@push.deepspring.cn', 'Deepspring');
+//        $message->to('cry@deepspring.cn');
+//        $message->subject('Hello World');
+//    });
+//});

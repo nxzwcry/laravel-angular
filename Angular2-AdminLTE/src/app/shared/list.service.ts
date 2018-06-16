@@ -1,17 +1,16 @@
 import { Injectable } from '@angular/core';
 import {Observable} from "rxjs/Observable";
-import {Http} from "@angular/http";
+import {HttpClient} from "@angular/common/http";
 
 @Injectable()
 export class ListService {
 
-  constructor(private http: Http) {
+  constructor(private http: HttpClient) {
   }
 
   getCteachers() : Observable<any> {
 
-    return this.http.get('/api/cteachers')
-      .map((res) => res.json());
+    return this.http.get('/api/cteachers');
     // return [
     //     new User(1, "徐春春", "CC"),
     //     new User(2, "宋东静", "Maggie"),
@@ -22,8 +21,7 @@ export class ListService {
 
   getAgents() : Observable<any> {
 
-    return this.http.get('/api/agents')
-      .map((res) => res.json());
+    return this.http.get('/api/agents');
   }
 
 }

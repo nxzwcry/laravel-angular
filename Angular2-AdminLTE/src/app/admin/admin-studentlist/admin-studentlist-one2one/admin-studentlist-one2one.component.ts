@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {Observable} from "rxjs/Observable";
-import {Http} from "@angular/http";
 // import 'rxjs/add/operator/toPromise';
 import 'rxjs/Rx';
 import {FormControl} from "@angular/forms";
+import {HttpClient} from "@angular/common/http";
 
 // Variable in assets/js/scripts.js file
 declare var AdminLTE: any;
@@ -23,9 +23,8 @@ export class AdminStudentlistOne2oneComponent implements OnInit {
 
     students:Array<any> = [];
     // private students: Array<Student>;
-    constructor(private http: Http) {
-        this.dataSource = this.http.get('/api/students')
-            .map((res) => res.json());
+    constructor(private http: HttpClient) {
+        this.dataSource = this.http.get('/api/students');
         this.wordFilter.valueChanges
             .debounceTime(500)
             .subscribe(

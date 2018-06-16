@@ -15,8 +15,11 @@ export class FilterPipe implements PipeTransform {
             let key = keyword.toLowerCase();
             for (let i of filterField)
             {
-                if(item[i].toString().toLowerCase().indexOf(key) >= 0)
+                if(item[i])
+                {
+                  if(item[i].toString().toLowerCase().indexOf(key) >= 0)
                     return 1;
+                }
             }
             return 0;
         });

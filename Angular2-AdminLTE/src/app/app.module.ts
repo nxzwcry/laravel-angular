@@ -11,6 +11,13 @@ import { StarterContentComponent } from './starter/starter-content/starter-conte
 import { StarterFooterComponent } from './starter/starter-footer/starter-footer.component';
 import { StarterControlSidebarComponent } from './starter/starter-control-sidebar/starter-control-sidebar.component';
 import {ListService} from "./shared/list.service";
+import { AdminloginComponent } from './adminlogin/adminlogin.component';
+import { PasswordresetComponent } from './passwordreset/passwordreset.component';
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {SessionStorageService} from "./shared/session-storage.service";
+import {AuthService} from "./shared/auth.service";
+import {AuthHttpInterceptorService} from "./shared/auth-http-interceptor.service";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 
 @NgModule({
   declarations: [
@@ -20,14 +27,24 @@ import {ListService} from "./shared/list.service";
     StarterLeftSideComponent,
     StarterContentComponent,
     StarterFooterComponent,
-    StarterControlSidebarComponent
+    StarterControlSidebarComponent,
+    AdminloginComponent,
+    PasswordresetComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    AdminModule
+    AdminModule,
+    HttpClientModule,
+    ReactiveFormsModule,
+    FormsModule
   ],
-  providers: [ListService],
+  providers: [
+    ListService,
+    SessionStorageService,
+    AuthService,
+    {provide:HTTP_INTERCEPTORS, useClass:AuthHttpInterceptorService, multi:true}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

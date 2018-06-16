@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {Observable} from "rxjs/Observable";
-import {Http} from "@angular/http";
+import {HttpClient} from "@angular/common/http";
 import {FormControl} from "@angular/forms";
 // Variable in assets/js/scripts.js file
 declare var AdminLTE: any;
@@ -20,9 +20,8 @@ export class AdminUserManageComponent implements OnInit {
 
     users:Array<any> = [];
 
-    constructor(private http: Http) {
+    constructor(private http: HttpClient) {
         this.dataSource = this.http.get('/api/users')
-            .map((res) => res.json());
         this.wordFilter.valueChanges
             .debounceTime(500)
             .subscribe(

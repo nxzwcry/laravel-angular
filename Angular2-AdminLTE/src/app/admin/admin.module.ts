@@ -15,15 +15,15 @@ import { AdminPermissionManageComponent } from './admin-user/admin-permission-ma
 import { AdminUserCreateComponent } from './admin-user/admin-user-create/admin-user-create.component';
 import { AdminStudentlistOne2oneComponent } from './admin-studentlist/admin-studentlist-one2one/admin-studentlist-one2one.component';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { HttpModule } from "@angular/http";
 import { FilterPipe } from './pipe/filter.pipe';
 import { AdminStudentlistCreateComponent } from './admin-studentlist/admin-studentlist-create/admin-studentlist-create.component';
+import {HttpClientModule} from "@angular/common/http";
 
 @NgModule({
   imports: [
     CommonModule,
     AdminRoutingModule,
-      HttpModule,
+    HttpClientModule,
       ReactiveFormsModule,
       FormsModule
   ],
@@ -42,7 +42,7 @@ import { AdminStudentlistCreateComponent } from './admin-studentlist/admin-stude
     AdminUserCreateComponent,
     AdminStudentlistOne2oneComponent,
     FilterPipe,
-    AdminStudentlistCreateComponent
+    AdminStudentlistCreateComponent,
   ],
   exports: [
       AdminComponent,
