@@ -29,13 +29,24 @@ class Student extends Resource
     {
         return [
             'data' => [
-                'sex' => $this->sex,
-                'grade' => $this->grade,
-                'birthday' => $this->birthday,
+                'sex' => $this->sex == 1 ? '男' : ( $this->sex == 2 ? '女' : '性别未知'),
+                'grade' => $this->grade < 6 ? '学龄前' : ($this->grade-5).'年级',
+                'age' => "{$this->getAge()}岁",
                 'email' => $this->email,
-                'ename' => $this->ename,
                 'address' => $this->address,
                 'desc' => $this->desc,
+                'lessonstage' => 'Phonics',
+                'waijiaototal' => $this->getWaijiao(),
+                'zhongjiaototal' => $this->getZhongjiao(),
+                'jingpintotal' => $this->getJingpin(),
+                'waijiaocost' => $this->getWaijiaoCost(),
+                'zhongjiaocost' => $this->getZhongjiaoCost(),
+                'jingpincost' => $this->getJingpinCost(),
+                'score' => 0,
+                'phones' => Phone::collection($this->phones),
+                'newlessons' => Lesson::collection($this->getNewLessons()),
+                'oldlessons' => Lesson::collection($this->getNotNewLessons()),
+                'courses' => Course::collection($this->courses),
             ],
         ];
     }

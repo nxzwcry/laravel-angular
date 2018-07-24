@@ -3,6 +3,8 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Carbon\Carbon;
 
 class Team extends Model
 {
@@ -51,7 +53,21 @@ class Team extends Model
         $course = $this->getCourse();
         if ($course)
         {
-            return $course->palce();
+            return $course->palce;
+        }
+        else
+        {
+            return null;
+        }
+
+    }
+
+    public function getCteacher() //获取该班级负责老师
+    {
+        $course = $this->getCourse();
+        if ($course)
+        {
+            return $course->cteacher;
         }
         else
         {
@@ -95,13 +111,14 @@ class Team extends Model
 
     public function getCourses() //获取该班级还在继续上的课程
     {
-        $courses = $this->courses()
-            ->where(function($query){
-                $query->where('edate', null)
-                    ->orwhere('edate', '>=', Carbon::now()->timestamp);
-            })
+        $courses = $this->courses();
+//        $courses = $this->courses()
+//            ->where(function($query){
+//                $query->where('edate', null)
+//                    ->orwhere('edate', '>=', Carbon::now()->timestamp);
+//            })
 //            -> orderby('dow')
-            ->get();
+//            ->get();
 
 //        $courses = $courses -> groupBy(function ($item, $key) {
 //            return $item['dow'].$item['stime'].$item['sdate'];
@@ -116,17 +133,17 @@ class Team extends Model
         return $courses;
     }
 
-    public function getStudentCourses($sid) //获取该学生在班级里的还在继续上的课程
-    {
-//        $courses = $this -> courses()
-//            -> where('sid' , $sid )
-//            -> where(function($query){
-//                $query -> where( 'edate' , null )
-//                    -> orwhere( 'edate' , '>=' , Carbon::now() -> timestamp );
-//            }) -> get();
-        $courses = $this->getCourses()->where('sid', $sid)->all();
-        return $courses;
-    }
+//    public function getStudentCourses($sid) //获取该学生在班级里的还在继续上的课程
+//    {
+////        $courses = $this -> courses()
+////            -> where('sid' , $sid )
+////            -> where(function($query){
+////                $query -> where( 'edate' , null )
+////                    -> orwhere( 'edate' , '>=' , Carbon::now() -> timestamp );
+////            }) -> get();
+//        $courses = $this->getCourses()->where('sid', $sid)->all();
+//        return $courses;
+//    }
 
     public function getStudentLessons($sid) //获取该学生在班级里的未上单节课
     {

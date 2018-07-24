@@ -128,7 +128,7 @@ class Student extends Model
         $course = $this->courses()->first();
         if ($course)
         {
-            return $course->fteacher();
+            return $course->fteacher;
         }
         return null;
     }

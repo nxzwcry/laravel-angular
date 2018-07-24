@@ -22,7 +22,7 @@ class Lesson extends Model
     //自动维护时间戳
     public $timestamps = true;
 
-    protected $dates = ['deleted_at', 'created_at', 'updated_at'];
+    protected $dates = ['start_datetime', 'end_datetime', 'deleted_at', 'created_at', 'updated_at'];
 
     //不允许批量赋值的字段
     protected $guarded = ['id', 'created_at', 'updated_at'];
@@ -73,7 +73,6 @@ class Lesson extends Model
     {
         return $this->belongsTo('App\Team' , 'team_id');
     }
-
 
     public function copyToStudent($sid) //将该节课程复制给学生
     {

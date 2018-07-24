@@ -35,9 +35,17 @@ Route::middleware('auth:api')->group(function () {
     Route::prefix('users')->group(function () {
         Route::get('', 'Api\UserController@index');
         Route::get('{user}', 'Api\UserController@store');
-        Route::post('', 'Api\StudentController@store');
-        Route::put('{user}', 'StudentController@update');
-        Route::delete('{user}', 'StudentController@delete');
+        Route::post('', 'Api\UserController@store');
+        Route::put('{user}', 'UserController@update');
+        Route::delete('{user}', 'UserController@delete');
+    });
+
+    Route::prefix('teams')->group(function () {
+        Route::get('', 'Api\TeamController@index');
+        Route::get('{Team}', 'Api\TeamController@store');
+        Route::post('', 'Api\TeamController@store');
+        Route::put('{Team}', 'TeamController@update');
+        Route::delete('{Team}', 'TeamController@delete');
     });
 
     Route::get('agents', 'Api\UserController@getAgents');

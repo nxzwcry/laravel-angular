@@ -25,7 +25,7 @@ class CreateDeepspringTables extends Migration
             $table->string('email')->nullable($value = true);
             $table->string('address')->nullable($value = true);
             $table->unsignedInteger('team_id')->nullable($value = true);
-            $table->Integer('kk_value')->default(1); // 1表示不适用 正常情况下小于等于0
+//            $table->Integer('kk_value')->default(1); // 1表示不适用 正常情况下小于等于0
             $table->longText('desc')->nullable($value = true);
             $table->timestamps();
             $table->softDeletes();
@@ -57,11 +57,10 @@ class CreateDeepspringTables extends Migration
 
         Schema::create('recharges', function (Blueprint $table) {
             $table->increments('id');
-            $table->Integer('waijiao');
-            $table->Integer('zhongjiao');
-            $table->Integer('jingpin');
-            $table->Integer('leave');
-            $table->Integer('money');
+            $table->Integer('waijiao')->default(0);
+            $table->Integer('zhongjiao')->default(0);
+            $table->Integer('jingpin')->default(0);
+            $table->Integer('money')->default(0);
             $table->unsignedInteger('student_id');
             $table->unsignedInteger('user_id');
             $table->longText('note')->nullable($value = true);
@@ -72,7 +71,7 @@ class CreateDeepspringTables extends Migration
         Schema::create('phones', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->string('phonen_number');
+            $table->string('phone_number');
             $table->unsignedInteger('student_id');
             $table->timestamps();
             $table->softDeletes();
@@ -105,21 +104,21 @@ class CreateDeepspringTables extends Migration
             $table->unsignedInteger('cteacher_id')->nullable($value = true);
             $table->unsignedInteger('fteacher_id')->nullable($value = true);
             $table->string('name')->nullable($value = true);
-            $table->dateTime('start_datetime');
-            $table->dateTime('end_datetime');
+            $table->timestamp('start_datetime');
+            $table->timestamp('end_datetime');
             $table->unsignedInteger('video_id')->nullable($value = true);
             $table->unsignedInteger('report_id')->nullable($value = true);
             $table->unsignedInteger('file_id')->nullable($value = true);
             $table->unsignedInteger('courseware_id')->nullable($value = true);
-            $table->Integer('waijiao_cost');
-            $table->Integer('zhongjiao_cost');
-            $table->Integer('jingpin_cost');
+            $table->Integer('waijiao_cost')->default(0);
+            $table->Integer('zhongjiao_cost')->default(0);
+            $table->Integer('jingpin_cost')->default(0);
             $table->string('lesson_type');  // w：外教课 b：班课 f：复习课 J：精品课 bu：补课 s：试听
-            $table->Integer('score');
+            $table->Integer('score')->default(0);
             $table->unsignedInteger('team_id')->nullable($value = true);
             $table->unsignedInteger('syn_code')->nullable($value = true);
-            $table->unsignedInteger('place_id');
-            $table->unsignedInteger('status');
+            $table->unsignedInteger('place_id')->default(0);
+            $table->unsignedInteger('status');  // 0：未上 1:已上
             $table->longText('note')->nullable($value = true);
             $table->timestamps();
             $table->softDeletes();
@@ -133,14 +132,14 @@ class CreateDeepspringTables extends Migration
             $table->unsignedInteger('cteacher_id')->nullable($value = true);
             $table->unsignedInteger('fteacher_id')->nullable($value = true);
             $table->string('name')->nullable($value = true);
-            $table->Integer('dow');
+            $table->Integer('dow'); //0:周日
             $table->time('start_time');
             $table->time('end_time');
             $table->unsignedInteger('courseware_id')->nullable($value = true);
-            $table->Integer('waijiao_cost');
-            $table->Integer('zhongjiao_cost');
-            $table->Integer('jingpin_cost');
-            $table->unsignedInteger('place_id');
+            $table->Integer('waijiao_cost')->default(0);
+            $table->Integer('zhongjiao_cost')->default(0);
+            $table->Integer('jingpin_cost')->default(0);
+            $table->unsignedInteger('place_id')->default(0);
             $table->timestamps();
             $table->softDeletes();
         });

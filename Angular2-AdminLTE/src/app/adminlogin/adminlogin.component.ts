@@ -34,7 +34,7 @@ export class AdminloginComponent implements OnInit {
         .subscribe(
           val => {
             console.log('post请求成功', val);
-            this.auth.setToken(val.data.token);
+            this.auth.setToken(val['data'].token);
             // 登录成功后跳转到登录前的页面
             this.router.navigate([this.routeInfo.snapshot.queryParams["returnUrl"]]);
           },

@@ -7,11 +7,11 @@ import {HttpClient} from "@angular/common/http";
 declare var AdminLTE: any;
 
 @Component({
-  selector: 'app-admin-studentlist-create',
-  templateUrl: './admin-studentlist-create.component.html',
-  styleUrls: ['./admin-studentlist-create.component.css']
+  selector: 'app-admin-student-create',
+  templateUrl: './admin-student-create.component.html',
+  styleUrls: ['./admin-student-create.component.css']
 })
-export class AdminStudentlistCreateComponent implements OnInit {
+export class AdminStudentCreateComponent implements OnInit {
 
   formModel:FormGroup;
 
