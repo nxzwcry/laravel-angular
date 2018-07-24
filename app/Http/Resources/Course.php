@@ -18,12 +18,12 @@ class Course extends Resource
             'id' => $this->id,
             'name' => $this->name,
             'date' => numToWeek($this->dow),
-            'time' => '时间',
-//            'time' => $this->start_datetime->format('h:i').'~'.$this->end_datetime->format('h:i'),
+//            'time' => '时间',
+            'time' => substr($this->start_time, 0, 5).'~'.substr($this->end_time, 0, 5),
             'cteacher' => $this->cteacher ? $this->cteacher->name : '',
             'fteacher' => $this->fteacher ? $this->fteacher->name : '',
             'place' => $this->place ? $this->place->name : '',
-            'lesson_type' => $this->lesson_type,
+            'lesson_type' => lessonType($this->lesson_type),
         ];
     }
 

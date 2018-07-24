@@ -19,3 +19,21 @@ function numToWeek($dow){
             return "周六";
     }
 }
+
+function lessonType($type){
+    switch ($type)
+    {
+        case 'w':
+            return "外教课";
+        case 'b':
+            return "班课";
+        case 'f':
+            return "复习课";
+        case 'j':
+            return "精品课";
+        case 'bu':
+            return "补课";
+        case 's':
+            return "试听";
+    }
+}

@@ -136,7 +136,7 @@
                   <tr *ngFor="let course of student.courses" role="row">
                     <td><a [routerLink]="['/admin/course',course.id]">{{course.name}}</a></td>
                     <td>{{course.lesson_type}}</td>
-                    <td>{{course.date}}</td>
+                    <td>每{{course.date}}</td>
                     <td>{{course.time}}</td>
                     <td>{{course.cteacher}}</td>
                     <td>{{course.fteacher}}</td>
