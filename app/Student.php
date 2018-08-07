@@ -53,10 +53,12 @@ class Student extends Model
         $lessons = $this->lessons()
             ->where('status', '>',0)
             ->get();
-        if($lessons->first())
-            return $lessons;
-        else
-            return null;
+        if($lessons)
+        {
+            if($lessons->first())
+                return $lessons;
+        }
+        return null;
     }
 
     public function getNewLessons()
@@ -64,10 +66,12 @@ class Student extends Model
         $lessons = $this->lessons()
             ->where('status', 0)
             ->get();
-        if($lessons->first())
-            return $lessons;
-        else
-            return null;
+        if($lessons)
+        {
+            if($lessons->first())
+                return $lessons;
+        }
+        return null;
     }
 
     public function haveNewLessons()

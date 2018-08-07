@@ -12,7 +12,7 @@
           <form role="form" [formGroup]="formModel" (ngSubmit)="onSubmit()" novalidate>
             <div class="box-body">
               <div class="form-group" [class.has-error]="formModel.hasError('required','name')">
-                <label>学生姓名</label>
+                <label>学生姓名*</label>
                 <input formControlName="name" type="text" class="form-control" placeholder="Enter Name">
                 <span class="help-block" [class.hidden]="!formModel.hasError('required','name')">
                   请输入学生姓名
@@ -22,20 +22,27 @@
                 <label>英文名</label>
                 <input formControlName="ename" type="text" class="form-control" placeholder="Enter English Name">
               </div>
-              <div class="form-group">
-                <label>性别</label>
-                <select class="form-control">
-                  <option value ="1">男</option>
-                  <option value ="2">女</option>
+              <div class="form-group" [class.has-error]="formModel.hasError('required','sex')">
+                <label>性别*</label>
+                <select class="form-control" formControlName="sex" >
+                  <option *ngFor="let sex of listService.sex; let i = index;" value ="{{i}}">{{sex}}</option>
                 </select>
+                <span class="help-block" [class.hidden]="!formModel.hasError('required','sex')">
+                  请输入学生性别
+                </span>
               </div>
               <div class="form-group">
                 <label>生日</label>
-                <input type="text" class="form-control" placeholder="YYYY-MM-DD">
+                <input type="text" class="form-control" placeholder="YYYY-MM-DD" formControlName="birthday" >
               </div>
-              <div class="form-group">
-                <label>年级</label>
-                <input type="text" class="form-control">
+              <div class="form-group" [class.has-error]="formModel.hasError('required','grade')">
+                <label>年级*</label>
+                <select class="form-control" formControlName="grade">
+                  <option *ngFor="let grade of listService.grade; let i = index;" value ="{{i}}">{{grade}}</option>
+                </select>
+                <span class="help-block" [class.hidden]="!formModel.hasError('required','grade')">
+                  请输入学生性别
+                </span>
               </div>
               <div class="form-group">
                 <label>销售顾问</label>
@@ -53,25 +60,21 @@
               </div>
               <div class="form-group">
                 <label for="exampleInputEmail1">邮箱地址</label>
-                <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
+                <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email" formControlName="email">
               </div>
               <div class="form-group">
                 <label>家庭住址</label>
-                <input type="text" class="form-control">
-              </div>
-              <div class="form-group">
-                <label>KK辅正</label>
-                <input type="text" class="form-control">
+                <input type="text" class="form-control" formControlName="address">
               </div>
               <div class="form-group">
                 <label>备注</label><br/>
-                <textarea rows="3" cols="30"></textarea>
+                <textarea rows="3" cols="30" formControlName="desc"></textarea>
               </div>
             </div>
             <!-- /.box-body -->
 
             <div class="box-footer">
-              <button type="submit" class="btn btn-primary">Submit</button>
+              <button type="submit" class="btn btn-primary" [disabled]="disable">添加</button>
             </div>
           </form>
         </div>

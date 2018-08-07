@@ -29,6 +29,7 @@ import { AdminCourseLessonsComponent } from './admin-course/admin-course-lessons
 import { AdminCourseVideosComponent } from './admin-course/admin-course-videos/admin-course-videos.component';
 import { AdminStudentShowComponent } from './admin-student/admin-student-show/admin-student-show.component';
 import { AdminStudentChangeComponent } from './admin-student/admin-student-change/admin-student-change.component';
+import {TransPipe} from "./pipe/trans.pipe";
 
 @NgModule({
   imports: [
@@ -53,6 +54,7 @@ import { AdminStudentChangeComponent } from './admin-student/admin-student-chang
     AdminUserCreateComponent,
     AdminStudentlistOne2oneComponent,
     FilterPipe,
+    TransPipe,
     AdminStudentCreateComponent,
     AdminTeamListComponent,
     AdminTeamCreateComponent,
@@ -68,7 +70,8 @@ import { AdminStudentChangeComponent } from './admin-student/admin-student-chang
   ],
   exports: [
       AdminComponent,
-      FilterPipe
+      FilterPipe,
+    TransPipe
   ]
 })
 export class AdminModule { }

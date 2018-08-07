@@ -21,6 +21,8 @@ class Student extends Resource
             'waijiao' => $this->getLeftWaijiao(),
             'cteacher' => $this->cteacher ? $this->cteacher->name : '',
             'fteacher' => $this->fteacher() ? $this->fteacher()->name : '',
+            'cteacher_user_id'=> $this->cteacher_user_id,
+            'agent_user_id'=> $this->agent_user_id,
             'agent' => $this->agent ? $this->agent->name : '',
         ];
     }
@@ -29,9 +31,10 @@ class Student extends Resource
     {
         return [
             'data' => [
-                'sex' => $this->sex == 1 ? '男' : ( $this->sex == 2 ? '女' : '性别未知'),
-                'grade' => $this->grade < 6 ? '学龄前' : ($this->grade-5).'年级',
-                'age' => "{$this->getAge()}岁",
+                'sex' => $this->sex,
+                'grade' => $this->grade,
+                'age' => $this->getAge(),
+                'birthday' => $this->birthday,
                 'email' => $this->email,
                 'address' => $this->address,
                 'desc' => $this->desc,
@@ -44,8 +47,8 @@ class Student extends Resource
                 'jingpincost' => $this->getJingpinCost(),
                 'score' => 0,
                 'phones' => Phone::collection($this->phones),
-                'newlessons' => Lesson::collection($this->getNewLessons()),
-                'oldlessons' => Lesson::collection($this->getNotNewLessons()),
+                'newlessons' => $this->getNewLessons() ? Lesson::collection($this->getNewLessons()) : null,
+                'oldlessons' => $this->getNotNewLessons() ? Lesson::collection($this->getNotNewLessons()) : null,
                 'courses' => Course::collection($this->courses),
             ],
         ];

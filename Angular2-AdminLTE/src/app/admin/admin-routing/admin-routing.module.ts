@@ -21,6 +21,7 @@ import {AdminCourseLessonsComponent} from "../admin-course/admin-course-lessons/
 import {AdminCourseVideosComponent} from "../admin-course/admin-course-videos/admin-course-videos.component";
 import {AdminCourseViewComponent} from "../admin-course/admin-course-view/admin-course-view.component";
 import {AdminStudentShowComponent} from "../admin-student/admin-student-show/admin-student-show.component";
+import {AdminStudentChangeComponent} from "../admin-student/admin-student-change/admin-student-change.component";
 
 @NgModule({
   imports: [
@@ -77,6 +78,10 @@ import {AdminStudentShowComponent} from "../admin-student/admin-student-show/adm
           {
             path: 'student/:id',
             component: AdminStudentShowComponent
+          },
+          {
+            path: 'student_change/:id',
+            component: AdminStudentChangeComponent
           },
           {
             path: 'team/list',

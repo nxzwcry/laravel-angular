@@ -3,6 +3,7 @@ import {FormBuilder, FormGroup, Validator, Validators} from "@angular/forms";
 import {Observable} from "rxjs/Observable";
 import {ListService} from "../../../shared/list.service";
 import {HttpClient} from "@angular/common/http";
+import {Router} from "@angular/router";
 // Variable in assets/js/scripts.js file
 declare var AdminLTE: any;
 
@@ -18,15 +19,22 @@ export class AdminStudentCreateComponent implements OnInit {
   cteachers: Observable<any>;
   agents: Observable<any>;
 
+  disable: boolean;
 
-
-  constructor(private listService:ListService, private http: HttpClient) {
+  constructor(private listService:ListService, private http: HttpClient, private router: Router) {
+    this.disable = false;
     let fb = new FormBuilder();
     this.formModel = fb.group({
       name: ['', [Validators.required]],
-      ename: [''],
+      ename: [null],
+      sex: ['', [Validators.required]],
+      birthday: [null],
+      grade: ['', [Validators.required]],
       cteacher_user_id:['0'],
       agent_user_id:['0'],
+      email: [null],
+      address: [null],
+      desc: ['']
       }
     );
   }
@@ -49,11 +57,15 @@ export class AdminStudentCreateComponent implements OnInit {
         .subscribe(
         val => {
           console.log('post请求成功', val);
+          // 登录成功后跳转到登录前的页面
+          this.router.navigate(['/admin/student', val.id]);
         },
         error => {
           console.log('post请求失败', error);
+          this.disable = false;
         }
       );
+      this.disable = true;
     }
   }
 

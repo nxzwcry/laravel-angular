@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {Observable} from "rxjs/Observable";
 import {HttpClient} from "@angular/common/http";
+import {ListService} from "../../../shared/list.service";
 declare var AdminLTE: any;
 
 @Component({
@@ -15,7 +16,7 @@ export class AdminStudentShowComponent implements OnInit {
   private studentId:number;
   student:any;
 
-  constructor(private routeInfo: ActivatedRoute, private http: HttpClient) {  }
+  constructor(private routeInfo: ActivatedRoute, private http: HttpClient, public list: ListService) {  }
 
   ngOnInit() {
     // Actualiza la barra latera y el footer
@@ -29,4 +30,4 @@ export class AdminStudentShowComponent implements OnInit {
     );
   }
 
-}
+  }

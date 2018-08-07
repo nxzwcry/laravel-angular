@@ -8,7 +8,7 @@
 
             <h3 class="profile-username text-center">{{student.name}} {{student.ename}}</h3>
 
-            <p class="text-muted text-center">{{student.sex}} {{student.age}} {{student.grade}}</p>
+            <p class="text-muted text-center">{{student.sex | trans:list.sex}} {{student.age}}岁 {{student.grade | trans:list.grade}}</p>
 
             <ul class="list-group list-group-unbordered">
               <li class="list-group-item">
@@ -25,7 +25,7 @@
               </li>
             </ul>
 
-            <a href="#" class="btn btn-primary btn-block"><b>修改学生信息</b></a>
+            <a [routerLink]="['/admin/student_change',this.student.id]" class="btn btn-primary btn-block"><b>修改学生信息</b></a>
             <br/><br/>
 
             <ul class="list-group list-group-unbordered">
