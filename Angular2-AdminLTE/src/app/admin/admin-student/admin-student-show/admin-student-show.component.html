@@ -39,11 +39,11 @@
                 <b>精品课时</b> <a class="pull-right">{{student.jingpincost}}/{{student.jingpintotal}}</a>
               </li>
               <li class="list-group-item">
-                <b><a href="#">查看购课记录</a></b>
+                <b><a [routerLink]="['/admin/recharge_list',this.student.id]" >查看购课记录</a></b>
               </li>
             </ul>
 
-            <a href="#" class="btn btn-primary btn-block"><b>购课充值</b></a>
+            <a [routerLink]="['/admin/recharge_create',this.student.id]" class="btn btn-primary btn-block"><b>购课充值</b></a>
             <br/><br/>
 
             <ul class="list-group list-group-unbordered">

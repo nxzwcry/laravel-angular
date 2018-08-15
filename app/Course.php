@@ -31,7 +31,7 @@ class Course extends Model
      *
      * @var string
      */
-    protected $dateFormat = 'U';
+//    protected $dateFormat = 'U';
 
 //    //edate的时间设定为该日期的最大值
 //    public function setEdateAttribute($value)

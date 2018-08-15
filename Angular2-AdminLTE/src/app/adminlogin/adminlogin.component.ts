@@ -12,9 +12,12 @@ import {AuthService} from "../shared/auth.service";
 })
 export class AdminloginComponent implements OnInit {
 
-  formModel:FormGroup;
+  formModel: FormGroup;
+  disable: boolean;
+  errmassage: string;
 
   constructor(private router: Router, private routeInfo: ActivatedRoute, private http: HttpClient, private auth:AuthService) {
+    this.disable = false;
     let fb = new FormBuilder();
     this.formModel = fb.group({
         email: ['', [Validators.required]],
@@ -33,15 +36,23 @@ export class AdminloginComponent implements OnInit {
       this.http.post('api/login', {email:this.formModel.value.email, password:password})
         .subscribe(
           val => {
-            console.log('post请求成功', val);
+            // console.log('post请求成功', val);
             this.auth.setToken(val['data'].token);
             // 登录成功后跳转到登录前的页面
             this.router.navigate([this.routeInfo.snapshot.queryParams["returnUrl"]]);
           },
           error => {
-            console.log('post请求失败', error);
+            // console.log('post请求失败', error);
+            if( error.error.message.email ){
+              this.errmassage = error.error.message.email;
+            }
+            else{
+              this.errmassage = error.error.message;
+            }
+            this.disable = false;
           }
         );
+      this.disable = true;
     }
   }
 

@@ -30,6 +30,10 @@ import { AdminCourseVideosComponent } from './admin-course/admin-course-videos/a
 import { AdminStudentShowComponent } from './admin-student/admin-student-show/admin-student-show.component';
 import { AdminStudentChangeComponent } from './admin-student/admin-student-change/admin-student-change.component';
 import {TransPipe} from "./pipe/trans.pipe";
+import { AdminRechargeListComponent } from './admin-recharge/admin-recharge-list/admin-recharge-list.component';
+import { AdminRechargeShowComponent } from './admin-recharge/admin-recharge-show/admin-recharge-show.component';
+import { AdminRechargeCreateComponent } from './admin-recharge/admin-recharge-create/admin-recharge-create.component';
+import { AdminRechargeChangeComponent } from './admin-recharge/admin-recharge-change/admin-recharge-change.component';
 
 @NgModule({
   imports: [
@@ -67,6 +71,10 @@ import {TransPipe} from "./pipe/trans.pipe";
     AdminCourseVideosComponent,
     AdminStudentShowComponent,
     AdminStudentChangeComponent,
+    AdminRechargeListComponent,
+    AdminRechargeShowComponent,
+    AdminRechargeCreateComponent,
+    AdminRechargeChangeComponent,
   ],
   exports: [
       AdminComponent,

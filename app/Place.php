@@ -30,7 +30,7 @@ class Place extends Model
      *
      * @var string
      */
-    protected $dateFormat = 'U';
+//    protected $dateFormat = 'U';
 
     public function courses()
     {

@@ -27,6 +27,9 @@ Route::middleware('auth:api')->group(function () {
     Route::prefix('students')->group(function () {
         Route::get('', 'Api\StudentController@index');
         Route::get('{student}', 'Api\StudentController@show');
+//        Route::prefix('recharges')->group(function () {
+//            Route::get('{student}', 'Api\StudentController@getRechargeList');
+//        });
         Route::post('', 'Api\StudentController@store');
         Route::put('{student}', 'Api\StudentController@update');
         Route::delete('{student}', 'Api\StudentController@delete');
@@ -46,6 +49,14 @@ Route::middleware('auth:api')->group(function () {
         Route::post('', 'Api\TeamController@store');
         Route::put('{Team}', 'TeamController@update');
         Route::delete('{Team}', 'TeamController@delete');
+    });
+
+    Route::prefix('recharges')->group(function () {
+        Route::get('', 'Api\RechargeController@index');
+        Route::get('{student}', 'Api\RechargeController@list');
+        Route::post('', 'Api\RechargeController@store');
+        Route::put('{recharge}', 'Api\RechargeController@update');
+        Route::delete('{recharge}', 'Api\RechargeController@delete');
     });
 
     Route::get('agents', 'Api\UserController@getAgents');

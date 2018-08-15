@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Resources\Recharge as RechargeResource;
 use Illuminate\Http\Request;
 use App\Student;
 use App\Http\Resources\Student as StudentResource;

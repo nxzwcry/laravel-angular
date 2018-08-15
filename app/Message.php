@@ -30,6 +30,6 @@ class Message extends Model
      *
      * @var string
      */
-    protected $dateFormat = 'U';
+//    protected $dateFormat = 'U';
 
 }

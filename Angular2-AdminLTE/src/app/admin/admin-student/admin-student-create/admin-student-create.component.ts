@@ -53,11 +53,12 @@ export class AdminStudentCreateComponent implements OnInit {
   onSubmit() {
     if(this.formModel.valid) {
       // console.log(this.formModel.value);
-      this.http.post('api/students', this.formModel.value)
+      this.http.post<StudentResponse>('api/students', this.formModel.value)
         .subscribe(
-        val => {
+        (val) => {
           console.log('post请求成功', val);
-          // 登录成功后跳转到登录前的页面
+
+          // 创建成功后跳转到学生信息页面
           this.router.navigate(['/admin/student', val.id]);
         },
         error => {
@@ -68,5 +69,8 @@ export class AdminStudentCreateComponent implements OnInit {
       this.disable = true;
     }
   }
+}
 
+interface StudentResponse {
+  id: string;
 }

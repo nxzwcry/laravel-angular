@@ -53,12 +53,12 @@ export class AdminStudentlistOne2oneComponent implements OnInit {
 
 }
 
-export class Student {
-  constructor(
-  public id:number,
-  public name:string,
-  public ename:string
-  ){
-
-  }
-}
+// export class Student {
+//   constructor(
+//   public id:number,
+//   public name:string,
+//   public ename:string
+//   ){
+//
+//   }
+// }

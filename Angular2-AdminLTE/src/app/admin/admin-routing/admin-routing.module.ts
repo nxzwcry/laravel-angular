@@ -1,11 +1,8 @@
-// import { AdminDashboard2Component } from './../admin-dashboard2/admin-dashboard2.component';
-// import { AdminDashboard1Component } from './../admin-dashboard1/admin-dashboard1.component';
 import { AdminUserCreateComponent } from './../admin-user/admin-user-create/admin-user-create.component';
 import { AdminUserManageComponent } from './../admin-user/admin-user-manage/admin-user-manage.component';
 import { AdminStudentlistOne2oneComponent } from './../admin-studentlist/admin-studentlist-one2one/admin-studentlist-one2one.component';
 import { AdminComponent } from './../admin.component';
 import { NgModule, Component } from '@angular/core';
-// import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import {AdminRoleManageComponent} from "../admin-user/admin-role-manage/admin-role-manage.component";
 import {AdminPermissionManageComponent} from "../admin-user/admin-permission-manage/admin-permission-manage.component";
@@ -22,6 +19,10 @@ import {AdminCourseVideosComponent} from "../admin-course/admin-course-videos/ad
 import {AdminCourseViewComponent} from "../admin-course/admin-course-view/admin-course-view.component";
 import {AdminStudentShowComponent} from "../admin-student/admin-student-show/admin-student-show.component";
 import {AdminStudentChangeComponent} from "../admin-student/admin-student-change/admin-student-change.component";
+import {AdminRechargeListComponent} from "../admin-recharge/admin-recharge-list/admin-recharge-list.component";
+import {AdminRechargeShowComponent} from "../admin-recharge/admin-recharge-show/admin-recharge-show.component";
+import {AdminRechargeCreateComponent} from "../admin-recharge/admin-recharge-create/admin-recharge-create.component";
+import {AdminRechargeChangeComponent} from "../admin-recharge/admin-recharge-change/admin-recharge-change.component";
 
 @NgModule({
   imports: [
@@ -82,6 +83,22 @@ import {AdminStudentChangeComponent} from "../admin-student/admin-student-change
           {
             path: 'student_change/:id',
             component: AdminStudentChangeComponent
+          },
+          {
+            path: 'recharge_list/:id',
+            component: AdminRechargeListComponent
+          },
+          // {
+          //   path: 'recharge/:id',
+          //   component: AdminRechargeShowComponent
+          // },
+          {
+            path: 'recharge_create/:id',
+            component: AdminRechargeCreateComponent
+          },
+          {
+            path: 'recharge_change/:id',
+            component: AdminRechargeChangeComponent
           },
           {
             path: 'team/list',

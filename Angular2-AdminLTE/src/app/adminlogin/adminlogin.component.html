@@ -29,10 +29,12 @@
 
             <div class="form-group">
               <div class="col-md-8 col-md-offset-4">
-                <button type="submit" class="btn btn-primary">
+                <button type="submit" class="btn btn-primary" [disabled]="disable">
                   Login
                 </button>
-
+                <span class="help-block" [class.hidden]="!errmassage">
+                  {{errmassage}}
+                </span>
               </div>
             </div>
           </form>
