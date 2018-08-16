@@ -4,6 +4,7 @@ import {ListService} from "../../../shared/list.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {Observable} from "rxjs/Observable";
 import {HttpClient} from "@angular/common/http";
+import {StatusService, Student} from "../../../shared/status.service";
 // Variable in assets/js/scripts.js file
 declare var AdminLTE: any;
 
@@ -16,20 +17,25 @@ export class AdminRechargeCreateComponent implements OnInit {
 
   formModel:FormGroup;
 
-  dataSource:Observable<any>;
+  // dataSource:Observable<any>;
 
-  private studentId:number;
+  // private studentId:number;
 
   agents: Observable<any>;
-  student:any;
+  student: Student;
   disable: boolean;
 
-  constructor(private routeInfo: ActivatedRoute, private listService:ListService, private http: HttpClient, private router: Router) {
+  constructor(private routeInfo: ActivatedRoute,
+              private listService:ListService,
+              private http: HttpClient,
+              private router: Router,
+              private status: StatusService
+  ) {
     this.disable = false;
-
-    this.studentId = this.routeInfo.snapshot.params["id"];
-
-    this.dataSource = this.http.get(`/api/students/${this.studentId}`);
+    //
+    // this.studentId = this.routeInfo.snapshot.params["id"];
+    //
+    // this.dataSource = this.http.get(`/api/students/${this.studentId}`);
 
     let fb = new FormBuilder();
     this.formModel = fb.group({
@@ -48,12 +54,12 @@ export class AdminRechargeCreateComponent implements OnInit {
   ngOnInit() {
     // Actualiza la barra latera y el footer
     AdminLTE.init();
-
-    this.dataSource.subscribe(
-      (data) => {
-        this.student = data.data;
-      }
-    );
+    this.student = this.status.getStudent();
+    // this.dataSource.subscribe(
+    //   (data) => {
+    //     this.student = data.data;
+    //   }
+    // );
 
     this.listService.getAgents().subscribe(
       (data) => this.agents = data.data

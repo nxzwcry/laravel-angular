@@ -50,6 +50,7 @@
                 <li class="active"><a routerLink="./student_list/one2one"><i class="fa fa-circle-o"></i>1对1学生</a></li>
                 <li><a [routerLink]="['./student_list/team']"><i class="fa fa-circle-o"></i>班课学生</a></li>
                 <li><a [routerLink]="['./student_list/stopped']"><i class="fa fa-circle-o"></i>停课学生</a></li>
+                <li class="active"><a routerLink="./student_list/all"><i class="fa fa-circle-o"></i>所有学生</a></li>
                 <li><a [routerLink]="['./student_list/create_student']"><i class="fa fa-circle-o"></i>添加学生</a></li>
             </ul>
         </li>
@@ -75,12 +76,10 @@
             </span>
             </a>
             <ul class="treeview-menu">
-                <li class="active"><a routerLink="./course/teacher"><i class="fa fa-circle-o"></i>老师课表</a></li>
-                <li class="active"><a routerLink="./course/teacher"><i class="fa fa-circle-o"></i>教室课表</a></li>
-                <li><a [routerLink]="['./course/demo']"><i class="fa fa-circle-o"></i>安排试听课</a></li>
-                <li class="active"><a routerLink="./course/view"><i class="fa fa-circle-o"></i>固定课程</a></li>
-                <li><a [routerLink]="['./course/lessons']"><i class="fa fa-circle-o"></i>课程安排</a></li>
-                <li><a [routerLink]="['./course/videos']"><i class="fa fa-circle-o"></i>视频需求</a></li>
+                <li class="active"><a routerLink="./lesson/future"><i class="fa fa-circle-o"></i>待上课程</a></li>
+                <li class="active"><a routerLink="./lesson/old"><i class="fa fa-circle-o"></i>已上课程</a></li>
+                <li class="active"><a routerLink="./course/view"><i class="fa fa-circle-o"></i>固定课表</a></li>
+                <li><a [routerLink]="['./lesson/demo']"><i class="fa fa-circle-o"></i>安排试听课</a></li>
             </ul>
         </li>
         <li class="active treeview">

@@ -2,7 +2,7 @@ import { AdminUserCreateComponent } from './../admin-user/admin-user-create/admi
 import { AdminUserManageComponent } from './../admin-user/admin-user-manage/admin-user-manage.component';
 import { AdminStudentlistOne2oneComponent } from './../admin-studentlist/admin-studentlist-one2one/admin-studentlist-one2one.component';
 import { AdminComponent } from './../admin.component';
-import { NgModule, Component } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import {AdminRoleManageComponent} from "../admin-user/admin-role-manage/admin-role-manage.component";
 import {AdminPermissionManageComponent} from "../admin-user/admin-permission-manage/admin-permission-manage.component";
@@ -12,17 +12,16 @@ import {AdminStudentlistTeamComponent} from "../admin-studentlist/admin-studentl
 import {AdminStudentlistStoppedComponent} from "../admin-studentlist/admin-studentlist-stopped/admin-studentlist-stopped.component";
 import {AdminTeamListComponent} from "../admin-team/admin-team-list/admin-team-list.component";
 import {AdminTeamCreateComponent} from "../admin-team/admin-team-create/admin-team-create.component";
-import {AdminCourseTeacherComponent} from "../admin-course/admin-course-teacher/admin-course-teacher.component";
-import {AdminCourseDemoComponent} from "../admin-course/admin-course-demo/admin-course-demo.component";
-import {AdminCourseLessonsComponent} from "../admin-course/admin-course-lessons/admin-course-lessons.component";
-import {AdminCourseVideosComponent} from "../admin-course/admin-course-videos/admin-course-videos.component";
 import {AdminCourseViewComponent} from "../admin-course/admin-course-view/admin-course-view.component";
 import {AdminStudentShowComponent} from "../admin-student/admin-student-show/admin-student-show.component";
 import {AdminStudentChangeComponent} from "../admin-student/admin-student-change/admin-student-change.component";
 import {AdminRechargeListComponent} from "../admin-recharge/admin-recharge-list/admin-recharge-list.component";
-import {AdminRechargeShowComponent} from "../admin-recharge/admin-recharge-show/admin-recharge-show.component";
 import {AdminRechargeCreateComponent} from "../admin-recharge/admin-recharge-create/admin-recharge-create.component";
 import {AdminRechargeChangeComponent} from "../admin-recharge/admin-recharge-change/admin-recharge-change.component";
+import {AdminLessonFutureComponent} from "../admin-lesson/admin-lesson-future/admin-lesson-future.component";
+import {AdminLessonOldComponent} from "../admin-lesson/admin-lesson-old/admin-lesson-old.component";
+import {AdminLessonDemoComponent} from "../admin-lesson/admin-lesson-demo/admin-lesson-demo.component";
+import {AdminLessonCreateComponent} from "../admin-lesson/admin-lesson-create/admin-lesson-create.component";
 
 @NgModule({
   imports: [
@@ -109,24 +108,28 @@ import {AdminRechargeChangeComponent} from "../admin-recharge/admin-recharge-cha
             component: AdminTeamCreateComponent
           },
           {
-            path: 'course/teacher',
-            component: AdminCourseTeacherComponent
+            path: 'lesson/future',
+            component: AdminLessonFutureComponent
           },
           {
-            path: 'course/demo',
-            component: AdminCourseDemoComponent
+            path: 'lesson/demo',
+            component: AdminLessonDemoComponent
           },
           {
-            path: 'course/lessons',
-            component: AdminCourseLessonsComponent
+            path: 'lesson/old',
+            component: AdminLessonOldComponent
           },
           {
-            path: 'course/videos',
-            component: AdminCourseVideosComponent
+            path: 'lesson/create',
+            component: AdminLessonCreateComponent
           },
           {
             path: 'course/view',
             component: AdminCourseViewComponent
+          },
+          {
+            path: 'course/create',
+            component: AdminLessonCreateComponent
           },
         ],
         canActivate:[AuthGuard],

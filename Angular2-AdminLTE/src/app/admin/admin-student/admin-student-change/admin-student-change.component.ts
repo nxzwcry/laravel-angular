@@ -23,7 +23,7 @@ export class AdminStudentChangeComponent implements OnInit {
 
   private studentId:number;
 
-  student:any;
+  student: any;
   disable: boolean;
 
   constructor(private routeInfo: ActivatedRoute, private listService:ListService, private http: HttpClient, private router: Router) {

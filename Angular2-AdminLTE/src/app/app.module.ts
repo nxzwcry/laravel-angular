@@ -18,6 +18,7 @@ import {SessionStorageService} from "./shared/session-storage.service";
 import {AuthService} from "./shared/auth.service";
 import {AuthHttpInterceptorService} from "./shared/auth-http-interceptor.service";
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
+import {StatusService} from "./shared/status.service";
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
     ListService,
     SessionStorageService,
     AuthService,
+    StatusService,
     {provide:HTTP_INTERCEPTORS, useClass:AuthHttpInterceptorService, multi:true}
   ],
   bootstrap: [AppComponent]

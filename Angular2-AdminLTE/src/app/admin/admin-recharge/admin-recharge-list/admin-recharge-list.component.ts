@@ -3,6 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs/Observable";
 import {ActivatedRoute} from "@angular/router";
 import {ListService} from "../../../shared/list.service";
+import {StatusService, Student} from "../../../shared/status.service";
 
 // Variable in assets/js/scripts.js file
 declare var AdminLTE: any;
@@ -15,24 +16,30 @@ declare var AdminLTE: any;
 export class AdminRechargeListComponent implements OnInit {
 
   dataSource: Observable<any>;
-  private studentId: number;
+  // private studentId: number;
   recharges: any;
   studentName: string;
+  student: Student;
 
-  constructor(private routeInfo: ActivatedRoute, private http: HttpClient, public list: ListService) {  }
+  constructor(private routeInfo: ActivatedRoute,
+              private http: HttpClient,
+              public list: ListService,
+              private status: StatusService
+  ) {  }
 
   ngOnInit() {
     // Actualiza la barra latera y el footer
     AdminLTE.init();
+    this.student = this.status.getStudent();
 
-    this.studentId = this.routeInfo.snapshot.params["id"];
-    this.http.get(`/api/students/${this.studentId}`).subscribe(
-      (data) => {
-        this.studentName = data.data.ename + data.data.name;
-      }
-    );
+    // this.studentId = this.routeInfo.snapshot.params["id"];
+    // this.http.get(`/api/students/${this.studentId}`).subscribe(
+    //   (data) => {
+    //     this.studentName = data.data.ename + data.data.name;
+    //   }
+    // );
 
-    this.dataSource = this.http.get(`/api/recharges/${this.studentId}`);
+    this.dataSource = this.http.get(`/api/recharges/${this.student.id}`);
     this.dataSource.subscribe(
       (data) => this.recharges = data.data
     );
