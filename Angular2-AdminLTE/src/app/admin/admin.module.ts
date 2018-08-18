@@ -32,6 +32,7 @@ import { AdminLessonFutureComponent } from './admin-lesson/admin-lesson-future/a
 import { AdminLessonOldComponent } from './admin-lesson/admin-lesson-old/admin-lesson-old.component';
 import { AdminCourseCreateComponent } from './admin-course/admin-course-create/admin-course-create.component';
 import { AdminLessonDemoComponent } from './admin-lesson/admin-lesson-demo/admin-lesson-demo.component';
+import { AdminLessonShowComponent } from './admin-lesson/admin-lesson-show/admin-lesson-show.component';
 
 @NgModule({
   imports: [
@@ -74,6 +75,7 @@ import { AdminLessonDemoComponent } from './admin-lesson/admin-lesson-demo/admin
     AdminLessonOldComponent,
     AdminCourseCreateComponent,
     AdminLessonDemoComponent,
+    AdminLessonShowComponent,
   ],
   exports: [
       AdminComponent,
