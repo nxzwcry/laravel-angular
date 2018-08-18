@@ -16,7 +16,6 @@ export class AdminStudentShowComponent implements OnInit {
   dataSource: Observable<any>;
   private studentId: number;
   student: any;
-  s: Student;
 
   constructor(private routeInfo: ActivatedRoute, private http: HttpClient, public list: ListService, private status: StatusService) {  }
 
@@ -30,11 +29,7 @@ export class AdminStudentShowComponent implements OnInit {
     this.dataSource.subscribe(
       (data) => {
         this.student = data.data;
-        this.s = new Student;
-        this.s.id = this.student.id;
-        this.s.name = this.student.name;
-        this.s.ename = this.student.ename;
-        this.status.setStudent(this.s);
+        this.status.setStudent(new Student(this.student.id, this.student.ename, this.student.name, this.student.cteacher_user_id, this.student.agent_user_id));
       }
     );
   }

@@ -16,11 +16,6 @@ declare var AdminLTE: any;
 export class AdminRechargeCreateComponent implements OnInit {
 
   formModel:FormGroup;
-
-  // dataSource:Observable<any>;
-
-  // private studentId:number;
-
   agents: Observable<any>;
   student: Student;
   disable: boolean;
@@ -32,19 +27,15 @@ export class AdminRechargeCreateComponent implements OnInit {
               private status: StatusService
   ) {
     this.disable = false;
-    //
-    // this.studentId = this.routeInfo.snapshot.params["id"];
-    //
-    // this.dataSource = this.http.get(`/api/students/${this.studentId}`);
-
+    this.student = this.status.getStudent();
     let fb = new FormBuilder();
     this.formModel = fb.group({
-        student_id: [null, [Validators.required]],
+        student_id: [this.student.id, [Validators.required]],
         waijiao: ['0', [Validators.required]],
         zhongjiao: ['0', [Validators.required]],
         jingpin: ['0', [Validators.required]],
         money: ['0', [Validators.required]],
-        user_id: ['0', [Validators.required]],
+        user_id: [this.student.agent_user_id, [Validators.required]],
         note: [null],
       }
     );
@@ -54,23 +45,12 @@ export class AdminRechargeCreateComponent implements OnInit {
   ngOnInit() {
     // Actualiza la barra latera y el footer
     AdminLTE.init();
-    this.student = this.status.getStudent();
-    // this.dataSource.subscribe(
-    //   (data) => {
-    //     this.student = data.data;
-    //   }
-    // );
-
     this.listService.getAgents().subscribe(
       (data) => this.agents = data.data
     );
   }
 
   onSubmit() {
-    // this.formModel.setValue({
-    //   student_id: this.student.id,
-    // });
-    this.formModel.patchValue({student_id: `${this.student.id}`});
     if(this.formModel.valid) {
       console.log(this.formModel.value);
       this.http.post('api/recharges', this.formModel.value)
