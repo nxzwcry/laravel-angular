@@ -1,0 +1,7 @@
+<result type="success" [title]="title" description="密码重置邮件已发送到你的邮箱中，邮件有效期为10分钟。请及时登录邮箱，点击邮件中的链接重置密码。">
+  <ng-template #title>
+    <div class="title">你的账户：ng-alain@example.com 注册成功</div>
+  </ng-template>
+  <button (click)="msg.success('email')" nz-button nzSize="large" [nzType]="'primary'">查看邮箱</button>
+  <button routerLink="/" nz-button nzSize="large">返回首页</button>
+</result>

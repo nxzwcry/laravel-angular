@@ -17,6 +17,7 @@ import { UserLockComponent } from './passport/lock/lock.component';
 import { Exception403Component } from './exception/403.component';
 import { Exception404Component } from './exception/404.component';
 import { Exception500Component } from './exception/500.component';
+import {SimpleGuard} from "@delon/auth";
 
 const routes: Routes = [
   {
@@ -24,10 +25,11 @@ const routes: Routes = [
     component: LayoutDefaultComponent,
     children: [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
-      { path: 'dashboard', component: DashboardComponent, data: { title: '仪表盘', titleI18n: 'dashboard' } },
+      { path: 'dashboard', component: DashboardComponent, data: { title: '仪表盘' } },
       // 业务子模块
-      // { path: 'widgets', loadChildren: './widgets/widgets.module#WidgetsModule' }
-    ]
+      { path: 'students', loadChildren: './students/students.module#StudentsModule' }
+    ],
+    canActivate: [SimpleGuard],
   },
   // 全屏布局
   // {
@@ -42,8 +44,9 @@ const routes: Routes = [
     component: LayoutPassportComponent,
     children: [
       { path: 'login', component: UserLoginComponent, data: { title: '登录', titleI18n: 'pro-login' } },
-      { path: 'register', component: UserRegisterComponent, data: { title: '注册', titleI18n: 'pro-register' } },
-      { path: 'register-result', component: UserRegisterResultComponent, data: { title: '注册结果', titleI18n: 'pro-register-result' } }
+      // { path: 'register', component: UserRegisterComponent, data: { title: '注册', titleI18n: 'pro-register' } },
+      // { path: 'register-result', component: UserRegisterResultComponent, data: { title: '注册结果', titleI18n: 'pro-register-result' } }
+      { path: 'reset-result', component: UserRegisterResultComponent, data: { title: '找回密码结果' } }
     ]
   },
   // 单页不包裹Layout

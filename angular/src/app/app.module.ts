@@ -18,6 +18,7 @@ registerLocaleData(localeZhHans);
 
 // @delon/form: JSON Schema form
 import { JsonSchemaModule } from '@shared/json-schema/json-schema.module';
+import {ReactiveFormsModule} from "@angular/forms";
 
 export function StartupServiceFactory(startupService: StartupService): Function {
   return () => startupService.load();
@@ -36,6 +37,7 @@ export function StartupServiceFactory(startupService: StartupService): Function 
     SharedModule,
     LayoutModule,
     RoutesModule,
+    ReactiveFormsModule,
     // JSON-Schema form
     JsonSchemaModule
   ],

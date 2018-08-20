@@ -14,7 +14,7 @@ import { throwIfAlreadyLoaded } from '@core/module-import-guard';
 import { NgZorroAntdModule } from 'ng-zorro-antd';
 import { AlainThemeModule } from '@delon/theme';
 import { DelonABCModule, ReuseTabService, ReuseTabStrategy } from '@delon/abc';
-import { DelonAuthModule } from '@delon/auth';
+import { DelonAuthModule, DA_STORE_TOKEN , SessionStorageStore } from '@delon/auth';
 import { DelonACLModule } from '@delon/acl';
 import { DelonCacheModule } from '@delon/cache';
 import { DelonUtilModule } from '@delon/util';
@@ -35,6 +35,8 @@ import { DelonAuthConfig } from '@delon/auth';
 export function delonAuthConfig(): DelonAuthConfig {
   return Object.assign(new DelonAuthConfig(), <DelonAuthConfig>{
     login_url: '/passport/login',
+    token_send_key: 'Authorization',
+    token_send_template: 'Bearer ${token}',
   });
 }
 
@@ -50,7 +52,7 @@ export function delonAuthConfig(): DelonAuthConfig {
     DelonCacheModule.forRoot(),
     DelonUtilModule.forRoot(),
     // mock
-    ...MOCKMODULE,
+    // ...MOCKMODULE,
   ],
 })
 export class DelonModule {
@@ -76,6 +78,7 @@ export class DelonModule {
         // { provide: SimpleTableConfig, useFactory: simpleTableConfig }
         { provide: AdPageHeaderConfig, useFactory: pageHeaderConfig },
         { provide: DelonAuthConfig, useFactory: delonAuthConfig },
+        { provide: DA_STORE_TOKEN, useClass: SessionStorageStore }
       ],
     };
   }

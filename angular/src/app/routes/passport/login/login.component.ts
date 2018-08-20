@@ -1,25 +1,26 @@
-import { SettingsService } from '@delon/theme';
 import { Component, OnDestroy, Inject, Optional } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { NzMessageService, NzModalService } from 'ng-zorro-antd';
+
+import {Md5} from "ts-md5/dist/md5";
+
 import {
-  SocialService,
-  SocialOpenType,
   TokenService,
   DA_SERVICE_TOKEN,
 } from '@delon/auth';
 import { ReuseTabService } from '@delon/abc';
-import { environment } from '@env/environment';
 import { StartupService } from '@core/startup/startup.service';
+import {_HttpClient} from "@delon/theme";
+import {JsonData} from "@shared/shared.module";
 
 @Component({
   selector: 'passport-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.less'],
-  providers: [SocialService],
+  // providers: [SocialService],
+  providers: [],
 })
-export class UserLoginComponent implements OnDestroy {
+export class UserLoginComponent {
   form: FormGroup;
   error = '';
   type = 0;
@@ -28,39 +29,27 @@ export class UserLoginComponent implements OnDestroy {
   constructor(
     fb: FormBuilder,
     private router: Router,
-    public msg: NzMessageService,
-    private modalSrv: NzModalService,
-    private settingsService: SettingsService,
-    private socialService: SocialService,
     @Optional()
     @Inject(ReuseTabService)
     private reuseTabService: ReuseTabService,
     @Inject(DA_SERVICE_TOKEN) private tokenService: TokenService,
     private startupSrv: StartupService,
+    private http: _HttpClient,
+    private routeInfo: ActivatedRoute
   ) {
     this.form = fb.group({
-      userName: [null, [Validators.required, Validators.minLength(5)]],
+      email: [null, [Validators.required, Validators.email]],
       password: [null, Validators.required],
-      mobile: [null, [Validators.required, Validators.pattern(/^1\d{10}$/)]],
-      captcha: [null, [Validators.required]],
-      remember: [true],
     });
-    modalSrv.closeAll();
   }
 
   // region: fields
 
-  get userName() {
-    return this.form.controls.userName;
+  get email() {
+    return this.form.controls.email;
   }
   get password() {
     return this.form.controls.password;
-  }
-  get mobile() {
-    return this.form.controls.mobile;
-  }
-  get captcha() {
-    return this.form.controls.captcha;
   }
 
   // endregion
@@ -69,116 +58,44 @@ export class UserLoginComponent implements OnDestroy {
     this.type = ret.index;
   }
 
-  // region: get captcha
-
-  count = 0;
-  interval$: any;
-
-  getCaptcha() {
-    this.count = 59;
-    this.interval$ = setInterval(() => {
-      this.count -= 1;
-      if (this.count <= 0) clearInterval(this.interval$);
-    }, 1000);
-  }
-
-  // endregion
-
   submit() {
     this.error = '';
     if (this.type === 0) {
-      this.userName.markAsDirty();
-      this.userName.updateValueAndValidity();
+      this.email.markAsDirty();
+      this.email.updateValueAndValidity();
       this.password.markAsDirty();
       this.password.updateValueAndValidity();
-      if (this.userName.invalid || this.password.invalid) return;
-    } else {
-      this.mobile.markAsDirty();
-      this.mobile.updateValueAndValidity();
-      this.captcha.markAsDirty();
-      this.captcha.updateValueAndValidity();
-      if (this.mobile.invalid || this.captcha.invalid) return;
+      if (this.email.invalid || this.password.invalid) return;
     }
 
     // **注：** DEMO中使用 `setTimeout` 来模拟 http
     // 默认配置中对所有HTTP请求都会强制[校验](https://ng-alain.com/auth/getting-started) 用户 Token
     // 然一般来说登录请求不需要校验，因此可以在请求URL加上：`/login?_allow_anonymous=true` 表示不触发用户 Token 校验
+
     this.loading = true;
-    setTimeout(() => {
-      this.loading = false;
-      if (this.type === 0) {
-        if (
-          this.userName.value !== 'admin' ||
-          this.password.value !== '888888'
-        ) {
-          this.error = `账户或密码错误`;
-          return;
-        }
-      }
+    let password = Md5.hashStr(this.form.value.password).toString();
+    this.http.post<JsonData>('/login', {email:this.form.value.email, password:password})
+      .subscribe(
+        val => {
+          // console.log('post请求成功', val);
+          this.tokenService.set({ token: val.data.token });
 
-      // 清空路由复用信息
-      this.reuseTabService.clear();
-      // 设置Token信息
-      this.tokenService.set({
-        token: '123456789',
-        name: this.userName.value,
-        email: `cipchk@qq.com`,
-        id: 10000,
-        time: +new Date(),
-      });
-      // 重新获取 StartupService 内容，若其包括 User 有关的信息的话
-      // this.startupSrv.load().then(() => this.router.navigate(['/']));
-      // 否则直接跳转
-      this.router.navigate(['/']);
-    }, 1000);
-  }
-
-  // region: social
-
-  open(type: string, openType: SocialOpenType = 'href') {
-    let url = ``;
-    let callback = ``;
-    if (environment.production)
-      callback = 'https://cipchk.github.io/ng-alain/callback/' + type;
-    else callback = 'http://localhost:4200/callback/' + type;
-    switch (type) {
-      case 'auth0':
-        url = `//cipchk.auth0.com/login?client=8gcNydIDzGBYxzqV0Vm1CX_RXH-wsWo5&redirect_uri=${decodeURIComponent(
-          callback,
-        )}`;
-        break;
-      case 'github':
-        url = `//github.com/login/oauth/authorize?client_id=9d6baae4b04a23fcafa2&response_type=code&redirect_uri=${decodeURIComponent(
-          callback,
-        )}`;
-        break;
-      case 'weibo':
-        url = `https://api.weibo.com/oauth2/authorize?client_id=1239507802&response_type=code&redirect_uri=${decodeURIComponent(
-          callback,
-        )}`;
-        break;
-    }
-    if (openType === 'window') {
-      this.socialService
-        .login(url, '/', {
-          type: 'window',
-        })
-        .subscribe(res => {
-          if (res) {
-            this.settingsService.setUser(res);
-            this.router.navigateByUrl('/');
+          // 重新获取 StartupService 内容，若其包括 User 有关的信息的话
+          this.startupSrv.load().then(() => this.router.navigate(['/']));
+          // 否则直接跳转
+          // this.router.navigate([this.routeInfo.snapshot.queryParams["returnUrl"]]);
+        },
+        error => {
+          // console.log('post请求失败', error);
+          if( error.error.message.email ){
+            this.error = error.error.message.email;
           }
-        });
-    } else {
-      this.socialService.login(url, '/', {
-        type: 'href',
-      });
-    }
+          else{
+            this.error = error.error.message;
+          }
+          this.loading = false;
+        }
+      );
   }
 
-  // endregion
-
-  ngOnDestroy(): void {
-    if (this.interval$) clearInterval(this.interval$);
-  }
 }

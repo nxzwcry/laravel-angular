@@ -11,6 +11,7 @@ import { DelonFormModule } from '@delon/form';
 // region: third libs
 import { NgZorroAntdModule } from 'ng-zorro-antd';
 import { CountdownModule } from 'ngx-countdown';
+import {FilterPipe} from "./pipe/filter.pipe";
 const THIRDMODULES = [
   NgZorroAntdModule,
   CountdownModule
@@ -21,6 +22,9 @@ const THIRDMODULES = [
 const COMPONENTS = [];
 const DIRECTIVES = [];
 // endregion
+
+
+const PIPES = [FilterPipe];
 
 @NgModule({
   imports: [
@@ -38,7 +42,8 @@ const DIRECTIVES = [];
   declarations: [
     // your components
     ...COMPONENTS,
-    ...DIRECTIVES
+    ...DIRECTIVES,
+    ...PIPES,
   ],
   exports: [
     CommonModule,
@@ -53,7 +58,11 @@ const DIRECTIVES = [];
     ...THIRDMODULES,
     // your components
     ...COMPONENTS,
-    ...DIRECTIVES
+    ...DIRECTIVES,
+    ...PIPES,
   ]
 })
 export class SharedModule { }
+export class JsonData {
+  data: any;
+}

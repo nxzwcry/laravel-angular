@@ -62,7 +62,7 @@ export class StartupService {
     // }
     // mock
     const app: any = {
-      name: `ng-alain`,
+      name: `深泉英语`,
       description: `Ng-zorro admin panel front-end framework`
     };
     const user: any = {
@@ -87,6 +87,20 @@ export class StartupService {
             text: '仪表盘',
             link: '/dashboard',
             icon: 'anticon anticon-appstore-o'
+          },
+          {
+            text: '学生列表',
+            icon: 'anticon anticon-appstore-o',
+            "children": [
+              {
+                "text": "1对1学生",
+                "link": "/students/one-to-one",
+              },
+              {
+                "text": "班课学生",
+                "link": "/students/team-students",
+              }
+            ]
           },
           {
             text: '快捷菜单',
