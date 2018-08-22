@@ -86,14 +86,14 @@ export class UserLoginComponent {
           // this.router.navigate([this.routeInfo.snapshot.queryParams["returnUrl"]]);
         },
         error => {
-          // console.log('post请求失败', error);
+          console.log('post请求失败', error);
+          this.loading = false;
           if( error.error.message.email ){
             this.error = error.error.message.email;
           }
           else{
             this.error = error.error.message;
           }
-          this.loading = false;
         }
       );
   }

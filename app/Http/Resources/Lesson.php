@@ -18,8 +18,8 @@ class Lesson extends Resource
         return [
             'id' => $this->id,
             'name' => $this->name,
-//            'date' => '2018-7-24',
-//            'time' => '10:00~11:00',
+            'student_id' => $this->student_id,
+            'student' => $this->student ? $this->student->name : '',
             'date' => $this->start_datetime->toDateString(),
             'time' => $this->start_datetime->format('H:i').'~'.$this->end_datetime->format('H:i'),
             'cteacher' => $this->cteacher ? $this->cteacher->name : '',

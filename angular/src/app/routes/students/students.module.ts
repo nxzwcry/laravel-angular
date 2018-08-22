@@ -7,9 +7,9 @@ import { StudentsStudentComponent } from './student/student.component';
 
 const COMPONENTS = [
   StudentsOneToOneComponent,
-  StudentsTeamStudentsComponent];
-const COMPONENTS_NOROUNT = [
+  StudentsTeamStudentsComponent,
   StudentsStudentComponent];
+const COMPONENTS_NOROUNT = [ ];
 
 @NgModule({
   imports: [

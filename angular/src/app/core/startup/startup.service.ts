@@ -84,7 +84,7 @@ export class StartupService {
         group: true,
         children: [
           {
-            text: '仪表盘',
+            text: '首页',
             link: '/dashboard',
             icon: 'anticon anticon-appstore-o'
           },

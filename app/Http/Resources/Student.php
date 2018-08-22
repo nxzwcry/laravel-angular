@@ -50,6 +50,7 @@ class Student extends Resource
                 'newlessons' => $this->getNewLessons() ? Lesson::collection($this->getNewLessons()) : null,
                 'oldlessons' => $this->getNotNewLessons() ? Lesson::collection($this->getNotNewLessons()) : null,
                 'courses' => Course::collection($this->courses),
+                'recharges' => Recharge::collection($this->recharges)
             ],
         ];
     }
