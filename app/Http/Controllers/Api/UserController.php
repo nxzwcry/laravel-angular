@@ -28,8 +28,10 @@ class UserController extends ApiController
     public function store(Request $request)
     {
         $this->validator($request->all())->validate();
-
-        $user = $this->create($request->all());
+        $data = $request->all();
+        $data['password'] = bcrypt(substr(md5(time()), 0, 8));
+        $user = User::createAndRole($data);
+        $user->changeRole($data);
 
         $this->sendResetLinkEmail($request);
 
@@ -39,7 +41,7 @@ class UserController extends ApiController
     public function sendResetEmail(Request $request)
     {
         $request->validate([
-            'email' => 'required|string|email|max:255|unique:users'
+            'email' => 'required|string|email|max:255|exists:users,email'
         ]);
 
         $this->sendResetLinkEmail($request);
@@ -50,7 +52,7 @@ class UserController extends ApiController
     public function update(Request $request, User $user)
     {
         $user->update($request->all());
-
+        $user->changeRole($request->all());
         return response()->json($user, 200);
     }
 
@@ -86,19 +88,4 @@ class UserController extends ApiController
         ]);
     }
 
-
-    /**
-     * Create a new user instance after a valid registration.
-     *
-     * @param  array  $data
-     * @return \App\User
-     */
-    protected function create(array $data)
-    {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => bcrypt(substr(md5(time()), 0, 8)),
-        ]);
-    }
 }

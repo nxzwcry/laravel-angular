@@ -7,6 +7,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Spatie\Permission\Traits\HasRoles;
 use App\Notifications\ResetEmail as RestPasswordNotification;
+use Spatie\Permission\Models\Role;
 
 class User extends Authenticatable
 {
@@ -18,7 +19,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'ename',
     ];
 
     /**
@@ -53,5 +54,29 @@ class User extends Authenticatable
     public function sendPasswordResetNotification($token)
     {
         $this->notify(new RestPasswordNotification($token));
+    }
+
+
+    /**
+     * Create a new user instance after a valid registration.
+     *
+     * @param  array  $data
+     * @return \App\User
+     */
+    static public function createAndRole(array $data)
+    {
+        $data['password'] = bcrypt(substr(md5(time()), 0, 8));
+        $user = User::create($data);
+        return $user;
+    }
+
+    public function changeRole(array $data)
+    {
+        $roel_id = $data['role'];
+        if ($roel_id)
+        {
+            $role = Role::find($roel_id);
+            $this->syncRoles($role);
+        }
     }
 }

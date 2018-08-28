@@ -23,7 +23,7 @@ class Student extends Model
     //自动维护时间戳
     public $timestamps = true;
 
-    protected $dates = ['deleted_at'];
+    protected $dates = ['birthday', 'created_at', 'updated_at', 'deleted_at'];
 
     //不允许批量赋值的字段
     protected $guarded = ['id', 'created_at', 'updated_at'];

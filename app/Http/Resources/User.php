@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\Resource;
+use App\Http\Resources\Permission as PermissionResource;
 
 class User extends Resource
 {
@@ -18,21 +19,13 @@ class User extends Resource
             'id' => $this->id,
             'name' => $this->name,
             'ename' => $this->ename,
+            'email' => $this->email,
+            'role' => $this->roles->first() ? $this->roles->first()->cn_name : '',
+            'role_id' => $this->roles->first() ? $this->roles->first()->id : '',
+            'agentCount' => count($this->agentStudents),
+            'teacheCount' => count($this->teacherStudents),
+            'permissions' => PermissionResource::collection($this->getAllPermissions()),
         ];
     }
 
-//    public function with($request)
-//    {
-//        return [
-//            'data' => [
-//                'sex' => $this->sex,
-//                'grade' => $this->grade,
-//                'birthday' => $this->birthday,
-//                'email' => $this->email,
-//                'ename' => $this->ename,
-//                'address' => $this->address,
-//                'desc' => $this->desc,
-//            ],
-//        ];
-//    }
 }

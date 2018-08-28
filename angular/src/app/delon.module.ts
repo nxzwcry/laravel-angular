@@ -12,7 +12,17 @@ import { RouteReuseStrategy } from '@angular/router';
 import { throwIfAlreadyLoaded } from '@core/module-import-guard';
 
 import { NgZorroAntdModule } from 'ng-zorro-antd';
-import { AlainThemeModule } from '@delon/theme';
+import { AlainThemeModule  } from '@delon/theme';
+import {DelonThemeConfig} from "@delon/theme/src/src/theme.config";
+// export function fnDelonThemeConfig(): DelonThemeConfig {
+//   return Object.assign(new DelonThemeConfig(), <DelonThemeConfig>{
+//     http: {
+//       nullValueHandling: 'ignore',
+//       // dateValueHandling: 'timestamp'
+//     },
+//   });
+// }
+
 import { DelonABCModule, ReuseTabService, ReuseTabStrategy } from '@delon/abc';
 import { DelonAuthModule, DA_STORE_TOKEN , SessionStorageStore } from '@delon/auth';
 import { DelonACLModule } from '@delon/acl';
@@ -78,7 +88,8 @@ export class DelonModule {
         // { provide: SimpleTableConfig, useFactory: simpleTableConfig }
         { provide: AdPageHeaderConfig, useFactory: pageHeaderConfig },
         { provide: DelonAuthConfig, useFactory: delonAuthConfig },
-        { provide: DA_STORE_TOKEN, useClass: SessionStorageStore }
+        { provide: DA_STORE_TOKEN, useClass: SessionStorageStore },
+        // { provide: DelonThemeConfig, useFactory: fnDelonThemeConfig },
       ],
     };
   }

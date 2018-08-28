@@ -9,8 +9,8 @@ import { LayoutPassportComponent } from '../layout/passport/passport.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 // passport pages
 import { UserLoginComponent } from './passport/login/login.component';
-import { UserRegisterComponent } from './passport/register/register.component';
-import { UserRegisterResultComponent } from './passport/register-result/register-result.component';
+// import { UserRegisterComponent } from './passport/register/register.component';
+// import { UserRegisterResultComponent } from './passport/register-result/register-result.component';
 // single pages
 import { CallbackComponent } from './callback/callback.component';
 import { UserLockComponent } from './passport/lock/lock.component';
@@ -18,6 +18,7 @@ import { Exception403Component } from './exception/403.component';
 import { Exception404Component } from './exception/404.component';
 import { Exception500Component } from './exception/500.component';
 import {SimpleGuard} from "@delon/auth";
+import {UserResetPasswordComponent} from "./passport/reset-password/reset-password.component";
 
 const routes: Routes = [
   {
@@ -27,7 +28,9 @@ const routes: Routes = [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       { path: 'dashboard', component: DashboardComponent, data: { title: '仪表盘' } },
       // 业务子模块
-      { path: 'students', loadChildren: './students/students.module#StudentsModule' }
+      { path: 'students', loadChildren: './students/students.module#StudentsModule' },
+      { path: 'users', loadChildren: './users/users.module#UsersModule' },
+      { path: 'permissions', loadChildren: './permissions/permissions.module#PermissionsModule' },
     ],
     canActivate: [SimpleGuard],
   },
@@ -43,10 +46,11 @@ const routes: Routes = [
     path: 'passport',
     component: LayoutPassportComponent,
     children: [
-      { path: 'login', component: UserLoginComponent, data: { title: '登录', titleI18n: 'pro-login' } },
-      // { path: 'register', component: UserRegisterComponent, data: { title: '注册', titleI18n: 'pro-register' } },
+      { path: 'login', component: UserLoginComponent, data: { title: '登录' } },
+      // { path: 'register', component: UserRegisterComponent, data: { title: '注册' } },
+      { path: 'reset-password/:token', component: UserResetPasswordComponent, data: { title: '重置密码' } },
       // { path: 'register-result', component: UserRegisterResultComponent, data: { title: '注册结果', titleI18n: 'pro-register-result' } }
-      { path: 'reset-result', component: UserRegisterResultComponent, data: { title: '找回密码结果' } }
+      // { path: 'reset-result', component: UserRegisterResultComponent, data: { title: '找回密码结果' } }
     ]
   },
   // 单页不包裹Layout

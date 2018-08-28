@@ -46,8 +46,8 @@ class ResetPasswordController extends Controller
      * @param  string  $password
      * @return void
      */
-    protected function resetPassword($user, $password)
-    {
-        $this->resetPassword($user,md5($password));
-    }
+//    protected function resetPassword($user, $password)
+//    {
+//        $this->resetPassword($user,md5($password));
+//    }
 }

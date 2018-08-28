@@ -15,14 +15,21 @@ import { SimpleInterceptor } from '@delon/auth';
 import { registerLocaleData } from '@angular/common';
 import localeZhHans from '@angular/common/locales/zh-Hans';
 registerLocaleData(localeZhHans);
+import zh from '@angular/common/locales/zh';
+registerLocaleData(zh);
 
 // @delon/form: JSON Schema form
 import { JsonSchemaModule } from '@shared/json-schema/json-schema.module';
 import {ReactiveFormsModule} from "@angular/forms";
+import {DictionaryService} from "@shared/services/dictionary.service";
 
 export function StartupServiceFactory(startupService: StartupService): Function {
   return () => startupService.load();
 }
+
+const MYSERVICES = [
+  DictionaryService
+];
 
 @NgModule({
   declarations: [
@@ -51,7 +58,8 @@ export function StartupServiceFactory(startupService: StartupService): Function 
       useFactory: StartupServiceFactory,
       deps: [StartupService],
       multi: true
-    }
+    },
+    ...MYSERVICES,
   ],
   bootstrap: [AppComponent]
 })

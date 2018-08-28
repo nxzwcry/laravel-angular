@@ -12,6 +12,7 @@ import { DelonFormModule } from '@delon/form';
 import { NgZorroAntdModule } from 'ng-zorro-antd';
 import { CountdownModule } from 'ngx-countdown';
 import {FilterPipe} from "./pipe/filter.pipe";
+
 const THIRDMODULES = [
   NgZorroAntdModule,
   CountdownModule
@@ -37,13 +38,13 @@ const PIPES = [FilterPipe];
     DelonACLModule,
     DelonFormModule,
     // third libs
-    ...THIRDMODULES
+    ...THIRDMODULES,
   ],
   declarations: [
     // your components
     ...COMPONENTS,
     ...DIRECTIVES,
-    ...PIPES,
+    ...PIPES
   ],
   exports: [
     CommonModule,
@@ -59,7 +60,7 @@ const PIPES = [FilterPipe];
     // your components
     ...COMPONENTS,
     ...DIRECTIVES,
-    ...PIPES,
+    ...PIPES
   ]
 })
 export class SharedModule { }

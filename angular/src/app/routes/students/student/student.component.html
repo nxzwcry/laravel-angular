@@ -1,11 +1,11 @@
 <!--<page-header [title]="'查看 ' + id + ' 信息'"></page-header>-->
-<div nz-row nzGutter="8">
+<div nz-row nzGutter="16">
   <div nz-col [nzSpan]="6">
       <!--<nz-card nzTitle="{{ student.name }} {{ student.ename }}" [nzExtra]="changeStudentInfoTemplate">-->
         <nz-collapse [nzBordered]="false">
           <nz-collapse-panel [nzHeader]="studentInfoTemplate" [nzActive]="true">
             <desc-list size="small" [col]="1" style="margin-left: 22px">
-              <desc-list-item term="性别/年龄/年级"><p align="right">男/{{student.age}}岁/二年级</p></desc-list-item>
+              <desc-list-item term="性别/年龄/年级"><p align="right">{{dic.getSex(student.sex)}}/{{student.age}}岁/{{dic.getGrade(student.grade)}}</p></desc-list-item>
               <desc-list-item term="课程阶段"><p align="right">{{student.lessonstage}}</p></desc-list-item>
               <desc-list-item term="课程顾问"><p align="right">{{student.agent}}</p></desc-list-item>
               <desc-list-item term="中教老师"><p align="right">{{student.cteacher}}</p></desc-list-item>
@@ -33,6 +33,8 @@
       <!--</nz-card>-->
   </div>
   <div nz-col [nzSpan]="18">
+
+    <!--已排课程-->
     <nz-collapse [nzBordered]="false">
       <nz-collapse-panel [nzHeader]="lessonTemplate" [nzActive]="true">
         <nz-table #newLessonsTable [nzData]="student.newlessons" nzSize="Small" [nzShowPagination]="false" [nzFrontPagination]="false">
@@ -58,8 +60,10 @@
             <td>{{lesson.place}}</td>
           </tr>
           </tbody>
-        </nz-table>`
+        </nz-table>
       </nz-collapse-panel>
+
+      <!--固定课程-->
       <nz-collapse-panel [nzHeader]="courseTemplate" [nzActive]="true">
         <nz-table #coursesTable [nzData]="student.courses" nzSize="Small" [nzShowPagination]="false" [nzFrontPagination]="false">
           <thead>
@@ -84,10 +88,12 @@
             <td>{{course.place}}</td>
           </tr>
           </tbody>
-        </nz-table>`
+        </nz-table>
       </nz-collapse-panel>
+
+      <!--已上课程-->
       <nz-collapse-panel [nzHeader]="oldTemplate" [nzActive]="false">
-        <nz-table #oldLessonsTable [nzData]="student.oldlessons" nzSize="Small" [nzScroll]="{ y: '240px' }">
+        <nz-table #oldLessonsTable [nzData]="student.oldlessons" nzSize="Small" [nzScroll]="{ y: '240px' }" [nzShowPagination]="student.oldlessons && (student.oldlessons.length > 10)">
           <thead>
           <tr>
             <th nzWidth="200px">课程名称</th>
@@ -110,8 +116,10 @@
             <td>{{lesson.place}}</td>
           </tr>
           </tbody>
-        </nz-table>`
+        </nz-table>
       </nz-collapse-panel>
+
+      <!--充值记录-->
       <nz-collapse-panel [nzHeader]="rechargeTemplate" [nzActive]="false">
         <nz-table #rechargesTable [nzData]="student.recharges" nzSize="Small" [nzShowPagination]="false" [nzFrontPagination]="false">
           <thead>
@@ -136,7 +144,7 @@
             <td>{{recharge.note}}</td>
           </tr>
           </tbody>
-        </nz-table>`
+        </nz-table>
       </nz-collapse-panel>
     </nz-collapse>
   </div>
@@ -144,7 +152,7 @@
 <ng-template #studentInfoTemplate>
   <nz-row>
     <nz-col [nzSpan]="18"><b>{{ student.name }} {{ student.ename }}</b></nz-col>
-    <nz-col [nzSpan]="5" ><p align="right" style="margin: 0"><a>修改信息</a></p></nz-col>
+    <nz-col [nzSpan]="5" ><p align="right" style="margin: 0"><a (click)="change()">修改信息</a></p></nz-col>
   </nz-row>
 </ng-template>
 <ng-template #lessonTemplate>

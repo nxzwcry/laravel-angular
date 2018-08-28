@@ -1,8 +1,3 @@
-<!--<page-header>-->
-  <!--<ng-template #action>-->
-    <!--<button (click)="add()" nz-button nzType="primary">新建</button>-->
-  <!--</ng-template>-->
-<!--</page-header>-->
 <nz-card>
   <!--<div class="mb-md">-->
     <div nz-row>
@@ -21,7 +16,7 @@
     <nz-table #filterTable [nzData]="displayList | filter:['name','ename','id','cteacher','fteacher']:searchWord" nzSize="Middle" [nzScroll]="{ y: '435px' }" [nzShowPagination]="false" [nzFrontPagination]="false">
       <thead (nzSortChange)="sort($event)" nzSingleSort>
       <tr>
-        <th nzShowSort nzSortKey="id" nzWidth="150px">学生编号</th>
+        <th nzShowSort nzSortKey="id" nzWidth="150px" nzSort="descend">学生编号</th>
         <th nzWidth="200px">姓名</th>
         <th nzWidth="250px">英文名</th>
         <th nzShowSort nzSortKey="waijiao" nzWidth="150px">剩余外教</th>
@@ -41,6 +36,6 @@
         <td>{{student.agent}}</td>
       </tr>
       </tbody>
-    </nz-table>`
+    </nz-table>
   </div>
 </nz-card>

@@ -25,7 +25,7 @@ export class StartupService {
 
   private viaHttp(resolve: any, reject: any) {
     zip(
-      this.httpClient.get('assets/tmp/app-data.json')
+      this.httpClient.get('/appdata')
     ).pipe(
       // 接收其他拦截器后产生的异常消息
       catchError(([appData]) => {
@@ -41,16 +41,37 @@ export class StartupService {
       // 用户信息：包括姓名、头像、邮箱地址
       this.settingService.setUser(res.user);
       // ACL：设置权限为全量
-      this.aclService.setFull(true);
-      // 初始化菜单
-      this.menuService.add(res.menu);
+      //   console.log('setAcl', res.user.acl);
+      this.aclService.setRole(res.user.acl);
       // 设置页面标题的后缀
       this.titleService.suffix = res.app.name;
+      // 初始化菜单
+      this.menuService.add(res.menu);
     },
     () => { },
     () => {
       resolve(null);
     });
+    //
+    // zip(
+    //   this.httpClient.get('assets/tmp/app-data.json')
+    // ).pipe(
+    //   // 接收其他拦截器后产生的异常消息
+    //   catchError(([appData]) => {
+    //     resolve(null);
+    //     return [appData];
+    //   })
+    // ).subscribe(([appData]) => {
+    //
+    //     // application data
+    //     const res: any = appData;
+    //     // 初始化菜单
+    //     this.menuService.add(res.menu);
+    //   },
+    //   () => { },
+    //   () => {
+    //     resolve(null);
+    //   });
   }
 
   private viaMock(resolve: any, reject: any) {
@@ -89,6 +110,25 @@ export class StartupService {
             icon: 'anticon anticon-appstore-o'
           },
           {
+            text: '用户管理',
+            icon: 'anticon anticon-appstore-o',
+            link: "/users/list"
+          },
+          {
+            text: '权限管理',
+            icon: 'anticon anticon-appstore-o',
+            "children": [
+              {
+                "text": "角色管理",
+                "link": "/permissions/role-list",
+              },
+              {
+                "text": "权限管理",
+                "link": "/permissions/permission-list",
+              },
+            ]
+          },
+          {
             text: '学生列表',
             icon: 'anticon anticon-appstore-o',
             "children": [
@@ -99,7 +139,41 @@ export class StartupService {
               {
                 "text": "班课学生",
                 "link": "/students/team-students",
+              },
+              {
+                "text": "试听学生",
+                "link": "/students/demo",
+              },
+              {
+                "text": "未排课学生",
+                "link": "/students/no-lesson",
+              },
+              {
+                "text": "停课学生",
+                "link": "/students/stoped",
               }
+            ]
+          },
+          {
+            text: '课程管理',
+            icon: 'anticon anticon-appstore-o',
+            "children": [
+              {
+                "text": "待上课表",
+                "link": "/lessons/new-lessons",
+              },
+              {
+                "text": "已上课程",
+                "link": "/lessons/old-lessons",
+              },
+              {
+                "text": "固定课表",
+                "link": "/lessons/courses",
+              },
+              {
+                "text": "安排试听课",
+                "link": "/lessons/create-demo",
+              },
             ]
           },
           {
@@ -121,9 +195,9 @@ export class StartupService {
     // https://github.com/angular/angular/issues/15088
     return new Promise((resolve, reject) => {
       // http
-      // this.viaHttp(resolve, reject);
+      this.viaHttp(resolve, reject);
       // mock：请勿在生产环境中这么使用，viaMock 单纯只是为了模拟一些数据使脚手架一开始能正常运行
-      this.viaMock(resolve, reject);
+      // this.viaMock(resolve, reject);
     });
   }
 }

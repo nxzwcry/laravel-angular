@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 */
 
 Route::post('login', 'Api\AuthenticateController@login');
+Route::get('appdata', 'Api\AppDataController@index');
 Route::post('passwordreset', 'Api\ResetPasswordController@reset')->name('password.reset');
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
@@ -37,26 +38,44 @@ Route::middleware('auth:api')->group(function () {
 
     Route::prefix('users')->group(function () {
         Route::get('', 'Api\UserController@index');
-        Route::get('{user}', 'Api\UserController@store');
+        Route::get('{user}', 'Api\UserController@show');
         Route::post('', 'Api\UserController@store');
-        Route::put('{user}', 'UserController@update');
-        Route::delete('{user}', 'UserController@delete');
+        Route::put('{user}', 'Api\UserController@update');
+        Route::delete('{user}', 'Api\UserController@delete');
     });
 
     Route::prefix('teams')->group(function () {
         Route::get('', 'Api\TeamController@index');
-        Route::get('{Team}', 'Api\TeamController@store');
+        Route::get('{Team}', 'Api\TeamController@show');
         Route::post('', 'Api\TeamController@store');
-        Route::put('{Team}', 'TeamController@update');
-        Route::delete('{Team}', 'TeamController@delete');
+        Route::put('{Team}', 'Api\TeamController@update');
+        Route::delete('{Team}', 'Api\TeamController@delete');
     });
 
     Route::prefix('recharges')->group(function () {
         Route::get('', 'Api\RechargeController@index');
         Route::get('{student}', 'Api\RechargeController@list');
-        Route::post('', 'Api\RechargeController@store');
-        Route::put('{recharge}', 'Api\RechargeController@update');
-        Route::delete('{recharge}', 'Api\RechargeController@delete');
+        Route::middleware('permission:recharge-create')->post('', 'Api\RechargeController@store');
+        Route::middleware('permission:recharge-create')->put('{recharge}', 'Api\RechargeController@update');
+        Route::middleware('permission:recharge-create')->delete('{recharge}', 'Api\RechargeController@delete');
+    });
+
+    Route::prefix('permissions')->group(function () {
+        Route::get('', 'Api\PermissionController@index');
+        Route::get('{Permission}', 'Api\PermissionController@show');
+        Route::post('', 'Api\PermissionController@store');
+        Route::put('{Permission}', 'Api\PermissionController@update');
+        Route::delete('{Permission}', 'Api\PermissionController@delete');
+    });
+
+    Route::prefix('roles')->group(function () {
+        Route::get('', 'Api\RoleController@index');
+        Route::get('{id}', 'Api\RoleController@show');
+        Route::post('', 'Api\RoleController@store');
+        Route::put('{id}', 'Api\RoleController@update');
+        Route::put('/add/{id}', 'Api\RoleController@addPermissions');
+        Route::put('/remove/{id}', 'Api\RoleController@removePermissions');
+        Route::delete('{id}', 'Api\RoleController@delete');
     });
 
     Route::get('agents', 'Api\UserController@getAgents');

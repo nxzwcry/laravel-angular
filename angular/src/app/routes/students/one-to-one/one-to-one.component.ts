@@ -7,6 +7,10 @@ import {FormControl} from "@angular/forms";
 import { fromEvent, timer } from 'rxjs';
 import { debounceTime, map } from 'rxjs/operators';
 import {JsonData} from "@shared/shared.module";
+import {StudentsEditStudentComponent} from "../edit-student/edit-student.component";
+import {NzModalRef} from "ng-zorro-antd";
+import {DictionaryService} from "@shared/services/dictionary.service";
+import {forEach} from "@angular/router/src/utils/collection";
 
 @Component({
   selector: 'app-students-one-to-one',
@@ -17,13 +21,16 @@ export class StudentsOneToOneComponent implements OnInit {
   studentList: Array<any>;
   private wordFilter:FormControl = new FormControl();
   searchWord: string;
-  listOfSearchAgent = [ 'Emmanuelle Graham' ];
-  sortName = null;
-  sortValue = null;
-  agentList = [
-    { text: 'Emmanuelle Graham', value: 'Emmanuelle Graham', byDefault: true },
-    { text: '祁琪', value: '祁琪' }
-  ];
+  listOfSearchAgent = [ ];
+  sortName = 'id';
+  sortValue = 'descend';
+  userid = 1;
+  // agentList = [
+  //   // { text: 'Emmanuelle Graham', value: 'Emmanuelle Graham', byDefault: true },
+  //   { text: 'Emmanuelle Graham', value: 'Emmanuelle Graham' },
+  //   { text: '祁琪', value: '祁琪' }
+  // ];
+  agentList = [];
   // @ViewChild('st') st: SimpleTableComponent;
   // columns: SimpleTableColumn[] = [
   //   { title: '编号', index: 'id', width: "2em", sorter: (a, b) => a.id - b.id },
@@ -36,27 +43,44 @@ export class StudentsOneToOneComponent implements OnInit {
   //   { title: '课程顾问', index: 'agent', width: "4em" },
   // ];
 
-  constructor(private http: _HttpClient, private modal: ModalHelper) {
+  constructor(private http: _HttpClient, private modal: ModalHelper, private dic: DictionaryService) { }
+
+  ngOnInit() {
     this.wordFilter.valueChanges
       .pipe(debounceTime(500))
       .subscribe(
         value => this.searchWord = value
       );
-  }
-
-  ngOnInit() {
-    this.http.get<JsonData>('/students').subscribe(
-      (data) =>{ this.studentList = data.data;
-        this.search();
-      // this.displayList = this.studentList;
+    this.dic.getAgentList().subscribe(res =>{
+      for(let item of res.data){
+        if (item.id == this.userid){
+          this.agentList.push({ text: item.name, value: item.name, byDefault: true });
+          this.listOfSearchAgent.push(item.name);
+        }
+        else{
+          this.agentList.push({ text: item.name, value: item.name });
+        }
       }
-    );
+      this.load();
+    });
   }
 
   add() {
-    // this.modal
-    //   .createStatic(FormEditComponent, { i: { id: 0 } })
-    //   .subscribe(() => this.st.reload());
+    this.modal.create(StudentsEditStudentComponent, {size: 'sm'}, {modalOptions: {nzTitle: '添加学生'}}).subscribe(res => this.reload(res) );
+  }
+
+  reload(b: Boolean)
+  {
+    if(b) this.load();
+  }
+
+  load() {
+    this.http.get<JsonData>('/students').subscribe(
+      (data) =>{ this.studentList = data.data;
+        this.search();
+        // this.displayList = this.studentList;
+      }
+    );
   }
 
   sort(sort: { key: string, value: string }): void {

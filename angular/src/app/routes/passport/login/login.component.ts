@@ -74,7 +74,8 @@ export class UserLoginComponent {
 
     this.loading = true;
     let password = Md5.hashStr(this.form.value.password).toString();
-    this.http.post<JsonData>('/login', {email:this.form.value.email, password:password})
+    // let password = this.form.value.password;
+    this.http.post<JsonData>('/login?_allow_anonymous=true', {email:this.form.value.email, password:password})
       .subscribe(
         val => {
           // console.log('post请求成功', val);
