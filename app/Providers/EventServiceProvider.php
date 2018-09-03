@@ -16,6 +16,9 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\LessonSaved' => [
             'App\Listeners\LessonSavedListener',
         ],
+        'App\Events\CourseSaved' => [
+            'App\Listeners\CourseSavedListener',
+        ],
     ];
 
     /**

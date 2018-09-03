@@ -10,6 +10,7 @@ import {UsersEditUserComponent} from "../../users/edit-user/edit-user.component"
 import {StudentsEditStudentComponent} from "../edit-student/edit-student.component";
 import {StudentsEditRechargeComponent} from "../edit-recharge/edit-recharge.component";
 import {LessonsEditLessonComponent} from "../../lessons/edit-lesson/edit-lesson.component";
+import {LessonsEditCourseComponent} from "../../lessons/edit-course/edit-course.component";
 
 @Component({
   selector: 'app-students-student',
@@ -18,6 +19,7 @@ import {LessonsEditLessonComponent} from "../../lessons/edit-lesson/edit-lesson.
 export class StudentsStudentComponent implements OnInit {
   id = this.route.snapshot.params.id;
   student: Student;
+  dowList: Array<any>;
 
   constructor(
     private route: ActivatedRoute,
@@ -29,6 +31,7 @@ export class StudentsStudentComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.dowList = this.dic.getDowList();
     this.load();
   }
 
@@ -63,6 +66,18 @@ export class StudentsStudentComponent implements OnInit {
       {modalOptions:
           {
             nzTitle: `${this.student.name}-安排单节课程`,
+            nzComponentParams: {userId: this.id}
+          }
+      }).subscribe(res => this.reload(res) );
+  }
+
+  createCourse() {
+    this.modal.create(
+      LessonsEditCourseComponent,
+      {size: 'sm'},
+      {modalOptions:
+          {
+            nzTitle: `${this.student.name}-安排固定课程`,
             nzComponentParams: {userId: this.id}
           }
       }).subscribe(res => this.reload(res) );

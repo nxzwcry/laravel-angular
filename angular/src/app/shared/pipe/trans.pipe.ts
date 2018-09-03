@@ -3,16 +3,24 @@ import { Pipe, PipeTransform } from '@angular/core';
 @Pipe({
   name: 'trans'
 })
+
 export class TransPipe implements PipeTransform {
 
-  transform(value: number, list: string[]): any {
-    if(list[value])
-    {
-      return list[value];
+  /**
+   *
+   * @param value
+   * @param {string[]} list
+   * @param {string} index
+   * @param {string} show
+   * @returns {string}
+   */
+  transform(value: any, list: string[], index: string, show: string): any {
+    for(let item of list){
+      if (item[index] == value){
+        return item[show];
+      }
     }
-    else{
-      return "未定义";
-    }
+    return "未定义";
   }
 
 }

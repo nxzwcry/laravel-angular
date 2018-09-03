@@ -17,14 +17,13 @@ class Course extends Resource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'date' => numToWeek($this->dow),
-            'date_id' => $this->dow,
-//            'time' => '时间',
-            'stime' => substr($this->start_time, 0, 5),
-            'etime' => substr($this->end_time, 0, 5),
-            'cteacher' => $this->cteacher ? $this->cteacher->name : '',
-            'fteacher' => $this->fteacher ? $this->fteacher->name : '',
-            'place' => $this->place ? $this->place->name : '',
+            'dow' => $this->dow,
+            'stime' => $this->start_time->timestamp,
+            'etime' => $this->end_time->timestamp,
+            'ftime' => $this->fteacher_time ? $this->fteacher_time->timestamp : null,
+            'cteacher' => $this->cteacher ? $this->cteacher->name : null,
+            'fteacher' => $this->fteacher ? $this->fteacher->name : null,
+            'place' => $this->place ? $this->place->name : null,
             'lesson_type' => lessonType($this->lesson_type),
         ];
     }

@@ -37,6 +37,15 @@ export class DictionaryService {
     {label: "中教课", value: 'f'},
     {label: "精品课", value: 'j'},
   ];
+  private dowList = [
+    {label: "周一", value: 'MONDAY'},
+    {label: "周二", value: 'TUESDAY'},
+    {label: "周三", value: 'WEDNESDAY'},
+    {label: "周四", value: 'THURSDAY'},
+    {label: "周五", value: 'FRIDAY'},
+    {label: "周六", value: 'SATURDAY'},
+    {label: "周日", value: 'SUNDAY'},
+  ];
 
   constructor(private http: _HttpClient, private cacheService: CacheService) { }
 
@@ -58,8 +67,21 @@ export class DictionaryService {
     return "成人";
   }
 
+  getDow(index: string){
+    for(let item of this.dowList){
+      if (item.value == index){
+        return item.label;
+      }
+    }
+    return "未定义";
+  }
+
   getSexList(){
     return this.sexList;
+  }
+
+  getDowList(){
+    return this.dowList;
   }
 
   getGradeList(){

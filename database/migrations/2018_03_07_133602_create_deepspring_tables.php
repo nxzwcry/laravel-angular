@@ -101,6 +101,7 @@ class CreateDeepspringTables extends Migration
 
         Schema::create('lessons', function (Blueprint $table) {
             $table->increments('id');
+            $table->unsignedInteger('course_id')->nullable($value = true);
             $table->unsignedInteger('student_id')->nullable($value = true);
             $table->unsignedInteger('cteacher_id')->nullable($value = true);
             $table->unsignedInteger('fteacher_id')->nullable($value = true);
@@ -135,8 +136,9 @@ class CreateDeepspringTables extends Migration
             $table->unsignedInteger('fteacher_id')->nullable($value = true);
             $table->string('name')->nullable($value = true);
             $table->Integer('dow'); //0:周日
-            $table->time('start_time');
-            $table->time('end_time');
+            $table->timestamp('start_time');
+            $table->timestamp('end_time');
+            $table->timestamp('fteacher_time')->nullable($value = true);
             $table->unsignedInteger('courseware_id')->nullable($value = true);
             $table->Integer('waijiao_cost')->default(0);
             $table->Integer('zhongjiao_cost')->default(0);

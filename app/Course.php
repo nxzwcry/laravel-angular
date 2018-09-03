@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Events\CourseSaved;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Carbon\Carbon;
@@ -22,9 +23,18 @@ class Course extends Model
     //自动维护时间戳
     public $timestamps = true;
 
-    protected $dates = ['created_at', 'updated_at', 'deleted_at'];
+    protected $dates = ['start_time', 'end_time', 'fteacher_time', 'created_at', 'updated_at', 'deleted_at'];
     //不允许批量赋值的字段
     protected $guarded = [ 'id' , 'created_at' , 'updated_at' ];
+
+    /**
+     * 模型的事件映射。
+     *
+     * @var array
+     */
+    protected $dispatchesEvents = [
+        'created' => CourseSaved::class,
+    ];
 
     /**
      * 模型日期列的存储格式
@@ -110,34 +120,52 @@ class Course extends Model
 //            -> get();
 //    }
 
-    public function createLessons(Carbon $sdate, Carbon $edate)
+    public function createMonthLessons()
     {
-        //计算开课日期后的第一节课的日期
-        $next = clone $sdate;
-        $next = $this->nextDay($next);
-        $i = 0;
-        while ($next->lte($edate))
+        if($this->dow)
         {
-            $lesson = $this->createLessonFromDate($next);
-            $next->addDays(7);
-            $i++;
+            $now = Carbon::now('Asia/Shanghai');
+            $tail = Carbon::create($now->year, $now->month, $now->daysInMonth, 23, 59, 59, 'Asia/Shanghai');
+            $nextDay = new Carbon('next ' . $this->dow, 'Asia/Shanghai');
+            $nextDay->hour = 9;
+            if($nextDay){
+                while ($tail->gte($nextDay))
+                {
+                    $this->createLessonFromDate($nextDay);
+                    $nextDay->addDays(7);
+                }
+            }
         }
-
-        return $i;
     }
 
-    protected function nextDay(Carbon $start) //计算从$start开始的下一个上课日，包括$start
-    {
-        if ($start->dayOfWeek <= $this->dow )
-        {
-            $start->addDays($this->dow - $start->dayOfWeek ); // dayofWeek 0~6
-        }
-        else
-        {
-            $start->addDays($this->dow - $start->dayOfWeek + 7);
-        }
-        return $start;
-    }
+//    public function createLessons(Carbon $sdate, Carbon $edate)
+//    {
+//        //计算开课日期后的第一节课的日期
+//        $next = clone $sdate;
+//        $next = $this->nextDay($next);
+//        $i = 0;
+//        while ($next->lte($edate))
+//        {
+//            $lesson = $this->createLessonFromDate($next);
+//            $next->addDays(7);
+//            $i++;
+//        }
+//
+//        return $i;
+//    }
+
+//    protected function nextDay(Carbon $start) //计算从$start开始的下一个上课日，包括$start
+//    {
+//        if ($start->dayOfWeek <= $this->dow )
+//        {
+//            $start->addDays($this->dow - $start->dayOfWeek ); // dayofWeek 0~6
+//        }
+//        else
+//        {
+//            $start->addDays($this->dow - $start->dayOfWeek + 7);
+//        }
+//        return $start;
+//    }
 
 //    public function CreateNextLesson() //创建本系列课程的下一节单节课程
 //    {
@@ -160,15 +188,29 @@ class Course extends Model
     public function createLessonFromDate(Carbon $date)
     {
         $lessoninfo = $this->toArray();
-        $lessoninfo['start_datetime'] = $date->toDateString().$this->start_time;
-        $lessoninfo['end_datetime'] = $date->toDateString().$this->end_time;
+//        $date->timezone('UTC');
+        $stime = Carbon::createFromTimestampUTC($date->timestamp);
+        $etime = Carbon::createFromTimeStampUTC($date->timestamp);
+        $stime->setTime($this->start_time->hour, $this->start_time->minute);
+        $etime->setTime($this->end_time->hour, $this->end_time->minute);
+        $lessoninfo['start_datetime'] = $stime->timestamp;
+        $lessoninfo['end_datetime'] = $etime->timestamp;
+        if ($this->fteacher_time)
+        {
+            $ftime = Carbon::createFromTimeStampUTC($date->timestamp);
+            $ftime->setTime($this->fteacher_time->hour, $this->fteacher_time->minute);
+            $lessoninfo['fteacher_datetime'] = $ftime->timestamp;
+        }
         unset($lessoninfo['id']);
         unset($lessoninfo['dow']);
+        unset($lessoninfo['start_time']);
+        unset($lessoninfo['end_time']);
+        unset($lessoninfo['fteacher_time']);
         unset($lessoninfo['updated_at']);
         unset($lessoninfo['created_at']);
 //        unset($lessoninfo['courseware']);
         $lesson = Lesson::create($lessoninfo);
-        $lesson->chackStatus();
+//        $lesson->chackStatus();
         return $lesson;
     }
 

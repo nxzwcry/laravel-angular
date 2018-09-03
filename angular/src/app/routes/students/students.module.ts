@@ -7,6 +7,7 @@ import { StudentsStudentComponent } from './student/student.component';
 import { StudentsEditStudentComponent } from './edit-student/edit-student.component';
 import {StudentsEditRechargeComponent} from "./edit-recharge/edit-recharge.component";
 import {LessonsEditLessonComponent} from "../lessons/edit-lesson/edit-lesson.component";
+import {LessonsEditCourseComponent} from "../lessons/edit-course/edit-course.component";
 
 const COMPONENTS = [
   StudentsOneToOneComponent,
@@ -17,6 +18,7 @@ const COMPONENTS_NOROUNT = [
   StudentsEditStudentComponent,
   StudentsEditRechargeComponent,
   LessonsEditLessonComponent,
+  LessonsEditCourseComponent,
 ];
 
 @NgModule({

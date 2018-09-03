@@ -60,6 +60,14 @@ Route::middleware('auth:api')->group(function () {
         Route::delete('{Lesson}', 'Api\LessonController@delete');
     });
 
+    Route::prefix('courses')->group(function () {
+        Route::get('', 'Api\CourseController@index');
+        Route::get('{Course}', 'Api\CourseController@show');
+        Route::post('', 'Api\CourseController@store');
+        Route::put('{Course}', 'Api\CourseController@update');
+        Route::delete('{Course}', 'Api\CourseController@delete');
+    });
+
     Route::prefix('recharges')->group(function () {
         Route::get('', 'Api\RechargeController@index');
         Route::get('{student}', 'Api\RechargeController@list');

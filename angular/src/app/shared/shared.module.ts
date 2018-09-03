@@ -12,6 +12,7 @@ import { DelonFormModule } from '@delon/form';
 import { NgZorroAntdModule } from 'ng-zorro-antd';
 import { CountdownModule } from 'ngx-countdown';
 import {FilterPipe} from "./pipe/filter.pipe";
+import {TransPipe} from "@shared/pipe/trans.pipe";
 
 const THIRDMODULES = [
   NgZorroAntdModule,
@@ -25,7 +26,10 @@ const DIRECTIVES = [];
 // endregion
 
 
-const PIPES = [FilterPipe];
+const PIPES = [
+  FilterPipe,
+  TransPipe,
+];
 
 @NgModule({
   imports: [
