@@ -1,0 +1,44 @@
+<form nz-form [formGroup]="formModel">
+  <nz-form-item>
+    <nz-form-label [nzSpan]="7">外教课时</nz-form-label>
+    <nz-form-control [nzSpan]="12">
+      <nz-input-number formControlName="waijiao"></nz-input-number>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label [nzSpan]="7">中教课时</nz-form-label>
+    <nz-form-control [nzSpan]="12">
+      <nz-input-number formControlName="zhongjiao"></nz-input-number>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label [nzSpan]="7">精品课时</nz-form-label>
+    <nz-form-control [nzSpan]="12">
+      <nz-input-number formControlName="jingpin"></nz-input-number>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label [nzSpan]="7">金额</nz-form-label>
+    <nz-form-control [nzSpan]="12">
+      <nz-input-number formControlName="money"></nz-input-number>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label [nzSpan]="7" nzRequired>销售顾问</nz-form-label>
+    <nz-form-control [nzSpan]="12">
+      <nz-select formControlName="user_id" nzShowSearch nzAllowClear nzPlaceHolder="Choose">
+        <nz-option *ngFor="let option of agentList" [nzValue]="option.id" [nzLabel]="option.name"></nz-option>
+      </nz-select>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label [nzSpan]="7">备注</nz-form-label>
+    <nz-form-control [nzSpan]="12" >
+      <textarea formControlName="note" nz-input rows="2" placeholder="write any thing"></textarea>
+    </nz-form-control>
+  </nz-form-item>
+  <div class="modal-footer">
+    <button nz-button type="button" (click)="close()">关闭</button>
+    <button nz-button type="submit" (click)="save()" [disabled]="!formModel.valid" [nzLoading]="loading">保存</button>
+  </div>
+</form>

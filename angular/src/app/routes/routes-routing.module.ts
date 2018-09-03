@@ -31,6 +31,7 @@ const routes: Routes = [
       { path: 'students', loadChildren: './students/students.module#StudentsModule' },
       { path: 'users', loadChildren: './users/users.module#UsersModule' },
       { path: 'permissions', loadChildren: './permissions/permissions.module#PermissionsModule' },
+      { path: 'lessons', loadChildren: './lessons/lessons.module#LessonsModule' },
     ],
     canActivate: [SimpleGuard],
   },

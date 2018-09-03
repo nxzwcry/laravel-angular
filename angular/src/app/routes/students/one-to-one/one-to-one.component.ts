@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { _HttpClient, ModalHelper } from '@delon/theme';
+import {_HttpClient, ModalHelper, SettingsService} from '@delon/theme';
 import { SimpleTableFilter, SimpleTableColumn, SimpleTableComponent } from '@delon/abc';
 import { SFSchema } from '@delon/form';
 import { Observable, of } from 'rxjs';
@@ -24,7 +24,7 @@ export class StudentsOneToOneComponent implements OnInit {
   listOfSearchAgent = [ ];
   sortName = 'id';
   sortValue = 'descend';
-  userid = 1;
+  userid: number;
   // agentList = [
   //   // { text: 'Emmanuelle Graham', value: 'Emmanuelle Graham', byDefault: true },
   //   { text: 'Emmanuelle Graham', value: 'Emmanuelle Graham' },
@@ -43,24 +43,33 @@ export class StudentsOneToOneComponent implements OnInit {
   //   { title: '课程顾问', index: 'agent', width: "4em" },
   // ];
 
-  constructor(private http: _HttpClient, private modal: ModalHelper, private dic: DictionaryService) { }
+  constructor(private http: _HttpClient,
+              private modal: ModalHelper,
+              private dic: DictionaryService,
+              private settingService: SettingsService,
+              ) { }
 
   ngOnInit() {
+    this.userid = this.settingService.user.id;
     this.wordFilter.valueChanges
       .pipe(debounceTime(500))
       .subscribe(
         value => this.searchWord = value
       );
     this.dic.getAgentList().subscribe(res =>{
+      let temp = [];
+      let searchTemp = [];
       for(let item of res.data){
         if (item.id == this.userid){
-          this.agentList.push({ text: item.name, value: item.name, byDefault: true });
-          this.listOfSearchAgent.push(item.name);
+          temp.push({ text: item.name, value: item.name, byDefault: true });
+          searchTemp.push(item.name);
         }
         else{
-          this.agentList.push({ text: item.name, value: item.name });
+          temp.push({ text: item.name, value: item.name });
         }
       }
+      this.listOfSearchAgent = searchTemp;
+      this.agentList = temp;
       this.load();
     });
   }

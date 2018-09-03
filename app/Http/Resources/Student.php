@@ -34,7 +34,7 @@ class Student extends Resource
                 'sex' => $this->sex,
                 'grade' => $this->grade,
                 'age' => $this->getAge(),
-                'birthday' => $this->birthday,
+                'birthday' => $this->birthday ? $this->birthday->timestamp : null,
                 'email' => $this->email,
                 'address' => $this->address,
                 'desc' => $this->desc,

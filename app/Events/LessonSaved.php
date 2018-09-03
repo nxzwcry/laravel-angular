@@ -11,6 +11,7 @@ class LessonSaved
 
 //    public $order;
 
+    public $lesson;
     /**
      * 创建一个事件实例。
      *
@@ -19,6 +20,6 @@ class LessonSaved
      */
     public function __construct(Lesson $lesson)
     {
-        $lesson->chackStatus();
+        $this->lesson = $lesson;
     }
 }

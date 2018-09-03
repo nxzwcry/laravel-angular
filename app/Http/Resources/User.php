@@ -15,13 +15,21 @@ class User extends Resource
      */
     public function toArray($request)
     {
+        $names = [];
+        $ids = [];
+        foreach ($this->roles as $item)
+        {
+            $names[] = $item->cn_name;
+            $ids[] = $item->id;
+        }
+
         return [
             'id' => $this->id,
             'name' => $this->name,
             'ename' => $this->ename,
             'email' => $this->email,
-            'role' => $this->roles->first() ? $this->roles->first()->cn_name : '',
-            'role_id' => $this->roles->first() ? $this->roles->first()->id : '',
+            'role' => $names,
+            'role_id' => $ids,
             'agentCount' => count($this->agentStudents),
             'teacheCount' => count($this->teacherStudents),
             'permissions' => PermissionResource::collection($this->getAllPermissions()),

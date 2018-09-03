@@ -31,7 +31,14 @@
                 <td><a (click)="change(item.id)">{{item.name}}</a></td>
                 <td>{{item.ename}}</td>
                 <td>{{item.email}}</td>
-                <td>{{item.role}}</td>
+                <td>
+                    <span *ngFor="let role of item.role">
+                            {{role}}
+                        </span>
+                    <span *ngIf="!item.role.length">
+                            无
+                        </span>
+                </td>
                 <td>{{item.agentCount}}</td>
                 <td>{{item.teacheCount}}</td>
                 <td>

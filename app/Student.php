@@ -52,6 +52,7 @@ class Student extends Model
     {
         $lessons = $this->lessons()
             ->where('status', '>',0)
+            ->orderBy('start_datetime', 'desc')
             ->get();
         if($lessons)
         {
@@ -65,6 +66,7 @@ class Student extends Model
     {
         $lessons = $this->lessons()
             ->where('status', 0)
+            ->orderBy('start_datetime')
             ->get();
         if($lessons)
         {

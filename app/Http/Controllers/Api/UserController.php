@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 use Illuminate\Foundation\Auth\ResetsPasswords;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Spatie\Permission\Models\Role;
 
 class UserController extends ApiController
 {
@@ -25,13 +26,11 @@ class UserController extends ApiController
         return new UserResource($user);
     }
 
+    // 创建用户时没有密码
     public function store(Request $request)
     {
         $this->validator($request->all())->validate();
-        $data = $request->all();
-        $data['password'] = bcrypt(substr(md5(time()), 0, 8));
-        $user = User::createAndRole($data);
-        $user->changeRole($data);
+        $user = User::create($request->all());
 
         $this->sendResetLinkEmail($request);
 
@@ -44,7 +43,9 @@ class UserController extends ApiController
             'email' => 'required|string|email|max:255|exists:users,email'
         ]);
 
+//        date_default_timezone_set('UTC');
         $this->sendResetLinkEmail($request);
+//        date_default_timezone_set('Asia/Shanghai');
 
         return $this->message("邮件发送成功");
     }
@@ -65,12 +66,14 @@ class UserController extends ApiController
 
     public function getCteachers()
     {
-        return new UserCollection(User::all());;
+//        $roel = Role::where('name', 'cteacher');
+        return new UserCollection(User::role("cteacher")->get());;
     }
 
     public function getAgents()
     {
-        return new UserCollection(User::all());;
+//        $roel = Role::where('name', 'agent');
+        return new UserCollection(User::role("agent")->get());;
     }
 
 

@@ -27,10 +27,10 @@ export class UsersEditUserComponent implements OnInit {
     private fb: FormBuilder,
   ) {
     this.formModel = fb.group({
-        name: ['', [Validators.required]],
-        ename: ['', [Validators.required]],
-        email: ['', [Validators.required, Validators.email]],
-        role: [''],
+        name: [null, [Validators.required]],
+        ename: [null],
+        email: [null, [Validators.required, Validators.email]],
+        role: [null],
       }
     );
   }
@@ -53,6 +53,7 @@ export class UsersEditUserComponent implements OnInit {
   }
 
   save() {
+    // console.log('value', this.formModel.value);
     if(this.formModel.valid) {
       this.req = this.formModel.value;
       if (this.id)

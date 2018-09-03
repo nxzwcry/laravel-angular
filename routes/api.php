@@ -17,11 +17,11 @@ Route::post('login', 'Api\AuthenticateController@login');
 Route::get('appdata', 'Api\AppDataController@index');
 Route::post('passwordreset', 'Api\ResetPasswordController@reset')->name('password.reset');
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
-Route::middleware('auth:api')->get('/index', 'Api\IndexController@index');
+//Route::middleware('auth:api')->get('/user', function (Request $request) {
+//    return $request->user();
+//});
+//
+//Route::middleware('auth:api')->get('/index', 'Api\IndexController@index');
 
 Route::middleware('auth:api')->group(function () {
 
@@ -52,6 +52,14 @@ Route::middleware('auth:api')->group(function () {
         Route::delete('{Team}', 'Api\TeamController@delete');
     });
 
+    Route::prefix('lessons')->group(function () {
+        Route::get('', 'Api\LessonController@index');
+        Route::get('{Lesson}', 'Api\LessonController@show');
+        Route::post('', 'Api\LessonController@store');
+        Route::put('{Lesson}', 'Api\LessonController@update');
+        Route::delete('{Lesson}', 'Api\LessonController@delete');
+    });
+
     Route::prefix('recharges')->group(function () {
         Route::get('', 'Api\RechargeController@index');
         Route::get('{student}', 'Api\RechargeController@list');
@@ -78,6 +86,8 @@ Route::middleware('auth:api')->group(function () {
         Route::delete('{id}', 'Api\RoleController@delete');
     });
 
+    Route::get('places', 'Api\PlaceController@index');
+    Route::get('fteachers', 'Api\FteacherController@index');
     Route::get('agents', 'Api\UserController@getAgents');
     Route::get('cteachers', 'Api\UserController@getCteachers');
     Route::get('logout', 'Api\AuthenticateController@logout');

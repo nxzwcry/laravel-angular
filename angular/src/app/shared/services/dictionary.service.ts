@@ -32,24 +32,29 @@ export class DictionaryService {
     {label: "高三", value: 18},
     {label: "成人", value: 19},
   ];
+  private lessonTypeList = [
+    {label: "外教课", value: 'w'},
+    {label: "中教课", value: 'f'},
+    {label: "精品课", value: 'j'},
+  ];
 
   constructor(private http: _HttpClient, private cacheService: CacheService) { }
 
   getSex(index: number){
-    this.sexList.forEach(item => {
+    for(let item of this.sexList){
       if (item.value == index){
         return item.label;
       }
-    });
+    }
     return "未定义";
   }
 
   getGrade(index: number){
-    this.gradeList.forEach(item => {
+    for(let item of this.gradeList){
       if (item.value == index){
         return item.label;
       }
-    });
+    }
     return "成人";
   }
 
@@ -61,16 +66,29 @@ export class DictionaryService {
     return this.gradeList;
   }
 
+  getLessonTypeList(){
+    return this.lessonTypeList;
+  }
+
   getCteacherList() : Observable<any> {
-    return this.cacheService.get('/cteachers', {mode: 'promise', type: 'm'});
+    return this.cacheService.get('/cteachers', {mode: 'promise', type: 'm', expire: 1200});
+  }
+
+
+  getFteacherList() : Observable<any> {
+    return this.cacheService.get('/fteachers', {mode: 'promise', type: 'm', expire: 1200});
   }
 
   getAgentList() : Observable<any> {
-    return this.cacheService.get('/agents', {mode: 'promise', type: 'm'});
+    return this.cacheService.get('/agents', {mode: 'promise', type: 'm', expire: 1200});
   }
 
   getRoleList() : Observable<any> {
-    return this.cacheService.get('/roles', {mode: 'promise', type: 'm'});
+    return this.cacheService.get('/roles', {mode: 'promise', type: 'm', expire: 1200});
+  }
+
+  getPlaceList() : Observable<any> {
+    return this.cacheService.get('/places', {mode: 'promise', type: 'm', expire: 1200});
   }
 
   getStudentList() : Observable<any> {

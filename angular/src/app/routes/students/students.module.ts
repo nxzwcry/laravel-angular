@@ -5,13 +5,19 @@ import { StudentsOneToOneComponent } from './one-to-one/one-to-one.component';
 import { StudentsTeamStudentsComponent } from './team-students/team-students.component';
 import { StudentsStudentComponent } from './student/student.component';
 import { StudentsEditStudentComponent } from './edit-student/edit-student.component';
+import {StudentsEditRechargeComponent} from "./edit-recharge/edit-recharge.component";
+import {LessonsEditLessonComponent} from "../lessons/edit-lesson/edit-lesson.component";
 
 const COMPONENTS = [
   StudentsOneToOneComponent,
   StudentsTeamStudentsComponent,
-  StudentsStudentComponent];
+  StudentsStudentComponent,
+];
 const COMPONENTS_NOROUNT = [ 
-  StudentsEditStudentComponent];
+  StudentsEditStudentComponent,
+  StudentsEditRechargeComponent,
+  LessonsEditLessonComponent,
+];
 
 @NgModule({
   imports: [

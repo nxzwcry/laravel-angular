@@ -27,6 +27,7 @@ class CreateDeepspringTables extends Migration
             $table->unsignedInteger('team_id')->nullable($value = true);
 //            $table->Integer('kk_value')->default(1); // 1表示不适用 正常情况下小于等于0
             $table->longText('desc')->nullable($value = true);
+            $table->Integer('status')->default(0);  // 0：班课 1:1对1 2：未排课 -1:试听 -2：停课（不续课）
             $table->timestamps();
             $table->softDeletes();
         });
@@ -106,6 +107,7 @@ class CreateDeepspringTables extends Migration
             $table->string('name')->nullable($value = true);
             $table->timestamp('start_datetime');
             $table->timestamp('end_datetime');
+            $table->timestamp('fteacher_datetime')->nullable($value = true);
             $table->unsignedInteger('video_id')->nullable($value = true);
             $table->unsignedInteger('report_id')->nullable($value = true);
             $table->unsignedInteger('file_id')->nullable($value = true);
@@ -113,12 +115,12 @@ class CreateDeepspringTables extends Migration
             $table->Integer('waijiao_cost')->default(0);
             $table->Integer('zhongjiao_cost')->default(0);
             $table->Integer('jingpin_cost')->default(0);
-            $table->string('lesson_type');  // w：外教课 b：班课 f：复习课 J：精品课 bu：补课 s：试听
+            $table->string('lesson_type');  // w：外教课 b：班课 f：复习课 j：精品课 bu：补课 s：试听
             $table->Integer('score')->default(0);
             $table->unsignedInteger('team_id')->nullable($value = true);
             $table->unsignedInteger('syn_code')->nullable($value = true);
             $table->unsignedInteger('place_id')->default(0);
-            $table->unsignedInteger('status');  // 0：未上 1:已上
+            $table->Integer('status')->default(0);  // 0：未上 1:已上 2:待确认 3:请假 4:旷课
             $table->longText('note')->nullable($value = true);
             $table->timestamps();
             $table->softDeletes();

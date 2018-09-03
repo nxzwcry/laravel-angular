@@ -8,6 +8,8 @@ import {Student} from "@shared/modules/student";
 import {DictionaryService} from "@shared/services/dictionary.service";
 import {UsersEditUserComponent} from "../../users/edit-user/edit-user.component";
 import {StudentsEditStudentComponent} from "../edit-student/edit-student.component";
+import {StudentsEditRechargeComponent} from "../edit-recharge/edit-recharge.component";
+import {LessonsEditLessonComponent} from "../../lessons/edit-lesson/edit-lesson.component";
 
 @Component({
   selector: 'app-students-student',
@@ -31,7 +33,39 @@ export class StudentsStudentComponent implements OnInit {
   }
 
   change(){
-    this.modal.create(StudentsEditStudentComponent, {size: 'sm'}, {modalOptions: {nzTitle: '修改学生信息',  nzComponentParams: {id: this.id}}}).subscribe(res => this.reload(res) );
+    this.modal.create(
+      StudentsEditStudentComponent,
+      {size: 'sm'},
+      {modalOptions:
+          {
+            nzTitle: '修改学生信息',
+            nzComponentParams: {id: this.id}
+          }
+      }).subscribe(res => this.reload(res) );
+  }
+
+  createRecharge() {
+    this.modal.create(
+      StudentsEditRechargeComponent,
+      {size: 'sm'},
+      {modalOptions:
+          {
+            nzTitle: `${this.student.name}-购课充值`,
+            nzComponentParams: {userId: this.id}
+          }
+      }).subscribe(res => this.reload(res) );
+  }
+
+  createLesson() {
+    this.modal.create(
+      LessonsEditLessonComponent,
+      {size: 'sm'},
+      {modalOptions:
+          {
+            nzTitle: `${this.student.name}-安排单节课程`,
+            nzComponentParams: {userId: this.id}
+          }
+      }).subscribe(res => this.reload(res) );
   }
 
   reload(b: Boolean) {
@@ -44,6 +78,8 @@ export class StudentsStudentComponent implements OnInit {
       {
         this.student = res.data;
         this.reuseTabService.title = this.student.name;
+        this.student.sex = this.dic.getSex(this.student.sex);
+        this.student.grade = this.dic.getGrade(this.student.grade);
       });
   }
 }

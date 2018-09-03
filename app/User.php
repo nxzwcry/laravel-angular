@@ -31,6 +31,8 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+    protected $guard_name = 'api';
+
     /**
      * 自定义用Passport授权登录：邮箱+密码
      * @param $username
@@ -63,20 +65,21 @@ class User extends Authenticatable
      * @param  array  $data
      * @return \App\User
      */
-    static public function createAndRole(array $data)
+    static public function create(array $data)
     {
         $data['password'] = bcrypt(substr(md5(time()), 0, 8));
-        $user = User::create($data);
+        $user = static::query()->create($data);
+        $user->changeRole($data);
         return $user;
     }
 
     public function changeRole(array $data)
     {
-        $roel_id = $data['role'];
-        if ($roel_id)
+        $role_ids = $data['role'];
+        if ($role_ids)
         {
-            $role = Role::find($roel_id);
-            $this->syncRoles($role);
+            $roles = Role::find($role_ids);
+            $this->syncRoles($roles);
         }
     }
 }

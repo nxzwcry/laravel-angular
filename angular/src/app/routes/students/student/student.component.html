@@ -5,7 +5,7 @@
         <nz-collapse [nzBordered]="false">
           <nz-collapse-panel [nzHeader]="studentInfoTemplate" [nzActive]="true">
             <desc-list size="small" [col]="1" style="margin-left: 22px">
-              <desc-list-item term="性别/年龄/年级"><p align="right">{{dic.getSex(student.sex)}}/{{student.age}}岁/{{dic.getGrade(student.grade)}}</p></desc-list-item>
+              <desc-list-item term="性别/年龄/年级"><p align="right">{{student.sex}}/{{student.age}}岁/{{student.grade}}</p></desc-list-item>
               <desc-list-item term="课程阶段"><p align="right">{{student.lessonstage}}</p></desc-list-item>
               <desc-list-item term="课程顾问"><p align="right">{{student.agent}}</p></desc-list-item>
               <desc-list-item term="中教老师"><p align="right">{{student.cteacher}}</p></desc-list-item>
@@ -53,8 +53,8 @@
           <tr *ngFor="let lesson of newLessonsTable.data">
             <td><a [routerLink]="['/lessons/lesson',lesson.id]">{{lesson.name}}</a></td>
             <td>{{lesson.lesson_type}}</td>
-            <td>{{lesson.date}}</td>
-            <td>{{lesson.time}}</td>
+            <td>{{lesson.date*1000 | _date: 'YYYY/MM/DD'}}</td>
+            <td>{{lesson.stime*1000 | _date: 'HH:mm'}}~{{lesson.etime*1000 | _date: 'HH:mm'}}</td>
             <td>{{lesson.cteacher}}</td>
             <td>{{lesson.fteacher}}</td>
             <td>{{lesson.place}}</td>
@@ -82,7 +82,7 @@
             <td><a [routerLink]="['/courses/course',course.id]">{{course.name}}</a></td>
             <td>{{course.lesson_type}}</td>
             <td>每{{course.date}}</td>
-            <td>{{course.time}}</td>
+            <td>{{lesson.stime}}~{{lesson.etime}}</td>
             <td>{{course.cteacher}}</td>
             <td>{{course.fteacher}}</td>
             <td>{{course.place}}</td>
@@ -109,8 +109,8 @@
           <tr *ngFor="let lesson of oldLessonsTable.data">
             <td><a [routerLink]="['/lessons/lesson',lesson.id]">{{lesson.name}}</a></td>
             <td>{{lesson.lesson_type}}</td>
-            <td>{{lesson.date}}</td>
-            <td>{{lesson.time}}</td>
+            <td>{{lesson.date*1000 | _date: 'YYYY/MM/DD'}}</td>
+            <td>{{lesson.stime*1000 | _date: 'HH:mm'}}~{{lesson.etime*1000 | _date: 'HH:mm'}}</td>
             <td>{{lesson.cteacher}}</td>
             <td>{{lesson.fteacher}}</td>
             <td>{{lesson.place}}</td>
@@ -151,20 +151,20 @@
 </div>
 <ng-template #studentInfoTemplate>
   <nz-row>
-    <nz-col [nzSpan]="18"><b>{{ student.name }} {{ student.ename }}</b></nz-col>
-    <nz-col [nzSpan]="5" ><p align="right" style="margin: 0"><a (click)="change()">修改信息</a></p></nz-col>
+    <nz-col [nzSpan]="15"><b>{{ student.name }} {{ student.ename }}</b></nz-col>
+    <nz-col [nzSpan]="8" ><p align="right" style="margin: 0"><a (click)="change()">修改信息</a></p></nz-col>
   </nz-row>
 </ng-template>
 <ng-template #lessonTemplate>
   <nz-row>
     <nz-col [nzSpan]="12"><b>已排课程</b></nz-col>
-    <nz-col [nzSpan]="11" ><p align="right" style="margin: 0"><a [routerLink]="['/students/student/2']">安排单节课程</a></p></nz-col>
+    <nz-col [nzSpan]="11" ><p align="right" style="margin: 0"><a (click)="createLesson()">安排单节课程</a></p></nz-col>
   </nz-row>
 </ng-template>
 <ng-template #courseTemplate>
   <nz-row>
     <nz-col [nzSpan]="12"><b>固定课程</b></nz-col>
-    <nz-col [nzSpan]="11" ><p align="right" style="margin: 0"><a>安排固定课程</a></p></nz-col>
+    <nz-col [nzSpan]="11" ><p align="right" style="margin: 0"><a (click)="createCourse()">安排固定课程</a></p></nz-col>
   </nz-row>
 </ng-template>
 <ng-template #oldTemplate>
@@ -176,6 +176,6 @@
 <ng-template #rechargeTemplate>
   <nz-row>
     <nz-col [nzSpan]="12"><b>充值记录</b></nz-col>
-    <nz-col [nzSpan]="11" ><p align="right" style="margin: 0"><a>购课充值</a></p></nz-col>
+    <nz-col [nzSpan]="11" ><p align="right" style="margin: 0"><a (click)="createRecharge()">购课充值</a></p></nz-col>
   </nz-row>
 </ng-template>

@@ -30,11 +30,11 @@ export class StudentsEditStudentComponent implements OnInit {
     private fb: FormBuilder,
   ) {
     this.formModel = fb.group({
-        name: ['', [Validators.required]],
+        name: [null, [Validators.required]],
         ename: [null],
-        sex: ['', [Validators.required]],
-        birthday: [ ],
-        grade: ['', [Validators.required]],
+        sex: [null, [Validators.required]],
+        birthday: [null],
+        grade: [null, [Validators.required]],
         cteacher_user_id:['0'],
         agent_user_id:['0'],
         email: [null],
@@ -57,7 +57,7 @@ export class StudentsEditStudentComponent implements OnInit {
             name: item.name,
             ename: item.ename,
             sex: item.sex,
-            birthday: item.birthday.date,
+            birthday: new Date(item.birthday*1000),
             grade: item.grade,
             cteacher_user_id: item.cteacher_user_id,
             agent_user_id: item.agent_user_id,
@@ -74,7 +74,7 @@ export class StudentsEditStudentComponent implements OnInit {
     if(this.formModel.valid) {
       this.req = this.formModel.value;
       if(this.req.birthday){
-        this.req.birthday = this.req.birthday.valueOf()/1000;
+        this.req.birthday = this.req.birthday.getTime()/1000;
       }
       // console.log(this.req.birthday.valueOf());
       if (this.id) {

@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Events\LessonSaved;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Carbon\Carbon;
@@ -22,7 +23,7 @@ class Lesson extends Model
     //自动维护时间戳
     public $timestamps = true;
 
-    protected $dates = ['start_datetime', 'end_datetime', 'deleted_at', 'created_at', 'updated_at'];
+    protected $dates = ['start_datetime', 'end_datetime', 'fteacher_datetime', 'deleted_at', 'created_at', 'updated_at'];
 
     //不允许批量赋值的字段
     protected $guarded = ['id', 'created_at', 'updated_at'];
@@ -33,6 +34,15 @@ class Lesson extends Model
      * @var string
      */
 //    protected $dateFormat = 'U';
+
+    /**
+     * 模型的事件映射。
+     *
+     * @var array
+     */
+    protected $dispatchesEvents = [
+        'created' => LessonSaved::class,
+    ];
 
     public function student()
     {
@@ -74,6 +84,20 @@ class Lesson extends Model
         return $this->belongsTo('App\Team' , 'team_id');
     }
 
+//    public static function create(array $data)
+//    {
+////        $stime = Carbon::createFromTimestamp($data['start_datetime'], 'Asia/Shanghai');
+////        $etime = Carbon::createFromTimestamp($data['end_datetime'], 'Asia/Shanghai');
+////        $data['start_datetime'] = $stime;
+////        $data['end_datetime'] = $etime;
+//        $lesson = static::query()->create($data);
+//        if ($lesson->isTimeOut())
+//        {
+//            $lesson->setFinish();
+//        }
+//        return ['now' => Carbon::now(), 'lesson' => $lesson->end_datetime];
+//    }
+
     public function copyToStudent($sid) //将该节课程复制给学生
     {
         $linfo = $this->toArray();
@@ -93,22 +117,40 @@ class Lesson extends Model
             return null;
     }
 
-    // 检查课程状态，如果课程时间已过标记课程为已结束课程
-    public function chackStatus()
+    // 课程是否过期
+    public function isTimeOut()
     {
         if (Carbon::now()->gte($this->end_datetime))
         {
-            $this->setFinish();
+            return true;
+        }
+        return false;
+    }
+
+    // 检查课程状态，如果课程时间已过标记课程为已结束课程
+    public function chackAndSetFinsh()
+    {
+        if (Carbon::now()->gte($this->end_datetime))
+        {
+            $this->status = 1;
+            $this->save();
         }
         return $this->status;
     }
 
-    // 设置课程为正常结束课程
-    public  function setFinish()
+    // 设置课程为待确认
+    public  function setConfirm()
     {
-        $this->status = 1;
+        $this->status = 2;
         $this->save();
     }
+
+    // 设置课程为正常结束课程
+//    public  function setFinish()
+//    {
+//        $this->status = 1;
+//        $this->save();
+//    }
 
     // 设置课程为临时请假
     public  function setTodayLeave()

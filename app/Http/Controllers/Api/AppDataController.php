@@ -117,6 +117,7 @@ class AppdataController extends ApiController
                 $permissions[] = $item->name;
             }
             $this->userInfo = [
+                "id" => $user->id,
                 "name" => $user->name,
                 "avatar" => "./assets/tmp/img/avatar.jpg",
                 "email" => $user->email,
