@@ -14,16 +14,16 @@ class Team extends Resource
      */
     public function toArray($request)
     {
-        $cteacher = '';
-        if ($this->getCteacher())
-        {
-            $cteacher = $this->getCteacher()->name;
-        }
         return [
             'id' => $this->id,
             'name' => $this->name,
             'kk_charge' => $this->kk_recharge,
-            'cteacher' => $cteacher,
+            'cteacher' => $this->cteacher ? $this->cteacher->name : null,
+            'cteacher_id' => $this->cteacher_user_id,
+            'place' => $this->place ? $this->place->name : null,
+            'place_id' => $this->place ? $this->place->id : null,
+            'student_count' => $this->students->count(),
+            'courses' => $this->courses,
         ];
     }
 
@@ -31,6 +31,7 @@ class Team extends Resource
     {
         return [
             'data' => [
+                'students' => $this->students,
             ],
         ];
     }

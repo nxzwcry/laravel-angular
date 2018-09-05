@@ -48,33 +48,43 @@ class Team extends Model
         return $this->hasMany('App\Student' ,'team_id');
     }
 
-    public function getPlace() //获取该班级上课地点
+    public function cteacher()
     {
-        $course = $this->getCourse();
-        if ($course)
-        {
-            return $course->palce;
-        }
-        else
-        {
-            return null;
-        }
-
+        return $this->belongsTo('App\User', 'cteacher_user_id');
     }
 
-    public function getCteacher() //获取该班级负责老师
+    public function place()
     {
-        $course = $this->getCourse();
-        if ($course)
-        {
-            return $course->cteacher;
-        }
-        else
-        {
-            return null;
-        }
-
+        return $this->belongsTo('App\Place' , 'place_id');
     }
+
+//    public function getPlace() //获取该班级上课地点
+//    {
+//        $course = $this->getCourse();
+//        if ($course)
+//        {
+//            return $course->palce;
+//        }
+//        else
+//        {
+//            return null;
+//        }
+//
+//    }
+
+//    public function getCteacher() //获取该班级负责老师
+//    {
+//        $course = $this->getCourse();
+//        if ($course)
+//        {
+//            return $course->cteacher;
+//        }
+//        else
+//        {
+//            return null;
+//        }
+//
+//    }
 
     public function getCourseName() //获取课程名称
     {

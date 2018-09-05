@@ -47,12 +47,16 @@ class AppdataController extends ApiController
                 ],
             ],
             [
-                'text' => '学生列表',
+                'text' => '学生/班级列表',
                 'icon' => 'anticon anticon-appstore-o',
                 'children' => [
                     [
                         'text' => '1对1学生',
                         'link' => '/students/one-to-one',
+                    ],
+                    [
+                        'text' => '班级列表',
+                        'link' => '/students/teams',
                     ],
                     [
                         'text' => '班课学生',

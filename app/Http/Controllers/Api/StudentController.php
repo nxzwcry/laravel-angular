@@ -13,7 +13,7 @@ class StudentController extends ApiController
 {
     public function index()
     {
-        return new StudentCollection(Student::all());;
+        return new StudentCollection(Student::all());
     }
 
     public function show(Student $student)

@@ -44,7 +44,9 @@ class CreateDeepspringTables extends Migration
         Schema::create('teams', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->Integer('kk_recharge'); // 班课充值数
+            $table->unsignedInteger('cteacher_user_id')->nullable($value = true);
+            $table->unsignedInteger('place_id')->nullable($value = true);
+            $table->Integer('kk_recharge')->nullable($value = true); // 班课充值数
             $table->timestamps();
             $table->softDeletes();
         });

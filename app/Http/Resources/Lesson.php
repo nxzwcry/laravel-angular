@@ -31,7 +31,8 @@ class Lesson extends Resource
             'cteacher_id' => $this->cteacher ? $this->cteacher->id : null,
             'fteacher' => $this->fteacher ? $this->fteacher->name : null,
             'fteacher_id' => $this->fteacher ? $this->fteacher->id : null,
-            'place' => $this->place ? $this->place->name : '',
+            'place' => $this->place ? $this->place->name : null,
+            'place_id' => $this->place ? $this->place->id : null,
             'lesson_type' => lessonType($this->lesson_type),
             'lesson_type_id' => $this->lesson_type,
         ];
