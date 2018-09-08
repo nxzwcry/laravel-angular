@@ -46,26 +46,28 @@ Route::middleware('auth:api')->group(function () {
 
     Route::prefix('teams')->group(function () {
         Route::get('', 'Api\TeamController@index');
-        Route::get('{Team}', 'Api\TeamController@show');
+        Route::get('{team}', 'Api\TeamController@show');
         Route::post('', 'Api\TeamController@store');
-        Route::put('{Team}', 'Api\TeamController@update');
-        Route::delete('{Team}', 'Api\TeamController@delete');
+        Route::put('/addstudents/{team}', 'Api\TeamController@addStudents');
+        Route::put('{team}', 'Api\TeamController@update');
+        Route::delete('{team}', 'Api\TeamController@delete');
     });
 
     Route::prefix('lessons')->group(function () {
         Route::get('', 'Api\LessonController@index');
-        Route::get('{Lesson}', 'Api\LessonController@show');
+        Route::get('{lesson}', 'Api\LessonController@show');
         Route::post('', 'Api\LessonController@store');
-        Route::put('{Lesson}', 'Api\LessonController@update');
-        Route::delete('{Lesson}', 'Api\LessonController@delete');
+        Route::post('/team', 'Api\LessonController@createTeamLesson');
+        Route::put('{lesson}', 'Api\LessonController@update');
+        Route::delete('{lesson}', 'Api\LessonController@delete');
     });
 
     Route::prefix('courses')->group(function () {
         Route::get('', 'Api\CourseController@index');
-        Route::get('{Course}', 'Api\CourseController@show');
+        Route::get('{course}', 'Api\CourseController@show');
         Route::post('', 'Api\CourseController@store');
-        Route::put('{Course}', 'Api\CourseController@update');
-        Route::delete('{Course}', 'Api\CourseController@delete');
+        Route::put('{course}', 'Api\CourseController@update');
+        Route::delete('{course}', 'Api\CourseController@delete');
     });
 
     Route::prefix('recharges')->group(function () {
@@ -78,10 +80,10 @@ Route::middleware('auth:api')->group(function () {
 
     Route::prefix('permissions')->group(function () {
         Route::get('', 'Api\PermissionController@index');
-        Route::get('{Permission}', 'Api\PermissionController@show');
+        Route::get('{permission}', 'Api\PermissionController@show');
         Route::post('', 'Api\PermissionController@store');
-        Route::put('{Permission}', 'Api\PermissionController@update');
-        Route::delete('{Permission}', 'Api\PermissionController@delete');
+        Route::put('{permission}', 'Api\PermissionController@update');
+        Route::delete('{permission}', 'Api\PermissionController@delete');
     });
 
     Route::prefix('roles')->group(function () {

@@ -58,6 +58,15 @@ class Team extends Model
         return $this->belongsTo('App\Place' , 'place_id');
     }
 
+    public function addStudents(array $data)
+    {
+        $students = Student::find($data);
+        foreach ($students as $student)
+        {
+            $this->addStudent($student);
+        }
+    }
+
 //    public function getPlace() //获取该班级上课地点
 //    {
 //        $course = $this->getCourse();
@@ -86,6 +95,22 @@ class Team extends Model
 //
 //    }
 
+    public function getNewLessons()
+    {
+        return $this->lessons()
+            ->where('lesson_type', 'bt')
+            ->where('status', '0')
+            ->get();
+    }
+
+    public function getNotNewLessons()
+    {
+        return $this->lessons()
+            ->where('lesson_type', 'bt')
+            ->where('status', '>','0')
+            ->get();
+    }
+
     public function getCourseName() //获取课程名称
     {
         $course = $this->getCourse();
@@ -102,12 +127,7 @@ class Team extends Model
 
     public function getCourse() //获取该班级的一节课程
     {
-//        $course = $this->courses()->
-//                    where(function($query){
-//                        $query->where('edate', null)
-//                            ->orwhere('edate', '>=', Carbon::now()->timestamp );
-//                    })->first();
-        $course = $this->getCourses()->first();
+        $course = $this->courses()->first();
         if ($course)
         {
             return $course;
@@ -119,29 +139,29 @@ class Team extends Model
 
     }
 
-    public function getCourses() //获取该班级还在继续上的课程
-    {
-        $courses = $this->courses();
-//        $courses = $this->courses()
-//            ->where(function($query){
-//                $query->where('edate', null)
-//                    ->orwhere('edate', '>=', Carbon::now()->timestamp);
-//            })
-//            -> orderby('dow')
-//            ->get();
-
-//        $courses = $courses -> groupBy(function ($item, $key) {
-//            return $item['dow'].$item['stime'].$item['sdate'];
-//        } ); //分组要求班课一天不能上一节以上
-
-//        $res = collect();
-//        foreach ( $courses as $course )
-//        {
-//            $res -> push( $course->first() );
-//        }
-//        return $res;
-        return $courses;
-    }
+//    public function getCourses() //获取该班级还在继续上的课程
+//    {
+//        $courses = $this->courses();
+////        $courses = $this->courses()
+////            ->where(function($query){
+////                $query->where('edate', null)
+////                    ->orwhere('edate', '>=', Carbon::now()->timestamp);
+////            })
+////            -> orderby('dow')
+////            ->get();
+//
+////        $courses = $courses -> groupBy(function ($item, $key) {
+////            return $item['dow'].$item['stime'].$item['sdate'];
+////        } ); //分组要求班课一天不能上一节以上
+//
+////        $res = collect();
+////        foreach ( $courses as $course )
+////        {
+////            $res -> push( $course->first() );
+////        }
+////        return $res;
+//        return $courses;
+//    }
 
 //    public function getStudentCourses($sid) //获取该学生在班级里的还在继续上的课程
 //    {
@@ -158,136 +178,104 @@ class Team extends Model
     public function getStudentLessons($sid) //获取该学生在班级里的未上单节课
     {
         $lessons = $this->lessons()
-            ->where('sid', $sid)
+            ->where('student_id', $sid)
             ->where('status', 0)->get();
         return $lessons;
     }
 
-    public function getOldCourses() //获取该班级已经结束的课程
-    {
-        $courses = $this->courses()
-            -> where('edate', '<', Carbon::now()-> timestamp)
-            -> orderby('dow')
-            -> get();
-//        $courses = $courses->groupBy(function ($item, $key) {
-//            return $item['dow'].$item['stime'].$item['sdate'];
-//        }  ); //分组要求班课一天不能上一节以上
-
-//        $res = collect();
-//        foreach ( $courses as $course )
-//        {
-//            $res -> push( $course->first() );
-//        }
-        return $courses;
-    }
+//    public function getOldCourses() //获取该班级已经结束的课程
+//    {
+//        $courses = $this->courses()
+//            -> where('edate', '<', Carbon::now()-> timestamp)
+//            -> orderby('dow')
+//            -> get();
+////        $courses = $courses->groupBy(function ($item, $key) {
+////            return $item['dow'].$item['stime'].$item['sdate'];
+////        }  ); //分组要求班课一天不能上一节以上
+//
+////        $res = collect();
+////        foreach ( $courses as $course )
+////        {
+////            $res -> push( $course->first() );
+////        }
+//        return $courses;
+//    }
 
     public function getNextLessons() //获取该班级的下节课程（复数）
     {
         $lessons = $this->lessons()
+            ->where('lesson_type' , 'bt' )
             ->where('status' , 0 )
-            ->orderby('date' )
-            ->orderby('stime' )
-            ->groupBy('syn_code')
+            ->orderby('start_datetime' )
             ->get();
-//        $lessons = $lessons -> groupBy(function ($item, $key) {
-//            return $item['date'].$item['stime'];
-//        }  ); //分组要求班课一天不能上一节以上
-//
-//        $res = collect();
-//        foreach ( $lessons as $lesson )
-//        {
-//            $res -> push( $lesson->first() );
-//        }
-//        $lessons = Lesson::where( 'class_id' , $this -> id )
-//            -> groupBy('date' , 'name')
-//            -> get(['name','date']);
         return $lessons;
     }
 
-    public function getOldLessons() //获取该班级已经完成的单节课程
-    {
-        $lessons = $this->lessons()
-            ->where('status' , 1 )
-            ->orderby('date' , 'desc' )
-            ->orderby('etime' , 'desc' )
-            ->groupBy('syn_code')
-            ->get();
-//        $lessons = $lessons -> groupBy(function ($item, $key) {
-//            return $item['date'].$item['stime'];
-//        } ); //分组要求班课一天不能上一节以上
-////        dd($lessons);
-//        $res = collect();
-//        foreach ( $lessons as $lesson )
-//        {
-//            $res -> push( $lesson->first() );
-//        }
-        return $lessons;
-    }
+//    public function getOldLessons() //获取该班级已经完成的单节课程
+//    {
+//        $lessons = $this->lessons()
+//            ->where('status' , 1 )
+//            ->orderby('date' , 'desc' )
+//            ->orderby('etime' , 'desc' )
+//            ->groupBy('syn_code')
+//            ->get();
+////        $lessons = $lessons -> groupBy(function ($item, $key) {
+////            return $item['date'].$item['stime'];
+////        } ); //分组要求班课一天不能上一节以上
+//////        dd($lessons);
+////        $res = collect();
+////        foreach ( $lessons as $lesson )
+////        {
+////            $res -> push( $lesson->first() );
+////        }
+//        return $lessons;
+//    }
 
     // 添加学生
-    public function addStudent($sid)
+    public function addStudent(Student $student)
     {
-        $student = Student::find($sid);
-        if ($student->classes) //如果学生在别的班级里，就删除他在别的班级里的课程
+        if ($student->team) //如果学生在别的班级里，就删除他在别的班级里的课程
         {
-            $student->classes->deleteStudent($sid);
+            $student->team->deleteStudent($student);
         }
-
         $student->team_id = $this->id;
         $student->save(); //将学生加入班级
 
-        //给加入学生添加目前班级的新课（正式）
-        $this->copyLessonsToStudent($sid);
-//        $courses = $this->getCourses();
-//        foreach( $courses as $course )
-//        {
-//            $course->copytostudent($sid);
-//        }
-//        $lessons = $this->getnextlessons();
-//        foreach( $lessons as $lesson )
-//        {
-//            $lesson->copytostudent($sid);
-//        }
-        //将学生正在上的课程归入班课（正式删去）
-//        $student -> lessons() -> update(['class_id' => $cid]); //正式删去
-//        $student -> courses() -> update(['class_id' => $cid]); //正式删去
+        //给加入学生添加目前班级的新课
+        $this->copyLessonsToStudent($student);
         return true;
     }
 
     // 复制未上课程给学生
-    public function copyLessonsToStudent($sid)
+    public function copyLessonsToStudent(Student $student)
     {
         $lessons = $this->getNextLessons();
         $num = 0;
         foreach ( $lessons as $lesson )
         {
-            $lesson->first()->copyTo($sid);
+            $lesson->createSubLesson($student->id);
             $num++;
         }
         return $num;
     }
 
     //删除学生
-    public function deleteStudent($sid)
+    public function deleteStudent(Student $student)
     {
-        $student = $this->students()->where('id', $sid)->first();
-        if ($student)
-        {
-            $this->deleteLessonsFromStudent($sid);
-            $student->team_id = 0;
-            $student->save(); //将学生从班级删去
-            return true;
-        }
+        $this->deleteLessonsFromStudent($student);
+        $student->team_id = null;
+        $student->save(); //将学生从班级删去
+        return true;
     }
 
     // 删除此学生的所有本班未上课程
-    public function deleteLessonsFromStudent($sid)
+    public function deleteLessonsFromStudent(Student $student)
     {
-        $lessons = $this->getStudentLessons($sid);
+        $lessons = $this->getStudentLessons($student->id);
         $num = 0;
         foreach ($lessons as $lesson)
         {
-            $lesson -> delete();
+            $lesson->delete();
             $num++;
         }
         return $num;

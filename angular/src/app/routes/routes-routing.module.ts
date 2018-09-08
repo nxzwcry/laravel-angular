@@ -26,12 +26,13 @@ const routes: Routes = [
     component: LayoutDefaultComponent,
     children: [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
-      { path: 'dashboard', component: DashboardComponent, data: { title: '仪表盘' } },
+      { path: 'dashboard', component: DashboardComponent, data: { title: '首页' } },
       // 业务子模块
       { path: 'students', loadChildren: './students/students.module#StudentsModule' },
       { path: 'users', loadChildren: './users/users.module#UsersModule' },
       { path: 'permissions', loadChildren: './permissions/permissions.module#PermissionsModule' },
       { path: 'lessons', loadChildren: './lessons/lessons.module#LessonsModule' },
+      { path: 'teams', loadChildren: './teams/teams.module#TeamsModule' },
     ],
     canActivate: [SimpleGuard],
   },

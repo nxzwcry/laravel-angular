@@ -3,23 +3,26 @@ import {_HttpClient, ModalHelper } from '@delon/theme';
 import {FormControl} from "@angular/forms";
 import { debounceTime, map } from 'rxjs/operators';
 import {JsonData} from "@shared/shared.module";
-import {StudentsEditStudentComponent} from "../edit-student/edit-student.component";
-import {StudentsEditTeamComponent} from "../edit-team/edit-team.component";
+import {DictionaryService} from "@shared/services/dictionary.service";
+import {StudentsEditTeamComponent} from "../../students/edit-team/edit-team.component";
 
 @Component({
-  selector: 'app-students-teams',
-  templateUrl: './teams.component.html',
+  selector: 'app-teams-list',
+  templateUrl: './list.component.html',
 })
-export class StudentsTeamsComponent implements OnInit {
+export class TeamsListComponent implements OnInit {
   displayList: Array<any>;
   private wordFilter:FormControl = new FormControl();
   searchWord: string;
+  dowList: Array<any>;
 
   constructor(private http: _HttpClient,
               private modal: ModalHelper,
+              private dic: DictionaryService,
               ) { }
 
   ngOnInit() {
+    this.dowList = this.dic.getDowList();
     this.wordFilter.valueChanges
       .pipe(debounceTime(500))
       .subscribe(

@@ -31,7 +31,9 @@ class Team extends Resource
     {
         return [
             'data' => [
-                'students' => $this->students,
+                'students' => $this->students ? Student::collection($this->students) : null,
+                'newlessons' => $this->getNewLessons() ? Lesson::collection($this->getNewLessons()) : null,
+                'oldlessons' => $this->getNotNewLessons() ? Lesson::collection($this->getNotNewLessons()) : null,
             ],
         ];
     }

@@ -8,21 +8,15 @@ import { StudentsEditStudentComponent } from './edit-student/edit-student.compon
 import {StudentsEditRechargeComponent} from "./edit-recharge/edit-recharge.component";
 import {LessonsEditLessonComponent} from "../lessons/edit-lesson/edit-lesson.component";
 import {LessonsEditCourseComponent} from "../lessons/edit-course/edit-course.component";
-import {StudentsTeamsComponent} from "./teams/teams.component";
-import {StudentsEditTeamComponent} from "./edit-team/edit-team.component";
 
 const COMPONENTS = [
   StudentsOneToOneComponent,
   StudentsTeamStudentsComponent,
   StudentsStudentComponent,
-  StudentsTeamsComponent,
 ];
 const COMPONENTS_NOROUNT = [ 
   StudentsEditStudentComponent,
   StudentsEditRechargeComponent,
-  LessonsEditLessonComponent,
-  LessonsEditCourseComponent,
-  StudentsEditTeamComponent,
 ];
 
 @NgModule({

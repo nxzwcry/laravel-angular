@@ -98,6 +98,48 @@ class Lesson extends Model
 //        return ['now' => Carbon::now(), 'lesson' => $lesson->end_datetime];
 //    }
 
+    // 创建单节班课，并为班课中的每一个学生创建班课子课
+    public static function createTeamLesson(array $data)
+    {
+        if ($data['team_id'])
+        {
+            $team = Team::find($data['team_id']);
+            if ($team)
+            {
+                $teamData = $data;
+                $teamData['lesson_type'] = 'bt';
+                $teamLesson = Lesson::create($teamData);
+                $students = $team->students;
+                foreach ($students as $student)
+                {
+                    $teamLesson->createSubLesson($student->id);
+                }
+            }
+        }
+        return $teamLesson;
+    }
+
+    public function getSubLessons()
+    {
+        if($this->lesson_type == 'bt')
+        {
+            return Lesson::where('syn_code', $this->id)->get();
+        }
+        else{
+            return null;
+        }
+    }
+
+    public function createSubLesson($sid)
+    {
+        $data = $this->toArray();
+        unset($data['id']);
+        $data['syn_code'] = $this->id;
+        $data['lesson_type'] = 'b';
+        $data['student_id'] = $sid;
+        return Lesson::create($data);
+    }
+
     public function copyToStudent($sid) //将该节课程复制给学生
     {
         $linfo = $this->toArray();

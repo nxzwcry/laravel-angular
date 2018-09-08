@@ -11,7 +11,7 @@ class TeamController extends ApiController
 {
     public function index()
     {
-        return new TeamCollection(Team::all());;
+        return new TeamCollection(Team::all());
     }
 
     public function show(Team $team)
@@ -25,6 +25,14 @@ class TeamController extends ApiController
 
         return response()->json($team, 201);
     }
+
+    public function addStudents(Request $request, Team $team)
+    {
+        $team->addStudents($request->students);
+
+        return response()->json($team, 200);
+    }
+
 
     public function update(Request $request, Team $team)
     {

@@ -46,11 +46,27 @@ export class DictionaryService {
     {label: "周六", value: 'SATURDAY'},
     {label: "周日", value: 'SUNDAY'},
   ];
+  private lessonStatusList = [
+    {label: "未上", value: 0},
+    {label: "已上", value: 1},
+    {label: "待确认", value: 2},
+    {label: "请假", value: 3},
+    {label: "旷课", value: 4},
+  ];
 
   constructor(private http: _HttpClient, private cacheService: CacheService) { }
 
   getSex(index: number){
     for(let item of this.sexList){
+      if (item.value == index){
+        return item.label;
+      }
+    }
+    return "未定义";
+  }
+
+  getLessonStatus(index: number){
+    for(let item of this.lessonStatusList){
       if (item.value == index){
         return item.label;
       }

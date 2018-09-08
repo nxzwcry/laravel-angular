@@ -1,5 +1,5 @@
 <form nz-form [formGroup]="formModel">
-  <nz-form-item>
+  <nz-form-item [hidden]="listDisable.type">
     <nz-form-label [nzSpan]="7" nzRequired>课程类型</nz-form-label>
     <nz-form-control [nzSpan]="12" nzHasFeedback>
       <nz-select formControlName="lesson_type" nzShowSearch nzPlaceHolder="Choose" (ngModelChange)="selectChange($event)">

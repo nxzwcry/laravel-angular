@@ -21,6 +21,7 @@ export class LessonsEditLessonComponent implements OnInit {
   formModel: FormGroup;
   req: any = {};
   listDisable = {
+    type: true,
     always: true,
     fteacher_id: true,
     jingpin_cost: true,
@@ -28,6 +29,7 @@ export class LessonsEditLessonComponent implements OnInit {
   };
   always = true;
   @Input() userId: string;
+  @Input() teamId: string;
 
   constructor(
     private modal: NzModalRef,
@@ -59,6 +61,16 @@ export class LessonsEditLessonComponent implements OnInit {
     this.dic.getCteacherList().subscribe(res => this.cteacherList = res.data);
     this.dic.getFteacherList().subscribe(res => this.fteacherList = res.data);
     this.dic.getPlaceList().subscribe(res => this.placeList = res.data);
+    if (this.teamId){
+      this.listDisable.type = true;
+      this.listDisable.always = false;
+      this.listDisable.fteacher_id = false;
+      this.listDisable.jingpin_cost = true;
+      this.listDisable.waijiao_cost = false;
+      this.formModel.patchValue({
+        lesson_type: 'b',
+      });
+    }
   }
 
   selectChange($event){
@@ -85,6 +97,7 @@ export class LessonsEditLessonComponent implements OnInit {
       return;
     }
     this.listDisable = {
+      type: false,
       always: true,
       fteacher_id: true,
       jingpin_cost: true,
@@ -112,6 +125,12 @@ export class LessonsEditLessonComponent implements OnInit {
           fteacherTime: new Date(time.getTime()),
         });
       }
+      else if(this.formModel.value.lesson_type == 'b'){
+        this.formModel.patchValue({
+          endTime: new Date(time.getTime()+100*60*1000),
+          fteacherTime: new Date(time.getTime()+30*60*1000),
+        });
+      }
     }
   }
 
@@ -137,11 +156,11 @@ export class LessonsEditLessonComponent implements OnInit {
       delete this.req.endTime;
       delete this.req.fteacherTime;
       // console.log(this.req, stime, etime);
-      if (this.userId)
+      if (this.teamId)
       {
         // this.req = this.formModel.value;
-        this.req.student_id = this.userId;
-        this.http.post(`/lessons`, this.req)
+        this.req.team_id = this.teamId;
+        this.http.post(`/lessons/team`, this.req)
           .subscribe(
             (val) => {
               this.msgSrv.success('保存成功');
@@ -154,7 +173,25 @@ export class LessonsEditLessonComponent implements OnInit {
           );
       }
       else{
-        console.log('未传入用户ID');
+        if (this.userId)
+        {
+          // this.req = this.formModel.value;
+          this.req.student_id = this.userId;
+          this.http.post(`/lessons`, this.req)
+            .subscribe(
+              (val) => {
+                this.msgSrv.success('保存成功');
+                this.modal.close(true);
+              },
+              error => {
+                console.log('post请求失败', error);
+                this.loading = false;
+              }
+            );
+        }
+        else{
+          console.log('未传入用户ID');
+        }
       }
       this.loading = true;
     }

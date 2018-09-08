@@ -118,7 +118,7 @@ class CreateDeepspringTables extends Migration
             $table->Integer('waijiao_cost')->default(0);
             $table->Integer('zhongjiao_cost')->default(0);
             $table->Integer('jingpin_cost')->default(0);
-            $table->string('lesson_type');  // w：外教课 b：班课 f：复习课 j：精品课 bu：补课 s：试听
+            $table->string('lesson_type');  // w：外教课 b：班课 f：复习课 j：精品课 bu：补课 s：试听 bt：班课显示课
             $table->Integer('score')->default(0);
             $table->unsignedInteger('team_id')->nullable($value = true);
             $table->unsignedInteger('syn_code')->nullable($value = true);

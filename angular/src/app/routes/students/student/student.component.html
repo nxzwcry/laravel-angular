@@ -9,6 +9,7 @@
               <desc-list-item term="课程阶段"><p align="right">{{student.lessonstage}}</p></desc-list-item>
               <desc-list-item term="课程顾问"><p align="right">{{student.agent}}</p></desc-list-item>
               <desc-list-item term="中教老师"><p align="right">{{student.cteacher}}</p></desc-list-item>
+              <desc-list-item term="所在班级" *ngIf="student.team"><p align="right" >{{student.team}}</p></desc-list-item>
               <desc-list-item term="课堂积分"><p align="right">{{student.score}}</p></desc-list-item>
             </desc-list>
           </nz-collapse-panel>

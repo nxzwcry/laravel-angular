@@ -15,6 +15,8 @@ import { Exception403Component } from './exception/403.component';
 import { Exception404Component } from './exception/404.component';
 import { Exception500Component } from './exception/500.component';
 import {UserResetPasswordComponent} from "./passport/reset-password/reset-password.component";
+import {LessonsEditCourseComponent} from "./lessons/edit-course/edit-course.component";
+import {LessonsEditLessonComponent} from "./lessons/edit-lesson/edit-lesson.component";
 
 
 const COMPONENTS = [
@@ -31,7 +33,10 @@ const COMPONENTS = [
   Exception404Component,
   Exception500Component
 ];
-const COMPONENTS_NOROUNT = [];
+const COMPONENTS_NOROUNT = [
+  LessonsEditCourseComponent,
+  LessonsEditLessonComponent,
+];
 
 @NgModule({
   imports: [ SharedModule, RouteRoutingModule ],

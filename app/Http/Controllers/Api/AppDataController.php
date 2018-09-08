@@ -56,7 +56,7 @@ class AppdataController extends ApiController
                     ],
                     [
                         'text' => '班级列表',
-                        'link' => '/students/teams',
+                        'link' => '/teams/list',
                     ],
                     [
                         'text' => '班课学生',

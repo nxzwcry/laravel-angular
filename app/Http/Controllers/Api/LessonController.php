@@ -26,6 +26,13 @@ class LessonController extends ApiController
         return response()->json($lesson, 201);
     }
 
+    public function createTeamLesson(Request $request)
+    {
+        $lesson = Lesson::createTeamLesson($request->all());
+
+        return response()->json($lesson, 201);
+    }
+
     public function update(Request $request, Lesson $lesson)
     {
         $lesson->update($request->all());
