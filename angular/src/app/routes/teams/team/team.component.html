@@ -83,14 +83,14 @@
           </tr>
           </thead>
           <tbody>
-          <tr *ngFor="let course of coursesTable.data">
-            <td><a [routerLink]="['/courses/course',course.id]">{{course.name}}</a></td>
-            <td>每{{course.dow | trans:dowList:'value':'label'}}</td>
-            <td>{{course.stime*1000 | _date: 'HH:mm'}}~{{course.etime*1000 | _date: 'HH:mm'}}</td>
-            <td>{{course.cteacher}}</td>
-            <td>{{course.fteacher}}</td>
-            <td>{{course.place}}</td>
-          </tr>
+            <tr *ngFor="let course of coursesTable.data">
+              <td><a [routerLink]="['/courses/course',course.id]">{{course.name}}</a></td>
+              <td>每{{course.dow | trans:dowList:'value':'label'}}</td>
+              <td>{{course.stime*1000 | _date: 'HH:mm'}}~{{course.etime*1000 | _date: 'HH:mm'}}</td>
+              <td>{{course.cteacher}}</td>
+              <td>{{course.fteacher}}</td>
+              <td>{{course.place}}</td>
+            </tr>
           </tbody>
         </nz-table>
       </nz-collapse-panel>
@@ -100,13 +100,13 @@
         <nz-table #oldLessonsTable [nzData]="team.oldlessons" nzSize="small" [nzScroll]="{ y: '240px' }" [nzShowPagination]="team.oldlessons && (team.oldlessons.length > 10)">
           <thead>
           <tr>
-            <th nzShowExpand></th>
-            <th>课程名称</th>
-            <th>上课日期</th>
-            <th>上课时间</th>
-            <th>中教老师</th>
-            <th>外教老师</th>
-            <th>上课地点</th>
+            <th nzShowExpand nzWidth="80px"></th>
+            <th nzWidth="200px">课程名称</th>
+            <th nzWidth="150px">上课日期</th>
+            <th nzWidth="150px">上课时间</th>
+            <th nzWidth="150px">中教老师</th>
+            <th nzWidth="200px">外教老师</th>
+            <th nzWidth="200px">上课地点</th>
           </tr>
           </thead>
           <tbody>
