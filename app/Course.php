@@ -209,7 +209,13 @@ class Course extends Model
         unset($lessoninfo['updated_at']);
         unset($lessoninfo['created_at']);
 //        unset($lessoninfo['courseware']);
-        $lesson = Lesson::create($lessoninfo);
+        if($lessoninfo['team_id'])
+        {
+            $lesson = Lesson::createTeamLesson($lessoninfo);
+        }
+        else{
+            $lesson = Lesson::create($lessoninfo);
+        }
 //        $lesson->chackStatus();
         return $lesson;
     }

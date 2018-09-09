@@ -7,6 +7,7 @@ import {JsonData} from "@shared/shared.module";
 import {DictionaryService} from "@shared/services/dictionary.service";
 import {TeamsAddStudentsComponent} from "../add-students/add-students";
 import {LessonsEditLessonComponent} from "../../lessons/edit-lesson/edit-lesson.component";
+import {LessonsEditCourseComponent} from "../../lessons/edit-course/edit-course.component";
 
 @Component({
   selector: 'app-teams-team',
@@ -68,15 +69,15 @@ export class TeamsTeamComponent implements OnInit {
   }
 
   createCourse() {
-    // this.modal.create(
-    //   LessonsEditCourseComponent,
-    //   {size: 'sm'},
-    //   {modalOptions:
-    //       {
-    //         nzTitle: `${this.student.name}-安排固定课程`,
-    //         nzComponentParams: {userId: this.id}
-    //       }
-    //   }).subscribe(res => this.reload(res) );
+    this.modal.create(
+      LessonsEditCourseComponent,
+      {size: 'sm'},
+      {modalOptions:
+          {
+            nzTitle: `${this.team.name}-安排固定课程`,
+            nzComponentParams: {teamId: this.id}
+          }
+      }).subscribe(res => this.reload(res) );
   }
 
   reload(b: Boolean) {

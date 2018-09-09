@@ -21,7 +21,7 @@ export class LessonsEditLessonComponent implements OnInit {
   formModel: FormGroup;
   req: any = {};
   listDisable = {
-    type: true,
+    type: false,
     always: true,
     fteacher_id: true,
     jingpin_cost: true,

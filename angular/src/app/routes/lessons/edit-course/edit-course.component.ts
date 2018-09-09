@@ -22,6 +22,7 @@ export class LessonsEditCourseComponent implements OnInit {
   formModel: FormGroup;
   req: any = {};
   listDisable = {
+    type: false,
     always: true,
     fteacher_id: true,
     jingpin_cost: true,
@@ -29,6 +30,7 @@ export class LessonsEditCourseComponent implements OnInit {
   };
   always = true;
   @Input() userId: string;
+  @Input() teamId: string;
 
   constructor(
     private modal: NzModalRef,
@@ -60,6 +62,16 @@ export class LessonsEditCourseComponent implements OnInit {
     this.dic.getCteacherList().subscribe(res => this.cteacherList = res.data);
     this.dic.getFteacherList().subscribe(res => this.fteacherList = res.data);
     this.dic.getPlaceList().subscribe(res => this.placeList = res.data);
+    if (this.teamId){
+      this.listDisable.type = true;
+      this.listDisable.always = false;
+      this.listDisable.fteacher_id = false;
+      this.listDisable.jingpin_cost = true;
+      this.listDisable.waijiao_cost = false;
+      this.formModel.patchValue({
+        lesson_type: 'b',
+      });
+    }
   }
 
   selectChange($event){
@@ -86,6 +98,7 @@ export class LessonsEditCourseComponent implements OnInit {
       return;
     }
     this.listDisable = {
+      type: false,
       always: true,
       fteacher_id: true,
       jingpin_cost: true,
@@ -113,6 +126,12 @@ export class LessonsEditCourseComponent implements OnInit {
           fteacherTime: new Date(time.getTime()),
         });
       }
+      else if(this.formModel.value.lesson_type == 'b'){
+        this.formModel.patchValue({
+          endTime: new Date(time.getTime()+100*60*1000),
+          fteacherTime: new Date(time.getTime()+30*60*1000),
+        });
+      }
     }
   }
 
@@ -127,9 +146,10 @@ export class LessonsEditCourseComponent implements OnInit {
       delete this.req.startTime;
       delete this.req.endTime;
       delete this.req.fteacherTime;
-      if (this.userId)
+      if (this.userId || this.teamId)
       {
         this.req.student_id = this.userId;
+        this.req.team_id = this.teamId;
         this.http.post(`/courses`, this.req)
           .subscribe(
             (val) => {

@@ -38,7 +38,7 @@
     <!--已排课程-->
     <nz-collapse [nzBordered]="false">
       <nz-collapse-panel [nzHeader]="lessonTemplate" [nzActive]="true">
-        <nz-table #newLessonsTable [nzData]="student.newlessons" nzSize="Small" [nzShowPagination]="false" [nzFrontPagination]="false">
+        <nz-table #newLessonsTable [nzData]="student.newlessons" nzSize="small" [nzShowPagination]="false" [nzFrontPagination]="false">
           <thead>
           <tr>
             <th>课程名称</th>
@@ -66,7 +66,7 @@
 
       <!--固定课程-->
       <nz-collapse-panel [nzHeader]="courseTemplate" [nzActive]="true">
-        <nz-table #coursesTable [nzData]="student.courses" nzSize="Small" [nzShowPagination]="false" [nzFrontPagination]="false">
+        <nz-table #coursesTable [nzData]="student.courses" nzSize="small" [nzShowPagination]="false" [nzFrontPagination]="false">
           <thead>
           <tr>
             <th>课程名称</th>
@@ -94,7 +94,7 @@
 
       <!--已上课程-->
       <nz-collapse-panel [nzHeader]="oldTemplate" [nzActive]="false">
-        <nz-table #oldLessonsTable [nzData]="student.oldlessons" nzSize="Small" [nzScroll]="{ y: '240px' }" [nzShowPagination]="student.oldlessons && (student.oldlessons.length > 10)">
+        <nz-table #oldLessonsTable [nzData]="student.oldlessons" nzSize="small" [nzScroll]="{ y: '240px' }" [nzShowPagination]="student.oldlessons && (student.oldlessons.length > 10)">
           <thead>
           <tr>
             <th nzWidth="200px">课程名称</th>
@@ -122,7 +122,7 @@
 
       <!--充值记录-->
       <nz-collapse-panel [nzHeader]="rechargeTemplate" [nzActive]="false">
-        <nz-table #rechargesTable [nzData]="student.recharges" nzSize="Small" [nzShowPagination]="false" [nzFrontPagination]="false">
+        <nz-table #rechargesTable [nzData]="student.recharges" nzSize="small" [nzShowPagination]="false" [nzFrontPagination]="false">
           <thead>
           <tr>
             <th>外教课时</th>
