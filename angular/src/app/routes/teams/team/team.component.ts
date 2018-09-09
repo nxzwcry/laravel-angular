@@ -32,16 +32,16 @@ export class TeamsTeamComponent implements OnInit {
     this.load();
   }
 
-  change(){
-    // this.modal.create(
-    //   StudentsEditStudentComponent,
-    //   {size: 'sm'},
-    //   {modalOptions:
-    //       {
-    //         nzTitle: '修改学生信息',
-    //         nzComponentParams: {id: this.id}
-    //       }
-    //   }).subscribe(res => this.reload(res) );
+  deleteStudent(student: number){
+    this.http.put(`/teams/deletestudent/${this.id}`, {student: student})
+      .subscribe(res => {
+            this.msgSrv.success('保存成功');
+            this.load();
+          },
+        error => {
+          console.log('post请求失败', error);
+        }
+      );
   }
 
   addStudent(){

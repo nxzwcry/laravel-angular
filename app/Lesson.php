@@ -175,7 +175,6 @@ class Lesson extends Model
         if (Carbon::now()->gte($this->end_datetime))
         {
             $this->status = 1;
-            $this->save();
         }
         return $this->status;
     }

@@ -49,6 +49,7 @@ Route::middleware('auth:api')->group(function () {
         Route::get('{team}', 'Api\TeamController@show');
         Route::post('', 'Api\TeamController@store');
         Route::put('/addstudents/{team}', 'Api\TeamController@addStudents');
+        Route::put('/deletestudent/{team}', 'Api\TeamController@deleteStudent');
         Route::put('{team}', 'Api\TeamController@update');
         Route::delete('{team}', 'Api\TeamController@delete');
     });

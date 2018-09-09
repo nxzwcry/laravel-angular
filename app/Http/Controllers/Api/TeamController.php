@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Student;
 use Illuminate\Http\Request;
 use App\Team;
 use App\Http\Resources\Team as TeamResource;
@@ -33,6 +34,18 @@ class TeamController extends ApiController
         return response()->json($team, 200);
     }
 
+    public function deleteStudent(Request $request, Team $team)
+    {
+        $student = Student::find($request->student);
+        if ($student)
+        {
+            return response()->json($team->deleteStudent($student), 200);
+        }
+        else
+        {
+            return response()->json(false, 200);
+        }
+    }
 
     public function update(Request $request, Team $team)
     {

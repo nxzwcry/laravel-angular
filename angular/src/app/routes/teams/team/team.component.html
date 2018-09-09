@@ -14,7 +14,7 @@
           <tbody>
             <tr *ngFor="let item of middleTable.data">
               <td><a [routerLink]="['/students/student',item.id]">{{item.name}}{{item.ename}}</a></td>
-              <td><a>删除</a></td>
+              <td><a (click)="deleteStudent(item.id)">删除</a></td>
             </tr>
           </tbody>
         </nz-table>
