@@ -49,18 +49,13 @@ class AfterClass extends Command
      */
     public function handle()
     {
-//        //
-//		Log::info('完课执行');
-//		$lessons1 = Lesson::where( 'conduct' , 0 )
-//						-> where( 'date' , '<' , Carbon::now() -> toDateString() )
-//						-> get();
-//		$lessons2 = Lesson::where( 'conduct' , 0 )
-//						-> where( 'date' , Carbon::now() -> toDateString() )
-//						-> where( 'etime' , '<' , Carbon::now() -> toTimeString() . '.000000' )
-//						-> get();
-//		$lessons = $lessons1 -> merge( $lessons2 );
-//		foreach( $lessons as $lesson )
-//		{
+		Log::info('完课执行');
+		$lessons = Lesson::where( 'status' , 0 )
+						->where( 'start_datetime' , '<' , Carbon::now() )
+						->get();
+		foreach( $lessons as $lesson )
+		{
+		    $lesson->save();
 //            if ( $lesson -> ChackConduct() )
 //            {
 //                $student = Student::find( $lesson -> sid );
@@ -105,8 +100,8 @@ class AfterClass extends Command
 //                        'keyword5' => $nextstring ] );
 //                }
 //            }
-//		}
-//		Log::info('完课执行完成');
+		}
+		Log::info('完课执行完成');
     }
     
     public function endmassage( $data )

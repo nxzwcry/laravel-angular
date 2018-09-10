@@ -33,12 +33,13 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
+        // 时间为UTC时间
         // $schedule->command('inspire')
         //          ->hourly();
-        $schedule->command('SendStartMassage')->dailyAt('10:00');// 每天10:00运行一次...
+//        $schedule->command('AfterClass')->dailyAt('11:13');// 每天10:00运行一次...
         $schedule->command('AfterClass')
             ->everyThirtyMinutes()
-            ->between('9:30', '23:00');// 每天9:30~21:30 每半小时运行一次
+            ->between('1:00', '15:00');// 每天9:00~23:00 每半小时运行一次
         $schedule->command('AddGrade')
             ->monthlyOn(1, '00:00')
             ->when(function () {
