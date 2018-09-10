@@ -4,7 +4,7 @@ import {FormControl} from "@angular/forms";
 import { debounceTime, map } from 'rxjs/operators';
 import {JsonData} from "@shared/shared.module";
 import {DictionaryService} from "@shared/services/dictionary.service";
-import {StudentsEditTeamComponent} from "../../students/edit-team/edit-team.component";
+import {TeamsEditTeamComponent} from "../edit-team/edit-team.component";
 
 @Component({
   selector: 'app-teams-list',
@@ -32,7 +32,7 @@ export class TeamsListComponent implements OnInit {
   }
 
   add() {
-    this.modal.create(StudentsEditTeamComponent, {size: 'sm'}, {modalOptions: {nzTitle: '添加班级'}}).subscribe(res => this.reload(res) );
+    this.modal.create(TeamsEditTeamComponent, {size: 'sm'}, {modalOptions: {nzTitle: '添加班级'}}).subscribe(res => this.reload(res) );
   }
 
   reload(b: Boolean)

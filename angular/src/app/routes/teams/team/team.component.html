@@ -55,7 +55,8 @@
                   <nz-table #innerTable [nzData]="lesson.sub_lessons" nzSize="middle"  [nzShowPagination]="false" [nzFrontPagination]="false" [nzBordered]="false">
                     <tbody>
                       <tr *ngFor="let item of innerTable.data">
-                        <td><a [routerLink]="['/students/student',item.id]">{{item.student}}</a></td>
+                        <td>{{item.student}}</td>
+                          <td><a [routerLink]="['/lessons/lesson',item.id]">查看课程</a></td>
                         <td><nz-badge [nzStatus]="'success'" [nzText]="item.status | trans:lessonStatusList:'value':'label'"></nz-badge></td>
                         <td>外{{item.waijiao_cost}}/中{{item.zhongjiao_cost}}/精{{item.jingpin_cost}}</td>
                         <td><a>请假</a><nz-divider nzType="vertical"></nz-divider><a>删除</a></td>
@@ -126,7 +127,8 @@
                   <nz-table #innerTable [nzData]="lesson.sub_lessons" nzSize="middle"  [nzShowPagination]="false" [nzFrontPagination]="false" [nzBordered]="false">
                     <tbody>
                     <tr *ngFor="let item of innerTable.data">
-                      <td><a [routerLink]="['/students/student',item.id]">{{item.student}}</a></td>
+                      <td>{{item.student}}</td>
+                        <td><a [routerLink]="['/lessons/lesson',item.id]">查看课程</a></td>
                       <td><nz-badge [nzStatus]="'success'" [nzText]="item.status | trans:lessonStatusList:'value':'label'"></nz-badge></td>
                       <td>外{{item.waijiao_cost}}/中{{item.zhongjiao_cost}}/精{{item.jingpin_cost}}</td>
                       <td>

@@ -19,7 +19,7 @@ class Team extends Resource
             'name' => $this->name,
             'kk_charge' => $this->kk_recharge,
             'cteacher' => $this->cteacher ? $this->cteacher->name : null,
-            'cteacher_id' => $this->cteacher_user_id,
+            'cteacher_user_id' => $this->cteacher_user_id,
             'place' => $this->place ? $this->place->name : null,
             'place_id' => $this->place ? $this->place->id : null,
             'student_count' => $this->students->count(),

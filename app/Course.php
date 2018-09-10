@@ -120,14 +120,25 @@ class Course extends Model
 //            -> get();
 //    }
 
-    public function createMonthLessons()
+    public function createMonthLessons($month = null)
     {
         if($this->dow)
         {
+            if ($month)
+            {
+                $temp = new Carbon();
+                $temp->month = $month;
+                $monthStart = $temp->startOfMonth();
+                Carbon::setTestNow($monthStart);
+            }
             $now = Carbon::now('Asia/Shanghai');
-            $tail = Carbon::create($now->year, $now->month, $now->daysInMonth, 23, 59, 59, 'Asia/Shanghai');
+            $tail = $now->endOfMonth();
             $nextDay = new Carbon('next ' . $this->dow, 'Asia/Shanghai');
             $nextDay->hour = 9;
+            if (Carbon::hasTestNow())
+            {
+                Carbon::setTestNow();
+            }
             if($nextDay){
                 while ($tail->gte($nextDay))
                 {

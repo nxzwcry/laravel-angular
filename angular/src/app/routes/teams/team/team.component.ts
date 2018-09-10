@@ -8,6 +8,7 @@ import {DictionaryService} from "@shared/services/dictionary.service";
 import {TeamsAddStudentsComponent} from "../add-students/add-students";
 import {LessonsEditLessonComponent} from "../../lessons/edit-lesson/edit-lesson.component";
 import {LessonsEditCourseComponent} from "../../lessons/edit-course/edit-course.component";
+import {TeamsEditTeamComponent} from "../edit-team/edit-team.component";
 
 @Component({
   selector: 'app-teams-team',
@@ -32,6 +33,18 @@ export class TeamsTeamComponent implements OnInit {
     this.dowList = this.dic.getDowList();
     this.lessonStatusList = this.dic.getLessonStatusList();
     this.load();
+  }
+
+  change(){
+    this.modal.create(
+      TeamsEditTeamComponent,
+      {size: 'sm'},
+      {modalOptions:
+          {
+            nzTitle: '修改班级信息',
+            nzComponentParams: {teamId: this.id}
+          }
+      }).subscribe(res => this.reload(res) );
   }
 
   deleteStudent(student: number){
