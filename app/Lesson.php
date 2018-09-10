@@ -2,7 +2,9 @@
 
 namespace App;
 
+use App\Events\LessonCreating;
 use App\Events\LessonSaved;
+use App\Events\LessonSaving;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Carbon\Carbon;
@@ -41,7 +43,8 @@ class Lesson extends Model
      * @var array
      */
     protected $dispatchesEvents = [
-        'created' => LessonSaved::class,
+        'saving' => LessonSaving::class,
+        'creating' => LessonCreating::class,
     ];
 
     public function student()
@@ -109,6 +112,7 @@ class Lesson extends Model
                 $teamData = $data;
                 $teamData['lesson_type'] = 'bt';
                 $teamLesson = Lesson::create($teamData);
+                $teamLesson['status'] = 0;
                 $students = $team->students;
                 foreach ($students as $student)
                 {
@@ -169,29 +173,40 @@ class Lesson extends Model
         return false;
     }
 
-    // 检查课程状态，如果课程时间已过标记课程为已结束课程
-    public function chackAndSetFinsh()
-    {
-        if (Carbon::now()->gte($this->end_datetime))
-        {
-            $this->status = 1;
-        }
-        return $this->status;
-    }
-
     // 设置课程为待确认
-    public  function setConfirm()
+    public function setConfirm()
     {
         $this->status = 2;
+    }
+
+    // 删除班课
+    public function deleteTeamLesson()
+    {
+        $lessons = Lesson::where('syn_code', $this->id)->get();
+        foreach ($lessons as $lesson) {
+            $lesson->delete();
+        }
+    }
+
+    // 请假
+    public function leave()
+    {
+        $this->zhongjiao_cost = 0;
+        $this->status = 3;
         $this->save();
     }
 
+    // 设置课程为未上课程
+    public  function setNew()
+    {
+        $this->status = 0;
+    }
+
     // 设置课程为正常结束课程
-//    public  function setFinish()
-//    {
-//        $this->status = 1;
-//        $this->save();
-//    }
+    public  function setFinish()
+    {
+        $this->status = 1;
+    }
 
     // 设置课程为临时请假
     public  function setTodayLeave()

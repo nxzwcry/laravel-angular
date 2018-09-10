@@ -27,6 +27,5 @@ class LessonSavedListener
     public function handle(LessonSaved $lessonSaved)
     {
         //
-        $lessonSaved->lesson->chackAndSetFinsh();
     }
 }

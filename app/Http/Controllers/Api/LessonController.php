@@ -42,8 +42,19 @@ class LessonController extends ApiController
 
     public function delete(Lesson $lesson)
     {
+        if($lesson->lesson_type == 'bt')
+        {
+            $lesson->deleteTeamLesson();
+        }
         $lesson->delete();
 
         return response()->json(null, 204);
+    }
+
+    public function leave(Lesson $lesson)
+    {
+        $lesson->delete();
+
+        return response()->json(null, 200);
     }
 }

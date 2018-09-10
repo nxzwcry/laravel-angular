@@ -17,6 +17,7 @@ export class TeamsTeamComponent implements OnInit {
   id = this.route.snapshot.params.id;
   team: any;
   dowList: Array<any>;
+  lessonStatusList: Array<any>;
 
   constructor(
     private route: ActivatedRoute,
@@ -29,6 +30,7 @@ export class TeamsTeamComponent implements OnInit {
 
   ngOnInit(): void {
     this.dowList = this.dic.getDowList();
+    this.lessonStatusList = this.dic.getLessonStatusList();
     this.load();
   }
 

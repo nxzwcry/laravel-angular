@@ -108,6 +108,10 @@ export class DictionaryService {
     return this.lessonTypeList;
   }
 
+  getLessonStatusList(){
+    return this.lessonStatusList;
+  }
+
   getCteacherList() : Observable<any> {
     return this.cacheService.get('/cteachers', {mode: 'promise', type: 'm', expire: 1200});
   }

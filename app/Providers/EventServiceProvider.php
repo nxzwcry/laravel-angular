@@ -13,11 +13,17 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        'App\Events\LessonSaved' => [
-            'App\Listeners\LessonSavedListener',
+        'App\Events\LessonSaving' => [
+            'App\Listeners\LessonSavingListener',
+        ],
+        'App\Events\LessonCreating' => [
+            'App\Listeners\LessonCreatingListener',
         ],
         'App\Events\CourseSaved' => [
             'App\Listeners\CourseSavedListener',
+        ],
+        'App\Events\LessonSaved' => [
+            'App\Listeners\LessonSavedListener',
         ],
     ];
 
