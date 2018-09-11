@@ -59,6 +59,18 @@ export class StudentsStudentComponent implements OnInit {
       }).subscribe(res => this.reload(res) );
   }
 
+  deleteRecharge(rechargeId) {
+    this.http.delete(`/recharges/${rechargeId}`)
+      .subscribe(res => {
+          this.msgSrv.success('保存成功');
+          this.load();
+        },
+        error => {
+          console.log('post请求失败', error);
+        }
+      );
+  }
+
   createLesson() {
     this.modal.create(
       LessonsEditLessonComponent,

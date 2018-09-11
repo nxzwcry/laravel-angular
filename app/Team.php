@@ -239,6 +239,7 @@ class Team extends Model
             $student->team->deleteStudent($student);
         }
         $student->team_id = $this->id;
+        $student->status = 0; // 将学生状态设置为班课
         $student->save(); //将学生加入班级
 
         //给加入学生添加目前班级的新课
@@ -264,6 +265,15 @@ class Team extends Model
     {
         $this->deleteLessonsFromStudent($student);
         $student->team_id = null;
+        // 设置学生的状态
+        if ($student->getNewLessons())
+        {
+            $student->status = 1;
+        }
+        else
+        {
+            $student->status = 2;
+        }
         $student->save(); //将学生从班级删去
         return true;
     }

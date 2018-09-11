@@ -26,6 +26,30 @@ class LessonSavedListener
      */
     public function handle(LessonSaved $lessonSaved)
     {
-        //
+        // 检查改变学生状态
+        $lesson = $lessonSaved->lesson;
+        if ($lesson)
+        {
+            $student = $lesson->student;
+            if ($student)
+            {
+                if ($student->status == 1) // 学生状态为1对1
+                {
+                    if (!$student->getNewLessons()->first())
+                    {
+                        $student->status = 2;
+                        $student->save();
+                    }
+                }
+                elseif ($student->status == 2) // 学生状态为未排课
+                {
+                    if ($student->getNewLessons()->first())
+                    {
+                        $student->status = 1;
+                        $student->save();
+                    }
+                }
+            }
+        }
     }
 }

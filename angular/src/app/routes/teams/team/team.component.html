@@ -133,10 +133,12 @@
                       <td>外{{item.waijiao_cost}}/中{{item.zhongjiao_cost}}/精{{item.jingpin_cost}}</td>
                       <td>
                           <span *ngIf="item.status == 2">
-                            <a>确认上课</a><nz-divider nzType="vertical"></nz-divider>
+                            <a (click)="confirm(item.id)">确认上课</a><nz-divider nzType="vertical"></nz-divider>
                           </span>
-                          <a>请假</a>
-                          <nz-divider nzType="vertical"></nz-divider><a>删除</a></td>
+                        <span *ngIf="item.status != 3">
+                          <a (click)="leave(item.id)">请假</a>
+                        </span>
+                          <nz-divider nzType="vertical"></nz-divider><a (click)="deleteLesson(item.id)">删除</a></td>
                     </tr>
                     </tbody>
                   </nz-table>

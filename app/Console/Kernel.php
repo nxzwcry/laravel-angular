@@ -36,10 +36,10 @@ class Kernel extends ConsoleKernel
         // 时间为UTC时间
         // $schedule->command('inspire')
         //          ->hourly();
-//        $schedule->command('AfterClass')->dailyAt('11:13');// 每天10:00运行一次...
+        $schedule->command('AfterClass')->dailyAt('11:21');// 每天10:00运行一次...
         $schedule->command('AfterClass')
             ->everyThirtyMinutes()
-            ->between('1:00', '15:00');// 每天9:00~23:00 每半小时运行一次
+            ->between('1:01', '15:01');// 每天9:00~23:00 每半小时运行一次
         $schedule->command('AddGrade')
             ->monthlyOn(1, '00:00')
             ->when(function () {

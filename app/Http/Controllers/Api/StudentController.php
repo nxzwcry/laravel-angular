@@ -11,9 +11,41 @@ use Carbon\Carbon;
 
 class StudentController extends ApiController
 {
-    public function index()
+    public function index(String $type=null)
     {
-        return new StudentCollection(Student::all());
+        $students = null;
+        if (!$type)
+        {
+            $students = Student::all();
+        }
+        elseif ($type == 'one-to-one')
+        {
+            $students = Student::where('status', 1)->get();
+        }
+        elseif ($type == 'team')
+        {
+            $students = Student::where('status', 0)->get();
+        }
+        elseif ($type == 'no-lessons')
+        {
+            $students = Student::where('status', 2)->get();
+        }
+        elseif ($type == 'stoped')
+        {
+            $students = Student::where('status', -2)->get();
+        }
+        elseif ($type == 'demo')
+        {
+            $students = Student::where('status', -1)->get();
+        }
+        if ($students)
+        {
+            return new StudentCollection($students);
+        }
+        else
+        {
+            return response()->json();
+        }
     }
 
     public function show(Student $student)
@@ -33,6 +65,11 @@ class StudentController extends ApiController
         $student->update($request->all());
 
         return response()->json(new StudentResource($student), 200);
+    }
+
+    public function stop(Request $request, Student $student)
+    {
+        return response()->json(new StudentResource($student->stop()), 200);
     }
 
     public function delete(Student $student)

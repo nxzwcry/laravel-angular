@@ -51,8 +51,8 @@ class AppdataController extends ApiController
                 'icon' => 'anticon anticon-appstore-o',
                 'children' => [
                     [
-                        'text' => '1对1学生',
-                        'link' => '/students/one-to-one',
+                        'text' => '未排课学生',
+                        'link' => '/students/no-lessons',
                     ],
                     [
                         'text' => '班级列表',
@@ -63,13 +63,13 @@ class AppdataController extends ApiController
                         'link' => '/students/team-students',
                     ],
                     [
-                        'text' => '试听学生',
-                        'link' => '/students/demo',
+                        'text' => '1对1学生',
+                        'link' => '/students/one-to-one',
                     ],
-                    [
-                        'text' => '未排课学生',
-                        'link' => '/students/no-lesson',
-                    ],
+//                    [
+//                        'text' => '试听学生',
+//                        'link' => '/students/demo',
+//                    ],
                     [
                         'text' => '停课学生',
                         'link' => '/students/stoped',
@@ -92,17 +92,17 @@ class AppdataController extends ApiController
                         'text' => '固定课表',
                         'link' => '/lessons/courses',
                     ],
-                    [
-                        'text' => '安排试听课',
-                        'link' => '/lessons/create-demo',
-                    ],
+//                    [
+//                        'text' => '安排试听课',
+//                        'link' => '/lessons/create-demo',
+//                    ],
                 ],
             ],
-            [
-                'text' => '快捷菜单',
-                'icon' => 'anticon anticon-rocket',
-                'shortcut_root' => 'true',
-            ],
+//            [
+//                'text' => '快捷菜单',
+//                'icon' => 'anticon anticon-rocket',
+//                'shortcut_root' => 'true',
+//            ],
         ],
     ]];
 

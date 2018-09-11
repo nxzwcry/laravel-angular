@@ -132,6 +132,7 @@
             <th>顾问</th>
             <th>时间</th>
             <th>备注</th>
+            <th></th>
           </tr>
           </thead>
           <tbody>
@@ -141,8 +142,9 @@
             <td>{{recharge.jingpin}}课时</td>
             <td>{{recharge.money | _currency}}</td>
             <td>{{recharge.user}}</td>
-            <td>{{recharge.time}}</td>
+            <td>{{recharge.time*1000 | _date: 'YYYY/MM/DD'}}</td>
             <td>{{recharge.note}}</td>
+            <td><a (click)="deleteRecharge(recharge.id)">删除</a></td>
           </tr>
           </tbody>
         </nz-table>

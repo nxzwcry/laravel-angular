@@ -19,11 +19,14 @@ class Student extends Resource
             'name' => $this->name,
             'ename' => $this->ename,
             'waijiao' => $this->getLeftWaijiao(),
+            'zhongjiao' => $this->getLeftZhongjiao(),
+            'jingpin' => $this->getLeftJingpin(),
             'cteacher' => $this->cteacher ? $this->cteacher->name : '',
             'fteacher' => $this->fteacher() ? $this->fteacher()->name : '',
             'cteacher_user_id'=> $this->cteacher_user_id,
             'agent_user_id'=> $this->agent_user_id,
             'agent' => $this->agent ? $this->agent->name : '',
+            'team' => $this->team ? $this->team->name : null,
         ];
     }
 
@@ -51,7 +54,6 @@ class Student extends Resource
                 'oldlessons' => $this->getNotNewLessons() ? Lesson::collection($this->getNotNewLessons()) : null,
                 'courses' => Course::collection($this->courses),
                 'recharges' => Recharge::collection($this->recharges),
-                'team' => $this->team ? $this->team->name : null,
                 'team_id' => $this->team ? $this->team->id : null,
             ],
         ];

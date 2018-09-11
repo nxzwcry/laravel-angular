@@ -139,6 +139,14 @@ class Student extends Model
         return null;
     }
 
+    // 设置学生状态为停课
+    public function stop()
+    {
+        $this->status = -2;
+        $this->save();
+        return $this;
+    }
+
     // 获取每周外教课节数
     public function oneWeekNumber()
     {

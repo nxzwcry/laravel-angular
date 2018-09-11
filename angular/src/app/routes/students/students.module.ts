@@ -6,13 +6,15 @@ import { StudentsTeamStudentsComponent } from './team-students/team-students.com
 import { StudentsStudentComponent } from './student/student.component';
 import { StudentsEditStudentComponent } from './edit-student/edit-student.component';
 import {StudentsEditRechargeComponent} from "./edit-recharge/edit-recharge.component";
-import {LessonsEditLessonComponent} from "../lessons/edit-lesson/edit-lesson.component";
-import {LessonsEditCourseComponent} from "../lessons/edit-course/edit-course.component";
+import {StudentsStopedStudentsComponent} from "./stoped-students/stoped-students.component";
+import {StudentsNoLessonsStudentsComponent} from "./no-lessons-students/no-lessons-students.component";
 
 const COMPONENTS = [
   StudentsOneToOneComponent,
   StudentsTeamStudentsComponent,
   StudentsStudentComponent,
+  StudentsStopedStudentsComponent,
+  StudentsNoLessonsStudentsComponent,
 ];
 const COMPONENTS_NOROUNT = [ 
   StudentsEditStudentComponent,

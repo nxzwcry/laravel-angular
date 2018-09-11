@@ -27,11 +27,12 @@ class CreateDeepspringTables extends Migration
             $table->unsignedInteger('team_id')->nullable($value = true);
 //            $table->Integer('kk_value')->default(1); // 1表示不适用 正常情况下小于等于0
             $table->longText('desc')->nullable($value = true);
-            $table->Integer('status')->default(0);  // 0：班课 1:1对1 2：未排课 -1:试听 -2：停课（不续课）
+            $table->Integer('status')->default(2);  // 0：班课 1:1对1 2：未排课 -1:试听 -2：停课（不续课）
             $table->timestamps();
             $table->softDeletes();
         });
 
+        // 提醒机制
         Schema::create('student_values', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('student_id')->unique();

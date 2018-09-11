@@ -27,12 +27,11 @@ Route::middleware('auth:api')->group(function () {
 
     Route::prefix('students')->group(function () {
         Route::get('', 'Api\StudentController@index');
+        Route::get('/type/{type}', 'Api\StudentController@index');
         Route::get('{student}', 'Api\StudentController@show');
-//        Route::prefix('recharges')->group(function () {
-//            Route::get('{student}', 'Api\StudentController@getRechargeList');
-//        });
         Route::post('', 'Api\StudentController@store');
         Route::put('{student}', 'Api\StudentController@update');
+        Route::put('/stop/{student}', 'Api\StudentController@stop');
         Route::delete('{student}', 'Api\StudentController@delete');
     });
 
@@ -61,6 +60,7 @@ Route::middleware('auth:api')->group(function () {
         Route::post('/team', 'Api\LessonController@createTeamLesson');
         Route::put('{lesson}', 'Api\LessonController@update');
         Route::put('/leave/{lesson}', 'Api\LessonController@leave');
+        Route::put('/confirm/{lesson}', 'Api\LessonController@confirm');
         Route::delete('{lesson}', 'Api\LessonController@delete');
     });
 

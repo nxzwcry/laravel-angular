@@ -24,7 +24,7 @@ class Recharge extends Resource
             'user' => $this->user ? $this->user->name : '',
             'student_id' => $this->student_id,
             'student' => $this->student ? $this->student->name : '',
-            'time' => $this->created_at->toDateString(),
+            'time' => $this->created_at->timestamp,
             'note' => $this->note,
         ];
     }

@@ -51,9 +51,18 @@ class LessonController extends ApiController
         return response()->json(null, 204);
     }
 
+    public function confirm(Lesson $lesson)
+    {
+        if ($lesson->status == 2)
+        {
+            $lesson->setFinish();
+            $lesson->save();
+        }
+    }
+
     public function leave(Lesson $lesson)
     {
-        $lesson->delete();
+        $lesson->leave();
 
         return response()->json(null, 200);
     }

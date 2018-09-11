@@ -47,6 +47,42 @@ export class TeamsTeamComponent implements OnInit {
       }).subscribe(res => this.reload(res) );
   }
 
+  confirm(lessonId){
+    this.http.put(`/lessons/confirm/${lessonId}`)
+      .subscribe(res => {
+          this.msgSrv.success('保存成功');
+          this.load();
+        },
+        error => {
+          console.log('post请求失败', error);
+        }
+      );
+  }
+
+  leave(lessonId){
+    this.http.put(`/lessons/leave/${lessonId}`)
+      .subscribe(res => {
+          this.msgSrv.success('保存成功');
+          this.load();
+        },
+        error => {
+          console.log('post请求失败', error);
+        }
+      );
+  }
+
+  deleteLesson(lessonId){
+    this.http.delete(`/lessons/${lessonId}`)
+      .subscribe(res => {
+          this.msgSrv.success('保存成功');
+          this.load();
+        },
+        error => {
+          console.log('post请求失败', error);
+        }
+      );
+  }
+
   deleteStudent(student: number){
     this.http.put(`/teams/deletestudent/${this.id}`, {student: student})
       .subscribe(res => {
