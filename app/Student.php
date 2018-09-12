@@ -139,6 +139,12 @@ class Student extends Model
         return null;
     }
 
+    // 获取学生积分
+    public function getScore()
+    {
+        return $this->lessons()->sum('score');
+    }
+
     // 设置学生状态为停课
     public function stop()
     {

@@ -48,7 +48,7 @@ class Student extends Resource
                 'waijiaocost' => $this->getWaijiaoCost(),
                 'zhongjiaocost' => $this->getZhongjiaoCost(),
                 'jingpincost' => $this->getJingpinCost(),
-                'score' => 0,
+                'score' => $this->getScore(),
                 'phones' => Phone::collection($this->phones),
                 'newlessons' => $this->getNewLessons() ? Lesson::collection($this->getNewLessons()) : null,
                 'oldlessons' => $this->getNotNewLessons() ? Lesson::collection($this->getNotNewLessons()) : null,

@@ -51,11 +51,13 @@ class AfterClass extends Command
     {
 		Log::info('完课执行');
 		$lessons = Lesson::where( 'status' , 0 )
-						->where( 'start_datetime' , '<' , Carbon::now() )
+						->where( 'end_datetime' , '<=' , Carbon::now() )
 						->get();
+		$i = 0;
 		foreach( $lessons as $lesson )
 		{
 		    $lesson->save();
+		    $i++;
 //            if ( $lesson -> ChackConduct() )
 //            {
 //                $student = Student::find( $lesson -> sid );
@@ -100,8 +102,9 @@ class AfterClass extends Command
 //                        'keyword5' => $nextstring ] );
 //                }
 //            }
+            Log::info($lesson->id.'完课');
 		}
-		Log::info('完课执行完成');
+		Log::info('完课执行');
     }
     
     public function endmassage( $data )

@@ -28,12 +28,14 @@ function lessonType($type){
         case 'b':
             return "班课";
         case 'f':
-            return "复习课";
+            return "中教课";
         case 'j':
             return "精品课";
         case 'bu':
             return "补课";
         case 's':
             return "试听";
+        case 'bt':
+            return "班课";
     }
 }

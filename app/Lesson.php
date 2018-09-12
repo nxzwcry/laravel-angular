@@ -87,6 +87,20 @@ class Lesson extends Model
         return $this->belongsTo('App\Team' , 'team_id');
     }
 
+    public function updateTeamLesson(array $data)
+    {
+        if ($this->lesson_type == 'bt')
+        {
+            $lessons = $this->getSubLessons();
+            foreach ($lessons as $lesson)
+            {
+                $lesson->update($data);
+            }
+            $this->update($data);
+        }
+        return $lessons;
+    }
+
 //    public static function create(array $data)
 //    {
 ////        $stime = Carbon::createFromTimestamp($data['start_datetime'], 'Asia/Shanghai');
@@ -154,14 +168,14 @@ class Lesson extends Model
         return Lesson::create($linfo);
     }
 
-    public function sameLesson()
-    {
-        $lessons = Lesson::where('syn_code', $this->syn_code)->get();
-        if($lessons->first())
-            return $lessons;
-        else
-            return null;
-    }
+//    public function sameLesson()
+//    {
+//        $lessons = Lesson::where('syn_code', $this->syn_code)->get();
+//        if($lessons->first())
+//            return $lessons;
+//        else
+//            return null;
+//    }
 
     // 课程是否过期
     public function isTimeOut()
@@ -197,99 +211,127 @@ class Lesson extends Model
     }
 
     // 设置课程为未上课程
-    public  function setNew()
+    public function setNew()
     {
         $this->status = 0;
     }
 
     // 设置课程为正常结束课程
-    public  function setFinish()
+    public function setFinish()
     {
         $this->status = 1;
     }
 
-    // 设置课程为临时请假
-    public  function setTodayLeave()
+    public static function getOldLessons($days)
     {
-        if ($this->lesson_type <> 'b')
+        if ($days>=0)
         {
-            $user = Auth::user();
-            if ($this->student->getLeftLeave() > 0){
-                $this->status = 8;
-                $this->waijiao_cost = 0;
-                $this->zhongjiao_cost = 0;
-                $this->jingpin_cost = 0;
-                $this->note = $this->note . "临时请假,不扣课时({$user->name})";
-            }
-            else{
-                $this->status = 1;
-                $this->note = $this->note . "临时请假次数已用完,扣除课时({$user->name})";
-            }
-            $this->save();
+            $time = Carbon::now('Asia/Shanghai')->subDays($days)->startOfDay();
+            return Lesson::where('end_datetime', '>=', $time)
+                ->where('status', '>', 0)
+                ->where('lesson_type', '<>', 'b') // 班课作为bt显示班课的子课显示
+                ->orderby('start_datetime' , 'desc' )
+                ->get();
         }
+        return [];
     }
+
+    public static function getNewLessons($days)
+    {
+        if ($days>=0)
+        {
+            $time = Carbon::now('Asia/Shanghai')->addDays($days)->endOfDay();
+            return Lesson::where('end_datetime', '<=', $time)
+                ->where('status', 0)
+                ->where('lesson_type', '<>', 'b') // 班课作为bt显示班课的子课显示
+                ->orderby('start_datetime')
+                ->get();
+        }
+        return [];
+    }
+
+    // 设置课程为临时请假
+//    public  function setTodayLeave()
+//    {
+//        if ($this->lesson_type <> 'b')
+//        {
+//            $user = Auth::user();
+//            if ($this->student->getLeftLeave() > 0){
+//                $this->status = 8;
+//                $this->waijiao_cost = 0;
+//                $this->zhongjiao_cost = 0;
+//                $this->jingpin_cost = 0;
+//                $this->note = $this->note . "临时请假,不扣课时({$user->name})";
+//            }
+//            else{
+//                $this->status = 1;
+//                $this->note = $this->note . "临时请假次数已用完,扣除课时({$user->name})";
+//            }
+//            $this->save();
+//        }
+//    }
 
     // 设置课程为正常请假
-    public  function setLeave()
-    {
-        $user = Auth::user();
-        if ($this->lesson_type <> 'b'){
-            $this->waijiao_cost = 0;
-            $this->zhongjiao_cost = 0;
-            $this->jingpin_cost = 0;
-            $this->note = $this->note . "正常请假,不扣课时({$user->name})";
-        }
-        else{
-            $this->zhongjiao_cost = 0;
-            $this->note = $this->note . "班课正常请假,不扣除中教课时({$user->name})";
-        }
-        $this->status = 7;
-        $this->save();
-    }
+//    public  function setLeave()
+//    {
+//        $user = Auth::user();
+//        if ($this->lesson_type <> 'b'){
+//            $this->waijiao_cost = 0;
+//            $this->zhongjiao_cost = 0;
+//            $this->jingpin_cost = 0;
+//            $this->note = $this->note . "正常请假,不扣课时({$user->name})";
+//        }
+//        else{
+//            $this->zhongjiao_cost = 0;
+//            $this->note = $this->note . "班课正常请假,不扣除中教课时({$user->name})";
+//        }
+//        $this->status = 7;
+//        $this->save();
+//    }
 
     // 发送2-26小时上课提醒
-    public  function sendStartMassage()
-    {
-        $student = $this->student;
-        if ($student)
-        {
-            if (($this->fteacher)&&($this->cteacher))
-            {
-                $teacher = "{$this->fteacher->name} & {$this->cteacher->ename}({$this->cteacher->name})";
-            }
-            else
-            {
-                $teacher = "";
-                if ($this->cteacher)
-                {
-                    $teacher = "{$this->cteacher->ename}({$this->cteacher->name})";
-                }
-                if ($this->fteacher)
-                {
-                    $teacher = $this->fteacher->name;
-                }
-            }
-            if ($this->date > Carbon::now() -> toDateString() )
-            {
-                $first = '深泉教育提醒 明天 有您的课程';
-            }
-            else
-            {
-                $first = '深泉教育提醒 今天 有您的课程';
-            }
-            $message = ['first' => $first ,
-                'sname' => $student -> name . ' ' . $student -> ename ,
-                'time' => $lesson -> date . ' ' . substr( $lesson -> stime , 0 , 5 ) . '~' . substr( $lesson -> etime , 0 , 5 ) ,
-                'place' => $lesson -> place -> name . '',
-                'teacher' => $teacher,
-                'mid' => $lesson -> mid . ''];
-            $wechats = $student -> wechats;
-            foreach( $wechats as $wechat )
-            {
-                $message['touser'] = $wechat -> openid;
-                $this -> startmassage( $message );
-            }
-        }
-    }
+//    public  function sendStartMassage()
+//    {
+//        $student = $this->student;
+//        if ($student)
+//        {
+//            if (($this->fteacher)&&($this->cteacher))
+//            {
+//                $teacher = "{$this->fteacher->name} & {$this->cteacher->ename}({$this->cteacher->name})";
+//            }
+//            else
+//            {
+//                $teacher = "";
+//                if ($this->cteacher)
+//                {
+//                    $teacher = "{$this->cteacher->ename}({$this->cteacher->name})";
+//                }
+//                if ($this->fteacher)
+//                {
+//                    $teacher = $this->fteacher->name;
+//                }
+//            }
+//            if ($this->date > Carbon::now() -> toDateString() )
+//            {
+//                $first = '深泉教育提醒 明天 有您的课程';
+//            }
+//            else
+//            {
+//                $first = '深泉教育提醒 今天 有您的课程';
+//            }
+//            $message = ['first' => $first ,
+//                'sname' => $student -> name . ' ' . $student -> ename ,
+//                'time' => $lesson -> date . ' ' . substr( $lesson -> stime , 0 , 5 ) . '~' . substr( $lesson -> etime , 0 , 5 ) ,
+//                'place' => $lesson -> place -> name . '',
+//                'teacher' => $teacher,
+//                'mid' => $lesson -> mid . ''];
+//            $wechats = $student -> wechats;
+//            foreach( $wechats as $wechat )
+//            {
+//                $message['touser'] = $wechat -> openid;
+//                $this -> startmassage( $message );
+//            }
+//        }
+//    }
 
 }

@@ -100,6 +100,7 @@ class Team extends Model
         return $this->lessons()
             ->where('lesson_type', 'bt')
             ->where('status', '0')
+            ->orderBy('start_datetime')
             ->get();
     }
 
@@ -108,6 +109,7 @@ class Team extends Model
         return $this->lessons()
             ->where('lesson_type', 'bt')
             ->where('status', '>','0')
+            ->orderBy('start_datetime', 'desc')
             ->get();
     }
 

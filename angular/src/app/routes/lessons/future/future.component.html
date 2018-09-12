@@ -1,0 +1,65 @@
+<input nz-input type="search" class="form-control input-sm" placeholder="输入学生姓名、班名、中外教老师进行搜索" [formControl]="wordFilter" >
+<div *ngFor="let data of displayList">
+  <nz-card [nzTitle]="data.date | _date: 'MM月DD日 dddd'">
+    <nz-table #newLessonsTable [nzData]="data.lessons | filter:['student','team','cteacher','fteacher']:searchWord" nzSize="middle" [nzShowPagination]="false" [nzFrontPagination]="false">
+      <thead>
+      <tr>
+        <th nzShowExpand nzWidth="80px"></th>
+        <th>上课学员/班级</th>
+        <th>课程类型</th>
+        <th>中教老师</th>
+        <th>上课时间</th>
+        <th>外教老师</th>
+        <th>外教时间</th>
+        <th>上课地点</th>
+        <th>课程名称</th>
+        <th></th>
+      </tr>
+      </thead>
+      <tbody>
+      <ng-template ngFor let-lesson [ngForOf]="newLessonsTable.data">
+        <tr>
+          <td [nzShowExpand]="!!lesson.sub_lessons" [(nzExpand)]="lesson.expand"></td>
+          <td>{{lesson.student ? lesson.student : ''}}{{lesson.team ? lesson.team : ''}}</td>
+          <td>{{lesson.lesson_type}}</td>
+          <td>{{lesson.cteacher ? lesson.cteacher : '无'}}</td>
+          <td>{{lesson.stime*1000 | _date: 'HH:mm'}}~{{lesson.etime*1000 | _date: 'HH:mm'}}</td>
+          <td>{{lesson.fteacher ? lesson.fteacher : '无'}}</td>
+          <td>{{lesson.fteacher_time ? (lesson.fteacher_time*1000 | _date: 'HH:mm') : '无'}}</td>
+          <td>{{lesson.place}}</td>
+          <td><a [routerLink]="['/lessons/lesson',lesson.id]">{{lesson.name}}</a></td>
+          <td>
+            <a (click)="op.changeName(lesson.id)">改名</a>
+            <span *ngIf="lesson.lesson_type_id != 'bt'">
+                <nz-divider nzType="vertical"></nz-divider><a (click)="op.changeScore(lesson.id)">打分({{lesson.score}})</a>
+              </span>
+            <nz-divider nzType="vertical"></nz-divider><a (click)="op.deleteLesson(lesson.id)">删除</a>
+          </td>
+        </tr>
+        <tr [nzExpand]="lesson.expand">
+          <td></td>
+          <td colspan="9">
+            <nz-table #innerTable [nzData]="lesson.sub_lessons" nzSize="middle"  [nzShowPagination]="false" [nzFrontPagination]="false" [nzBordered]="false">
+      <tbody>
+      <tr *ngFor="let item of innerTable.data">
+        <td><a [routerLink]="['/students/student',item.student_id]">{{item.student}}</a></td>
+        <td><a [routerLink]="['/lessons/lesson',item.id]">查看课程</a></td>
+        <td><nz-badge [nzStatus]="'success'" [nzText]="item.status | trans:lessonStatusList:'value':'label'"></nz-badge></td>
+        <td>外{{item.waijiao_cost}}/中{{item.zhongjiao_cost}}/精{{item.jingpin_cost}}</td>
+        <td>
+                      <span *ngIf="item.status != 3">
+                        <a (click)="op.leave(item.id)">请假</a>
+                      </span>
+          <nz-divider nzType="vertical"></nz-divider><a (click)="op.changeScore(item.id)">打分({{item.score}})</a>
+          <nz-divider nzType="vertical"></nz-divider><a (click)="op.deleteLesson(item.id)">删除</a>
+        </td>
+      </tr>
+      </tbody>
+    </nz-table>
+    </td>
+    </tr>
+    </ng-template>
+    </tbody>
+    </nz-table>
+  </nz-card>
+</div>

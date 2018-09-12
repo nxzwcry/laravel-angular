@@ -124,7 +124,7 @@ class CreateDeepspringTables extends Migration
             $table->unsignedInteger('team_id')->nullable($value = true);
             $table->unsignedInteger('syn_code')->nullable($value = true);
             $table->unsignedInteger('place_id')->default(0);
-            $table->Integer('status')->default(0);  // 0：未上 1:已上 2:待确认 3:请假 4:旷课
+            $table->Integer('status')->default(0);  // 0：未上 1:已上 2:待确认 3:请假(未补) 4:请假(已补) 5:旷课
             $table->longText('note')->nullable($value = true);
             $table->timestamps();
             $table->softDeletes();

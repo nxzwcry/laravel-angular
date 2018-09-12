@@ -82,15 +82,19 @@ class AppdataController extends ApiController
                 'children' => [
                     [
                         'text' => '待上课表',
-                        'link' => '/lessons/new-lessons',
+                        'link' => '/lessons/future',
                     ],
                     [
                         'text' => '已上课程',
-                        'link' => '/lessons/old-lessons',
+                        'link' => '/lessons/passed',
                     ],
                     [
                         'text' => '固定课表',
                         'link' => '/lessons/courses',
+                    ],
+                    [
+                        'text' => '请假列表',
+                        'link' => '/lessons/leave',
                     ],
 //                    [
 //                        'text' => '安排试听课',

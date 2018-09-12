@@ -54,13 +54,14 @@ Route::middleware('auth:api')->group(function () {
     });
 
     Route::prefix('lessons')->group(function () {
-        Route::get('', 'Api\LessonController@index');
+        Route::get('/index/{days}', 'Api\LessonController@index');
+        Route::get('/leave', 'Api\LessonController@getLeave');
         Route::get('{lesson}', 'Api\LessonController@show');
         Route::post('', 'Api\LessonController@store');
         Route::post('/team', 'Api\LessonController@createTeamLesson');
-        Route::put('{lesson}', 'Api\LessonController@update');
         Route::put('/leave/{lesson}', 'Api\LessonController@leave');
         Route::put('/confirm/{lesson}', 'Api\LessonController@confirm');
+        Route::put('{lesson}', 'Api\LessonController@update');
         Route::delete('{lesson}', 'Api\LessonController@delete');
     });
 

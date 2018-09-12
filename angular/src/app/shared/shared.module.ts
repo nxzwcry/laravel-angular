@@ -13,6 +13,10 @@ import { NgZorroAntdModule } from 'ng-zorro-antd';
 import { CountdownModule } from 'ngx-countdown';
 import {FilterPipe} from "./pipe/filter.pipe";
 import {TransPipe} from "@shared/pipe/trans.pipe";
+import {SharedEditLessonNameComponent} from "@shared/components/edit-lesson-name/edit-lesson-name.component";
+import {SharedEditLessonScoreComponent} from "@shared/components/edit-lesson-score/edit-lesson-score.component";
+import {LessonOperateService} from "@shared/services/lesson-operate.service";
+import {DictionaryService} from "@shared/services/dictionary.service";
 
 const THIRDMODULES = [
   NgZorroAntdModule,
@@ -21,7 +25,10 @@ const THIRDMODULES = [
 // endregion
 
 // region: your componets & directives
-const COMPONENTS = [];
+const COMPONENTS = [
+  SharedEditLessonNameComponent,
+  SharedEditLessonScoreComponent,
+];
 const DIRECTIVES = [];
 // endregion
 
@@ -29,6 +36,11 @@ const DIRECTIVES = [];
 const PIPES = [
   FilterPipe,
   TransPipe,
+];
+
+const MYSERVICES = [
+  DictionaryService,
+  LessonOperateService,
 ];
 
 @NgModule({
@@ -65,6 +77,12 @@ const PIPES = [
     ...COMPONENTS,
     ...DIRECTIVES,
     ...PIPES
+  ],
+  providers:[
+    ...MYSERVICES,
+  ],
+  entryComponents:[
+    ...COMPONENTS,
   ]
 })
 export class SharedModule { }

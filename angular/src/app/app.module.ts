@@ -22,14 +22,11 @@ registerLocaleData(zh);
 import { JsonSchemaModule } from '@shared/json-schema/json-schema.module';
 import {ReactiveFormsModule} from "@angular/forms";
 import {DictionaryService} from "@shared/services/dictionary.service";
+import {LessonOperateService} from "@shared/services/lesson-operate.service";
 
 export function StartupServiceFactory(startupService: StartupService): Function {
   return () => startupService.load();
 }
-
-const MYSERVICES = [
-  DictionaryService
-];
 
 @NgModule({
   declarations: [
@@ -59,7 +56,6 @@ const MYSERVICES = [
       deps: [StartupService],
       multi: true
     },
-    ...MYSERVICES,
   ],
   bootstrap: [AppComponent]
 })

@@ -9,9 +9,24 @@ use App\Http\Resources\LessonCollection;
 
 class LessonController extends ApiController
 {
-    public function index()
+    public function index($days)
     {
-        return new LessonCollection(Lesson::all());;
+        if($days<>0)
+        {
+            if($days>0) // 获取待上课程
+            {
+                $lessons = Lesson::getNewLessons($days);
+            }
+            else{ // 获取已上课程
+                $lessons = Lesson::getOldLessons(-$days);
+            }
+        }
+        return new LessonCollection($lessons);
+    }
+
+    public function getLeave()
+    {
+        return LessonResource::collection(Lesson::where('status', 3)->get());
     }
 
     public function show(Lesson $lesson)
@@ -35,7 +50,14 @@ class LessonController extends ApiController
 
     public function update(Request $request, Lesson $lesson)
     {
-        $lesson->update($request->all());
+        if ($lesson->lesson_type == 'bt')
+        {
+            $lesson->updateTeamLesson($request->all());
+        }
+        else
+        {
+            $lesson->update($request->all());
+        }
 
         return response()->json($lesson, 200);
     }

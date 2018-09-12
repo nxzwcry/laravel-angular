@@ -20,6 +20,8 @@ class Lesson extends Resource
             'name' => $this->name,
             'student_id' => $this->student_id,
             'student' => $this->student ? $this->student->name : null,
+            'team_id' => $this->team_id,
+            'team' => $this->team ? $this->team->name : null,
             'date' => $this->start_datetime->timestamp,
             'stime' => $this->start_datetime->timestamp,
             'etime' => $this->end_datetime->timestamp,
@@ -37,6 +39,7 @@ class Lesson extends Resource
             'zhongjiao_cost' =>$this->zhongjiao_cost,
             'status' => $this->status,
             'sub_lessons' => $this->getSubLessons() ? Lesson::collection($this->getSubLessons()) : null,
+            'score' => $this->score,
         ];
     }
 
