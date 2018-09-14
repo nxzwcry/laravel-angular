@@ -14,9 +14,8 @@ class RoleController extends ApiController
         return RoleResource::collection(Role::all());
     }
 
-    public function show(Request $request)
+    public function show(Role $role)
     {
-        $role = Role::find($request->id);
         return new RoleResource($role);
     }
 
@@ -24,37 +23,36 @@ class RoleController extends ApiController
     {
         $role = Role::create($request->all());
 
-        return response()->json(new RoleResource($role), 201);
+        return new RoleResource($role);
     }
 
-    public function update(Request $request, String $id)
+    public function update(Request $request, Role $role)
     {
-        $role = Role::find($id);
         $role->update($request->all());
 
-        return response()->json(new RoleResource($role), 200);
+        return new RoleResource($role);
     }
 
-    public function delete(Request $request)
+    public function delete(Role $role)
     {
-        $role = Role::find($request->id);
+        $role->delete();
 
         return response()->json(null, 204);
     }
 
-    public function addPermissions(Request $request, String $id)
+    public function addPermissions(Request $request, Role $role)
     {
-        $role = Role::find($id);
         $permissions = Permission::find($request->all());
-        return $role->givePermissionTo($permissions);
+        $role->givePermissionTo($permissions);
+        return new RoleResource($role);
     }
 
-    public function removePermissions(Request $request, String $id)
+    public function removePermissions(Request $request, Role $role)
     {
-        $role = Role::find($id);
         $permissions = Permission::find($request->all());
         foreach ($permissions as $permission){
             $role->revokePermissionTo($permission);
         }
+        return new RoleResource($role);
     }
 }

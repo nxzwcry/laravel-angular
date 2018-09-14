@@ -23,14 +23,14 @@ class RechargeController extends ApiController
     {
         $recharge = Recharge::create($request->all());
 
-        return response()->json(new RechargeResource($recharge), 201);
+        return new RechargeResource($recharge);
     }
 
     public function update(Request $request, Recharge $recharge)
     {
         $recharge->update($request->all());
 
-        return response()->json(new RechargeResource($recharge), 200);
+        return new RechargeResource($recharge);
     }
 
     public function delete(Recharge $recharge)

@@ -28,7 +28,7 @@ class Lesson extends Model
     protected $dates = ['start_datetime', 'end_datetime', 'fteacher_datetime', 'deleted_at', 'created_at', 'updated_at'];
 
     //不允许批量赋值的字段
-    protected $guarded = ['id', 'created_at', 'updated_at'];
+    protected $guarded = ['id', 'status', 'report_id', 'note', 'score', 'created_at', 'updated_at'];
 
     /**
      * 模型日期列的存储格式
@@ -162,9 +162,6 @@ class Lesson extends Model
     {
         $linfo = $this->toArray();
         $linfo['student_id'] = $sid;
-        $linfo['score'] = 0;
-        $linfo['report_id'] = null;
-        $linfo['note'] = null;
         return Lesson::create($linfo);
     }
 
@@ -202,12 +199,34 @@ class Lesson extends Model
         }
     }
 
+    // 创建补课
+    public function createBuke(array $data)
+    {
+        $lessonInfo = $this->toArray();
+        $lessonInfo['cteacher_id'] = $data['cteacher_id'];
+        $lessonInfo['start_datetime'] = $data['start_datetime'];
+        $lessonInfo['end_datetime'] = $data['end_datetime'];
+        $lessonInfo['syn_code'] = $lessonInfo['id'];
+        $lessonInfo['lesson_type'] = 'bu';
+        $lessonInfo['zhongjiao_cost'] = 1;
+        $lessonInfo['waijiao_cost'] = 0;
+        $lessonInfo['jingpin_cost'] = 0;
+        unset($lessonInfo['fteacher_id']);
+        unset($lessonInfo['fteacher_datetime']);
+        return Lesson::create($lessonInfo);
+    }
+
     // 请假
-    public function leave()
+    public function setLeave()
     {
         $this->zhongjiao_cost = 0;
         $this->status = 3;
-        $this->save();
+    }
+
+    // 将课程设置为已补课
+    public function setBuke()
+    {
+        $this->status = 4;
     }
 
     // 设置课程为未上课程

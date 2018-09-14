@@ -9,6 +9,8 @@ import {TeamsAddStudentsComponent} from "../add-students/add-students";
 import {LessonsEditLessonComponent} from "../../lessons/edit-lesson/edit-lesson.component";
 import {LessonsEditCourseComponent} from "../../lessons/edit-course/edit-course.component";
 import {TeamsEditTeamComponent} from "../edit-team/edit-team.component";
+import {LessonOperateService} from "@shared/services/lesson-operate.service";
+import {CourseOperateService} from "@shared/services/course-operate.service";
 
 @Component({
   selector: 'app-teams-team',
@@ -27,7 +29,12 @@ export class TeamsTeamComponent implements OnInit {
     private reuseTabService: ReuseTabService,
     private dic: DictionaryService,
     private modal: ModalHelper,
-  ) { }
+    private lessonOp: LessonOperateService,
+    private courseOp: CourseOperateService,
+  ) {
+    this.lessonOp.setCom(this);
+    this.courseOp.setCom(this);
+  }
 
   ngOnInit(): void {
     this.dowList = this.dic.getDowList();
@@ -45,42 +52,6 @@ export class TeamsTeamComponent implements OnInit {
             nzComponentParams: {teamId: this.id}
           }
       }).subscribe(res => this.reload(res) );
-  }
-
-  confirm(lessonId){
-    this.http.put(`/lessons/confirm/${lessonId}`)
-      .subscribe(res => {
-          this.msgSrv.success('保存成功');
-          this.load();
-        },
-        error => {
-          console.log('post请求失败', error);
-        }
-      );
-  }
-
-  leave(lessonId){
-    this.http.put(`/lessons/leave/${lessonId}`)
-      .subscribe(res => {
-          this.msgSrv.success('保存成功');
-          this.load();
-        },
-        error => {
-          console.log('post请求失败', error);
-        }
-      );
-  }
-
-  deleteLesson(lessonId){
-    this.http.delete(`/lessons/${lessonId}`)
-      .subscribe(res => {
-          this.msgSrv.success('保存成功');
-          this.load();
-        },
-        error => {
-          console.log('post请求失败', error);
-        }
-      );
   }
 
   deleteStudent(student: number){

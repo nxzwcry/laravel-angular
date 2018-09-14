@@ -16,6 +16,10 @@ class Course extends Resource
     {
         return [
             'id' => $this->id,
+            'student' => $this->student ? $this->student->name : null,
+            'student_id' => $this->student_id,
+            'team' => $this->team ? $this->team->name : null,
+            'team_id' => $this->team_id,
             'name' => $this->name,
             'dow' => $this->dow,
             'stime' => $this->start_time->timestamp,
@@ -23,6 +27,7 @@ class Course extends Resource
             'ftime' => $this->fteacher_time ? $this->fteacher_time->timestamp : null,
             'cteacher' => $this->cteacher ? $this->cteacher->name : null,
             'fteacher' => $this->fteacher ? $this->fteacher->name : null,
+            'fteacher_time' => $this->fteacher_time ? $this->fteacher_time->timestamp : null,
             'place' => $this->place ? $this->place->name : null,
             'lesson_type' => lessonType($this->lesson_type),
         ];

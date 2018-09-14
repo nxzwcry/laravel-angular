@@ -48,6 +48,7 @@
             <th>中教老师</th>
             <th>外教老师</th>
             <th>上课地点</th>
+            <th></th>
           </tr>
           </thead>
           <tbody>
@@ -59,6 +60,9 @@
             <td>{{lesson.cteacher}}</td>
             <td>{{lesson.fteacher}}</td>
             <td>{{lesson.place}}</td>
+            <td>
+              <a (click)="lessonOp.deleteLesson(lesson.id)">删除</a>
+            </td>
           </tr>
           </tbody>
         </nz-table>
@@ -76,6 +80,7 @@
             <th>中教老师</th>
             <th>外教老师</th>
             <th>上课地点</th>
+            <th></th>
           </tr>
           </thead>
           <tbody>
@@ -87,6 +92,9 @@
             <td>{{course.cteacher}}</td>
             <td>{{course.fteacher}}</td>
             <td>{{course.place}}</td>
+            <td>
+              <a (click)="courseOp.deleteCourse(course.id)">删除</a>
+            </td>
           </tr>
           </tbody>
         </nz-table>
@@ -102,8 +110,9 @@
             <th nzWidth="150px">上课日期</th>
             <th nzWidth="150px">上课时间</th>
             <th nzWidth="150px">中教老师</th>
-            <th nzWidth="200px">外教老师</th>
-            <th nzWidth="200px">上课地点</th>
+            <th nzWidth="150px">课程状态</th>
+            <th nzWidth="150px">秏课</th>
+            <th nzWidth="100px"></th>
           </tr>
           </thead>
           <tbody>
@@ -113,8 +122,11 @@
             <td>{{lesson.date*1000 | _date: 'YYYY/MM/DD'}}</td>
             <td>{{lesson.stime*1000 | _date: 'HH:mm'}}~{{lesson.etime*1000 | _date: 'HH:mm'}}</td>
             <td>{{lesson.cteacher}}</td>
-            <td>{{lesson.fteacher}}</td>
-            <td>{{lesson.place}}</td>
+            <td><nz-badge [nzStatus]="'success'" [nzText]="lesson.status | trans:lessonStatusList:'value':'label'"></nz-badge></td>
+            <td>外{{lesson.waijiao_cost}}/中{{lesson.zhongjiao_cost}}/精{{lesson.jingpin_cost}}</td>
+            <td>
+              <a (click)="lessonOp.deleteLesson(lesson.id)">删除</a>
+            </td>
           </tr>
           </tbody>
         </nz-table>

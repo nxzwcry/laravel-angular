@@ -50,8 +50,9 @@ export class DictionaryService {
     {label: "未上", value: 0},
     {label: "已上", value: 1},
     {label: "待确认", value: 2},
-    {label: "请假", value: 3},
-    {label: "旷课", value: 4},
+    {label: "请假(未补)", value: 3},
+    {label: "请假(已补)", value: 4},
+    {label: "旷课", value: 5},
   ];
 
   constructor(private http: _HttpClient, private cacheService: CacheService) { }

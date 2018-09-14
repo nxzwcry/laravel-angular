@@ -59,12 +59,12 @@ class Course extends Model
 
     public function student()
     {
-        return $this->belongsTo('App\Student' , 'sid');
+        return $this->belongsTo('App\Student' , 'student_id');
     }
 
     public function team()
     {
-        return $this->belongsTo('App\Classes' , 'team_id');
+        return $this->belongsTo('App\Team' , 'team_id');
     }
 
 //    public function lessons()
@@ -220,7 +220,7 @@ class Course extends Model
         unset($lessoninfo['updated_at']);
         unset($lessoninfo['created_at']);
 //        unset($lessoninfo['courseware']);
-        if($lessoninfo['team_id'])
+        if($lessoninfo['lesson_type'] == 'b')
         {
             $lesson = Lesson::createTeamLesson($lessoninfo);
         }

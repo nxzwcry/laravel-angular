@@ -34,7 +34,7 @@ class UserController extends ApiController
 
         $this->sendResetLinkEmail($request);
 
-        return response()->json($user, 201);
+        return response()->json(new UserResource($user), 201);
     }
 
     public function sendResetEmail(Request $request)
@@ -54,7 +54,7 @@ class UserController extends ApiController
     {
         $user->update($request->all());
         $user->changeRole($request->all());
-        return response()->json($user, 200);
+        return response()->json(new UserResource($user), 200);
     }
 
     public function delete(User $user)

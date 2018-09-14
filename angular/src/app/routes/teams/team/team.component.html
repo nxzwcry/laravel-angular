@@ -36,6 +36,7 @@
             <th>中教老师</th>
             <th>外教老师</th>
             <th>上课地点</th>
+            <th></th>
           </tr>
           </thead>
           <tbody>
@@ -48,10 +49,13 @@
                 <td>{{lesson.cteacher}}</td>
                 <td>{{lesson.fteacher}}</td>
                 <td>{{lesson.place}}</td>
+                <td>
+                  <a (click)="lessonOp.deleteLesson(lesson.id)">删除</a>
+                </td>
               </tr>
               <tr [nzExpand]="lesson.expand">
                 <td></td>
-                <td colspan="7">
+                <td colspan="8">
                   <nz-table #innerTable [nzData]="lesson.sub_lessons" nzSize="middle"  [nzShowPagination]="false" [nzFrontPagination]="false" [nzBordered]="false">
                     <tbody>
                       <tr *ngFor="let item of innerTable.data">
@@ -60,10 +64,7 @@
                         <td><nz-badge [nzStatus]="'success'" [nzText]="item.status | trans:lessonStatusList:'value':'label'"></nz-badge></td>
                         <td>外{{item.waijiao_cost}}/中{{item.zhongjiao_cost}}/精{{item.jingpin_cost}}</td>
                         <td>
-                          <span *ngIf="item.status != 3">
-                            <a (click)="leave(item.id)">请假</a>
-                          </span>
-                          <nz-divider nzType="vertical"></nz-divider><a (click)="deleteLesson(item.id)">删除</a>
+                          <a (click)="lessonOp.deleteLesson(item.id)">删除</a>
                         </td>
                       </tr>
                     </tbody>
@@ -86,6 +87,7 @@
             <th>中教老师</th>
             <th>外教老师</th>
             <th>上课地点</th>
+            <th></th>
           </tr>
           </thead>
           <tbody>
@@ -96,6 +98,9 @@
               <td>{{course.cteacher}}</td>
               <td>{{course.fteacher}}</td>
               <td>{{course.place}}</td>
+              <td>
+                <a (click)="courseOp.deleteCourse(course.id)">删除</a>
+              </td>
             </tr>
           </tbody>
         </nz-table>
@@ -137,13 +142,8 @@
                       <td><nz-badge [nzStatus]="'success'" [nzText]="item.status | trans:lessonStatusList:'value':'label'"></nz-badge></td>
                       <td>外{{item.waijiao_cost}}/中{{item.zhongjiao_cost}}/精{{item.jingpin_cost}}</td>
                       <td>
-                          <span *ngIf="item.status == 2">
-                            <a (click)="confirm(item.id)">确认上课</a><nz-divider nzType="vertical"></nz-divider>
-                          </span>
-                        <span *ngIf="item.status != 3">
-                          <a (click)="leave(item.id)">请假</a>
-                        </span>
-                          <nz-divider nzType="vertical"></nz-divider><a (click)="deleteLesson(item.id)">删除</a></td>
+                          <a (click)="lessonOp.deleteLesson(item.id)">删除</a>
+                      </td>
                     </tr>
                     </tbody>
                   </nz-table>

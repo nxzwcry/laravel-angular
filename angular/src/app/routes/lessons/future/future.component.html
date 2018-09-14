@@ -29,9 +29,9 @@
           <td>{{lesson.place}}</td>
           <td><a [routerLink]="['/lessons/lesson',lesson.id]">{{lesson.name}}</a></td>
           <td>
-            <a (click)="op.changeName(lesson.id)">改名</a>
+            <a (click)="op.changeName(lesson)">改名</a>
             <span *ngIf="lesson.lesson_type_id != 'bt'">
-                <nz-divider nzType="vertical"></nz-divider><a (click)="op.changeScore(lesson.id)">打分({{lesson.score}})</a>
+                <nz-divider nzType="vertical"></nz-divider><a (click)="op.changeScore(lesson)">打分({{lesson.score}})</a>
               </span>
             <nz-divider nzType="vertical"></nz-divider><a (click)="op.deleteLesson(lesson.id)">删除</a>
           </td>
@@ -47,10 +47,10 @@
         <td><nz-badge [nzStatus]="'success'" [nzText]="item.status | trans:lessonStatusList:'value':'label'"></nz-badge></td>
         <td>外{{item.waijiao_cost}}/中{{item.zhongjiao_cost}}/精{{item.jingpin_cost}}</td>
         <td>
-                      <span *ngIf="item.status != 3">
-                        <a (click)="op.leave(item.id)">请假</a>
+                      <span *ngIf="item.status < 3">
+                        <a (click)="op.leave(item)">请假</a>
                       </span>
-          <nz-divider nzType="vertical"></nz-divider><a (click)="op.changeScore(item.id)">打分({{item.score}})</a>
+          <nz-divider nzType="vertical"></nz-divider><a (click)="op.changeScore(item)">打分({{item.score}})</a>
           <nz-divider nzType="vertical"></nz-divider><a (click)="op.deleteLesson(item.id)">删除</a>
         </td>
       </tr>

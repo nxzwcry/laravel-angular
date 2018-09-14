@@ -57,19 +57,19 @@ class StudentController extends ApiController
     {
         $student = Student::create($request->all());
 
-        return response()->json(new StudentResource($student), 201);
+        return new StudentResource($student);
     }
 
     public function update(Request $request, Student $student)
     {
         $student->update($request->all());
 
-        return response()->json(new StudentResource($student), 200);
+        return new StudentResource($student);
     }
 
     public function stop(Request $request, Student $student)
     {
-        return response()->json(new StudentResource($student->stop()), 200);
+        return new StudentResource($student->stop());
     }
 
     public function delete(Student $student)

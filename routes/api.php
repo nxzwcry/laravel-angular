@@ -59,8 +59,10 @@ Route::middleware('auth:api')->group(function () {
         Route::get('{lesson}', 'Api\LessonController@show');
         Route::post('', 'Api\LessonController@store');
         Route::post('/team', 'Api\LessonController@createTeamLesson');
-        Route::put('/leave/{lesson}', 'Api\LessonController@leave');
-        Route::put('/confirm/{lesson}', 'Api\LessonController@confirm');
+        Route::put('/score/{lesson}', 'Api\LessonController@setScore');
+        Route::put('/name/{lesson}', 'Api\LessonController@setName');
+        Route::put('/buke/{lesson}', 'Api\LessonController@buke');
+        Route::put('/status/{lesson}', 'Api\LessonController@setStatus');
         Route::put('{lesson}', 'Api\LessonController@update');
         Route::delete('{lesson}', 'Api\LessonController@delete');
     });
@@ -91,12 +93,12 @@ Route::middleware('auth:api')->group(function () {
 
     Route::prefix('roles')->group(function () {
         Route::get('', 'Api\RoleController@index');
-        Route::get('{id}', 'Api\RoleController@show');
+        Route::get('{roles}', 'Api\RoleController@show');
         Route::post('', 'Api\RoleController@store');
-        Route::put('{id}', 'Api\RoleController@update');
-        Route::put('/add/{id}', 'Api\RoleController@addPermissions');
-        Route::put('/remove/{id}', 'Api\RoleController@removePermissions');
-        Route::delete('{id}', 'Api\RoleController@delete');
+        Route::put('/add/{roles}', 'Api\RoleController@addPermissions');
+        Route::put('/remove/{roles}', 'Api\RoleController@removePermissions');
+        Route::put('{roles}', 'Api\RoleController@update');
+        Route::delete('{roles}', 'Api\RoleController@delete');
     });
 
     Route::get('places', 'Api\PlaceController@index');

@@ -24,14 +24,14 @@ class TeamController extends ApiController
     {
         $team = Team::create($request->all());
 
-        return response()->json($team, 201);
+        return new TeamResource($team);
     }
 
     public function addStudents(Request $request, Team $team)
     {
         $team->addStudents($request->students);
 
-        return response()->json($team, 200);
+        return new TeamResource($team);
     }
 
     public function deleteStudent(Request $request, Team $team)
@@ -39,7 +39,7 @@ class TeamController extends ApiController
         $student = Student::find($request->student);
         if ($student)
         {
-            return response()->json($team->deleteStudent($student), 200);
+            return new TeamResource($team);
         }
         else
         {
@@ -51,7 +51,7 @@ class TeamController extends ApiController
     {
         $team->update($request->all());
 
-        return response()->json($team, 200);
+        return new TeamResource($team);
     }
 
     public function delete(Team $team)

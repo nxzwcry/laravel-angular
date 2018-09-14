@@ -34,18 +34,71 @@ class LessonController extends ApiController
         return new LessonResource($lesson);
     }
 
+    public function buke(Request $request, Lesson $lesson)
+    {
+        if ($request->cteacher)
+        {
+            $res = $lesson->createBuke($request->all());
+        }
+        $lesson->setBuke();
+        $lesson->save();
+        return new LessonResource($lesson);
+    }
+
     public function store(Request $request)
     {
         $lesson = Lesson::create($request->all());
 
-        return response()->json($lesson, 201);
+        return new LessonResource($lesson);
     }
 
     public function createTeamLesson(Request $request)
     {
         $lesson = Lesson::createTeamLesson($request->all());
 
-        return response()->json($lesson, 201);
+        return new LessonResource($lesson);
+    }
+
+    public function setStatus(Request $request, Lesson $lesson)
+    {
+        if ($request->status)
+        {
+            if ($request->status == 3)
+            {
+                $lesson->setLeave();
+            }
+            elseif ($lesson->status == 2)
+            {
+                $lesson->setFinish();
+            }
+            else
+            {
+                $lesson->status = $request->status;
+            }
+            $lesson->save();
+        }
+        return new LessonResource($lesson);
+
+    }
+
+    public function setScore(Request $request, Lesson $lesson)
+    {
+        if($request->score)
+        {
+            $lesson->score = $request->score;
+            $lesson->save();
+        }
+        return new LessonResource($lesson);
+    }
+
+    public function setName(Request $request, Lesson $lesson)
+    {
+        if($request->name)
+        {
+            $lesson->name = $request->name;
+            $lesson->save();
+        }
+        return new LessonResource($lesson);
     }
 
     public function update(Request $request, Lesson $lesson)
@@ -59,7 +112,7 @@ class LessonController extends ApiController
             $lesson->update($request->all());
         }
 
-        return response()->json($lesson, 200);
+        return new LessonResource($lesson);
     }
 
     public function delete(Lesson $lesson)
@@ -71,21 +124,5 @@ class LessonController extends ApiController
         $lesson->delete();
 
         return response()->json(null, 204);
-    }
-
-    public function confirm(Lesson $lesson)
-    {
-        if ($lesson->status == 2)
-        {
-            $lesson->setFinish();
-            $lesson->save();
-        }
-    }
-
-    public function leave(Lesson $lesson)
-    {
-        $lesson->leave();
-
-        return response()->json(null, 200);
     }
 }

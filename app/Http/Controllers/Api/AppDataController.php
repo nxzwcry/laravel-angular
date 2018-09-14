@@ -90,7 +90,7 @@ class AppdataController extends ApiController
                     ],
                     [
                         'text' => '固定课表',
-                        'link' => '/lessons/courses',
+                        'link' => '/lessons/course-list',
                     ],
                     [
                         'text' => '请假列表',

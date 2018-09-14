@@ -23,14 +23,14 @@ class PermissionController extends ApiController
     {
         $permission = Permission::create($request->all());
 
-        return response()->json(new PermissionResource($permission), 201);
+        return new PermissionResource($permission);
     }
 
     public function update(Request $request, Permission $permission)
     {
         $permission->update($request->all());
 
-        return response()->json(new PermissionResource($permission), 200);
+        return new PermissionResource($permission);
     }
 
     public function delete(Permission $permission)

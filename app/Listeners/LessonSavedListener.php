@@ -35,15 +35,18 @@ class LessonSavedListener
             {
                 if ($student->status == 1) // 学生状态为1对1
                 {
-                    if (!$student->getNewLessons()->first())
+                    if (!$student->getNewLessons())
                     {
-                        $student->status = 2;
-                        $student->save();
+                        if (!$student->courses)
+                        {
+                            $student->status = 2;
+                            $student->save();
+                        }
                     }
                 }
                 elseif ($student->status == 2) // 学生状态为未排课
                 {
-                    if ($student->getNewLessons()->first())
+                    if ($student->getNewLessons())
                     {
                         $student->status = 1;
                         $student->save();

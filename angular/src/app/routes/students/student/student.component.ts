@@ -11,6 +11,8 @@ import {StudentsEditStudentComponent} from "../edit-student/edit-student.compone
 import {StudentsEditRechargeComponent} from "../edit-recharge/edit-recharge.component";
 import {LessonsEditLessonComponent} from "../../lessons/edit-lesson/edit-lesson.component";
 import {LessonsEditCourseComponent} from "../../lessons/edit-course/edit-course.component";
+import {LessonOperateService} from "@shared/services/lesson-operate.service";
+import {CourseOperateService} from "@shared/services/course-operate.service";
 
 @Component({
   selector: 'app-students-student',
@@ -20,6 +22,7 @@ export class StudentsStudentComponent implements OnInit {
   id = this.route.snapshot.params.id;
   student: Student;
   dowList: Array<any>;
+  lessonStatusList: Array<any>;
 
   constructor(
     private route: ActivatedRoute,
@@ -28,10 +31,16 @@ export class StudentsStudentComponent implements OnInit {
     private reuseTabService: ReuseTabService,
     private dic: DictionaryService,
     private modal: ModalHelper,
-  ) { }
+    private lessonOp: LessonOperateService,
+    private courseOp: CourseOperateService,
+  ) {
+    this.lessonOp.setCom(this);
+    this.courseOp.setCom(this);
+  }
 
   ngOnInit(): void {
     this.dowList = this.dic.getDowList();
+    this.lessonStatusList = this.dic.getLessonStatusList();
     this.load();
   }
 

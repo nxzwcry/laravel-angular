@@ -43,11 +43,11 @@ export class SharedEditLessonScoreComponent implements OnInit {
     if(this.formModel.valid) {
       if (this.lessonId)
       {
-        this.http.put(`/lessons/${this.lessonId}`, this.formModel.value)
+        this.http.put(`/lessons/score/${this.lessonId}`, this.formModel.value)
           .subscribe(
             (val) => {
               this.msgSrv.success('保存成功');
-              this.modal.close(true);
+              this.modal.close(this.formModel.value.score);
             },
             error => {
               console.log('post请求失败', error);
