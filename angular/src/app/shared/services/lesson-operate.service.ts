@@ -72,6 +72,10 @@ export class LessonOperateService {
       }).subscribe(res => lesson.score = res );
   }
 
+  copy(lessonId){
+
+  }
+
   addBuke(lessonId){
     this.modal.create(
       SharedAddLessonBukeComponent,

@@ -142,7 +142,8 @@
                       <td><nz-badge [nzStatus]="'success'" [nzText]="item.status | trans:lessonStatusList:'value':'label'"></nz-badge></td>
                       <td>外{{item.waijiao_cost}}/中{{item.zhongjiao_cost}}/精{{item.jingpin_cost}}</td>
                       <td>
-                          <a (click)="lessonOp.deleteLesson(item.id)">删除</a>
+                          <a (click)="lessonOp.copy(item.id)">复制</a>
+                          <nz-divider nzType="vertical"></nz-divider><a (click)="lessonOp.deleteLesson(item.id)">删除</a>
                       </td>
                     </tr>
                     </tbody>

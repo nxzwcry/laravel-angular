@@ -5,6 +5,7 @@ namespace App\Listeners;
 use App\Events\LessonSaved;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Log;
 
 class LessonSavedListener
 {
@@ -46,6 +47,7 @@ class LessonSavedListener
                 }
                 elseif ($student->status == 2) // 学生状态为未排课
                 {
+                    Log::info($student->getNewLessons());
                     if ($student->getNewLessons())
                     {
                         $student->status = 1;

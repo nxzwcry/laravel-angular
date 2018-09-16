@@ -39,6 +39,7 @@ class TeamController extends ApiController
         $student = Student::find($request->student);
         if ($student)
         {
+            $team->deleteStudent($student);
             return new TeamResource($team);
         }
         else

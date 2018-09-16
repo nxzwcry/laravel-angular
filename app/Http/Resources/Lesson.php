@@ -43,6 +43,7 @@ class Lesson extends Resource
             'status' => $this->status,
             'sub_lessons' => $this->getSubLessons() ? Lesson::collection($this->getSubLessons()) : null,
             'score' => $this->score,
+            'note' => $this->note,
         ];
     }
 

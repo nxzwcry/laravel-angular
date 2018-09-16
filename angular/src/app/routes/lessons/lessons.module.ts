@@ -6,6 +6,7 @@ import {LessonsPassedComponent} from "./passed/passed.component";
 import {LessonsLeaveComponent} from "./leave/leave.component";
 import {LessonsCourseListComponent} from "./course-list/course-list.component";
 import {LessonsLessonComponent} from "./lesson/lesson.component";
+import {LessonsCourseComponent} from "./course/course.component";
 
 const COMPONENTS = [
   LessonsFutureComponent,
@@ -13,6 +14,7 @@ const COMPONENTS = [
   LessonsLeaveComponent,
   LessonsCourseListComponent,
   LessonsLessonComponent,
+  LessonsCourseComponent,
 ];
 const COMPONENTS_NOROUNT = [
 ];

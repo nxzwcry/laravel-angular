@@ -79,6 +79,14 @@
       <nz-input-number formControlName="jingpin_cost"></nz-input-number>
     </nz-form-control>
   </nz-form-item>
+  <nz-form-item [hidden]="listDisable.status">
+    <nz-form-label [nzSpan]="7" nzRequired>课程状态</nz-form-label>
+    <nz-form-control [nzSpan]="12">
+      <nz-select formControlName="status" nzShowSearch nzPlaceHolder="Choose">
+        <nz-option *ngFor="let option of statusList" [nzValue]="option.value" [nzLabel]="option.label"></nz-option>
+      </nz-select>
+    </nz-form-control>
+  </nz-form-item>
   <nz-form-item [hidden]="listDisable.always">
     <nz-form-label [nzSpan]="7">备注</nz-form-label>
     <nz-form-control [nzSpan]="12" >

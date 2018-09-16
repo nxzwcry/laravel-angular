@@ -25,7 +25,7 @@
           <td>{{lesson.fteacher ? lesson.fteacher : '无'}}</td>
           <td>{{lesson.fteacher_time ? (lesson.fteacher_time*1000 | _date: 'HH:mm') : '无'}}</td>
           <td>{{lesson.place}}</td>
-          <td><a [routerLink]="['/lessons/lesson',lesson.id]">{{lesson.name}}</a></td>
+          <td><a [routerLink]="['/lessons/course',lesson.id]">{{lesson.name}}</a></td>
           <td>
             <a (click)="op.deleteCourse(lesson.id)">删除</a>
           </td>

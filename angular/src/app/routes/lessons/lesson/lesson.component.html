@@ -5,11 +5,11 @@
                 <tbody>
                     <tr>
                         <td>学生姓名</td>
-                        <td>{{lesson.student ? lesson.student : '无'}}</td>
+                        <td><a [routerLink]="['/students/student',lesson.student_id]">{{lesson.student}}</a></td>
                     </tr>
                     <tr>
                         <td>所属班级</td>
-                        <td>{{lesson.team ? lesson.team : '无'}}</td>
+                        <td><a [routerLink]="['/teams/team',lesson.team_id]">{{lesson.team}}</a></td>
                     </tr>
                     <tr>
                         <td>课程类型</td>
@@ -93,7 +93,7 @@
             </nz-table>
         </nz-card>
         <ng-template #buttonTemplate>
-            <a>修改信息</a>
+            <a *ngIf="lesson.lesson_type != 'b'" (click)="change()">修改信息</a>
             <nz-divider nzType="vertical"></nz-divider>
             <a (click)="op.changeName(lesson)">改名</a>
         </ng-template>

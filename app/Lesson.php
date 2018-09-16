@@ -45,6 +45,7 @@ class Lesson extends Model
     protected $dispatchesEvents = [
         'saving' => LessonSaving::class,
         'creating' => LessonCreating::class,
+        'saved' => LessonSaved::class,
     ];
 
     public function student()

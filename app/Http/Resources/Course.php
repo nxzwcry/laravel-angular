@@ -26,10 +26,17 @@ class Course extends Resource
             'etime' => $this->end_time->timestamp,
             'ftime' => $this->fteacher_time ? $this->fteacher_time->timestamp : null,
             'cteacher' => $this->cteacher ? $this->cteacher->name : null,
+            'cteacher_id' => $this->cteacher ? $this->cteacher->id : null,
             'fteacher' => $this->fteacher ? $this->fteacher->name : null,
+            'fteacher_id' => $this->fteacher ? $this->fteacher->id : null,
             'fteacher_time' => $this->fteacher_time ? $this->fteacher_time->timestamp : null,
             'place' => $this->place ? $this->place->name : null,
+            'place_id' => $this->place ? $this->place->id : null,
             'lesson_type' => lessonType($this->lesson_type),
+            'lesson_type_id' => $this->lesson_type,
+            'waijiao_cost' => $this->waijiao_cost,
+            'zhongjiao_cost' => $this->zhongjiao_cost,
+            'jingpin_cost' => $this->jingpin_cost,
         ];
     }
 

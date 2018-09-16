@@ -3,22 +3,18 @@ import {_HttpClient, ModalHelper, SettingsService} from '@delon/theme';
 import {JsonData} from "@shared/shared.module";
 import {DictionaryService} from "@shared/services/dictionary.service";
 import {NzMessageService} from "ng-zorro-antd";
-import {FormControl} from "@angular/forms";
-import {debounceTime} from "rxjs/operators";
-import {LessonOperateService} from "@shared/services/lesson-operate.service";
 import {ActivatedRoute} from "@angular/router";
 import {ReuseTabService} from "@delon/abc";
-import {SharedEditLessonComponent} from "@shared/components/edit-lesson/edit-lesson.component";
+import {CourseOperateService} from "@shared/services/course-operate.service";
+import {SharedEditCourseComponent} from "@shared/components/edit-course/edit-course.component";
 
 @Component({
-  selector: 'app-lessons-lesson',
-  templateUrl: './lesson.component.html',
+  selector: 'app-lessons-course',
+  templateUrl: './course.component.html',
 })
-export class LessonsLessonComponent implements OnInit {
+export class LessonsCourseComponent implements OnInit {
   lesson: any;
-  lessonStatusList: Array<any>;
   id = this.route.snapshot.params.id;
-  today: any;
 
   constructor(
     private route: ActivatedRoute,
@@ -26,7 +22,7 @@ export class LessonsLessonComponent implements OnInit {
     public msgSrv: NzMessageService,
     private modal: ModalHelper,
     private dic: DictionaryService,
-    private op: LessonOperateService,
+    private op: CourseOperateService,
     private reuseTabService: ReuseTabService,
   ) {
     this.op.setCom(this);
@@ -34,25 +30,22 @@ export class LessonsLessonComponent implements OnInit {
 
   change() {
     this.modal.create(
-      SharedEditLessonComponent,
+      SharedEditCourseComponent,
       {size: 'sm'},
       {modalOptions:
           {
-            nzTitle: `修改课程信息`,
-            nzComponentParams: {lessonId: this.id}
+            nzTitle: `修改固定课程信息`,
+            nzComponentParams: {courseId: this.id}
           }
       }).subscribe(res => this.op.reload(res) );
   }
 
   ngOnInit() {
-    this.lessonStatusList = this.dic.getLessonStatusList();
-    this.today = new Date();
-    this.today.setHours(23,59,59);
     this.load();
   }
 
   load() {
-    this.http.get<JsonData>(`/lessons/${this.id}`).subscribe(
+    this.http.get<JsonData>(`/courses/${this.id}`).subscribe(
       (data) =>{
         this.lesson = data.data;
         this.reuseTabService.title = this.lesson.name;

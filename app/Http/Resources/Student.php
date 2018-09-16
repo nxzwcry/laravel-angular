@@ -27,6 +27,7 @@ class Student extends Resource
             'agent_user_id'=> $this->agent_user_id,
             'agent' => $this->agent ? $this->agent->name : '',
             'team' => $this->team ? $this->team->name : null,
+            'team_id' => $this->team_id,
         ];
     }
 
@@ -54,7 +55,6 @@ class Student extends Resource
                 'oldlessons' => $this->getNotNewLessons() ? Lesson::collection($this->getNotNewLessons()) : null,
                 'courses' => Course::collection($this->courses),
                 'recharges' => Recharge::collection($this->recharges),
-                'team_id' => $this->team ? $this->team->id : null,
             ],
         ];
     }

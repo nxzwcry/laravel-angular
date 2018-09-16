@@ -31,6 +31,7 @@ export class SharedEditCourseComponent implements OnInit {
   always = true;
   @Input() userId: string;
   @Input() teamId: string;
+  @Input() courseId: string;
 
   constructor(
     private modal: NzModalRef,
@@ -63,14 +64,32 @@ export class SharedEditCourseComponent implements OnInit {
     this.dic.getFteacherList().subscribe(res => this.fteacherList = res.data);
     this.dic.getPlaceList().subscribe(res => this.placeList = res.data);
     if (this.teamId){
-      this.listDisable.type = true;
-      this.listDisable.always = false;
-      this.listDisable.fteacher_id = false;
-      this.listDisable.jingpin_cost = true;
-      this.listDisable.waijiao_cost = false;
       this.formModel.patchValue({
         lesson_type: 'b',
       });
+    }
+    if (this.courseId)
+    {
+      this.http.get<JsonData>(`/courses/${this.courseId}`).subscribe(
+        (data) => {
+          let item = data.data;
+          this.formModel.setValue({
+            name: item.name,
+            cteacher_id: item.cteacher_id,
+            fteacher_id: item.fteacher_id,
+            dow: item.dow,
+            startTime: new Date(item.stime*1000),
+            endTime: new Date(item.etime*1000),
+            fteacherTime: item.fteacher_time ? new Date(item.fteacher_time*1000) : null,
+            waijiao_cost: item.waijiao_cost,
+            zhongjiao_cost: item.zhongjiao_cost,
+            jingpin_cost: item.jingpin_cost,
+            lesson_type: item.lesson_type_id,
+            place_id: item.place_id,
+          });
+          this.listDisable.type = true;
+        }
+      );
     }
   }
 
@@ -97,13 +116,19 @@ export class SharedEditCourseComponent implements OnInit {
       this.listDisable.waijiao_cost = true;
       return;
     }
-    this.listDisable = {
-      type: false,
-      always: true,
-      fteacher_id: true,
-      jingpin_cost: true,
-      waijiao_cost: true,
-    };
+    else if($event == 'b'){
+      this.listDisable.type = true;
+      this.listDisable.always = false;
+      this.listDisable.fteacher_id = false;
+      this.listDisable.jingpin_cost = true;
+      this.listDisable.waijiao_cost = false;
+      return;
+    }
+    this.listDisable.type = false;
+    this.listDisable.always = true;
+    this.listDisable.fteacher_id = true;
+    this.listDisable.jingpin_cost = true;
+    this.listDisable.waijiao_cost = true;
   }
 
   changeTime(time: Date){
@@ -146,11 +171,10 @@ export class SharedEditCourseComponent implements OnInit {
       delete this.req.startTime;
       delete this.req.endTime;
       delete this.req.fteacherTime;
-      if (this.userId || this.teamId)
+      if (this.courseId)
       {
-        this.req.student_id = this.userId;
-        this.req.team_id = this.teamId;
-        this.http.post(`/courses`, this.req)
+        delete this.req.lesson_type;
+        this.http.put(`/courses/${this.courseId}`, this.req)
           .subscribe(
             (val) => {
               this.msgSrv.success('保存成功');
@@ -162,8 +186,25 @@ export class SharedEditCourseComponent implements OnInit {
             }
           );
       }
-      else{
-        console.log('未传入用户ID');
+      else {
+        if (this.userId || this.teamId) {
+          this.req.student_id = this.userId;
+          this.req.team_id = this.teamId;
+          this.http.post(`/courses`, this.req)
+            .subscribe(
+              (val) => {
+                this.msgSrv.success('保存成功');
+                this.modal.close(true);
+              },
+              error => {
+                console.log('post请求失败', error);
+                this.loading = false;
+              }
+            );
+        }
+        else {
+          console.log('未传入用户ID');
+        }
       }
       this.loading = true;
     }

@@ -9,7 +9,7 @@
               <desc-list-item term="课程阶段"><p align="right">{{student.lessonstage}}</p></desc-list-item>
               <desc-list-item term="课程顾问"><p align="right">{{student.agent}}</p></desc-list-item>
               <desc-list-item term="中教老师"><p align="right">{{student.cteacher}}</p></desc-list-item>
-              <desc-list-item term="所在班级" *ngIf="student.team"><p align="right" >{{student.team}}</p></desc-list-item>
+              <desc-list-item term="所在班级" *ngIf="student.team"><p align="right" ><a [routerLink]="['/teams/team', student.team_id]">{{student.team}}</a></p></desc-list-item>
               <desc-list-item term="课堂积分"><p align="right">{{student.score}}</p></desc-list-item>
             </desc-list>
           </nz-collapse-panel>
@@ -61,6 +61,10 @@
             <td>{{lesson.fteacher}}</td>
             <td>{{lesson.place}}</td>
             <td>
+              <span *ngIf="lesson.lesson_type_id == 'j'">
+                <a (click)="lessonOp.copy(lesson.id)">复制</a>
+                <nz-divider nzType="vertical"></nz-divider>
+              </span>
               <a (click)="lessonOp.deleteLesson(lesson.id)">删除</a>
             </td>
           </tr>
