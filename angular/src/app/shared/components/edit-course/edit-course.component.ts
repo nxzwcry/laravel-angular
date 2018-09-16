@@ -9,14 +9,15 @@ import {Student} from "@shared/modules/student";
 import {JsonData} from "@shared/shared.module";
 
 @Component({
-  selector: 'app-lessons-edit-lesson',
-  templateUrl: './edit-lesson.component.html',
+  selector: 'app-shared-edit-course',
+  templateUrl: './edit-course.component.html',
 })
-export class LessonsEditLessonComponent implements OnInit {
+export class SharedEditCourseComponent implements OnInit {
   loading: Boolean = false;
   typeList: Array<any>;
   fteacherList: Array<any>;
   cteacherList: Array<any>;
+  dowList: Array<any>;
   placeList: Array<any>;
   formModel: FormGroup;
   req: any = {};
@@ -42,7 +43,7 @@ export class LessonsEditLessonComponent implements OnInit {
         name: [null, [Validators.required]],
         cteacher_id: [null],
         fteacher_id: [null],
-        date: [null, [Validators.required]],
+        dow: [null, [Validators.required]],
         startTime: [null, [Validators.required]],
         endTime: [null, [Validators.required]],
         fteacherTime: [null],
@@ -51,13 +52,13 @@ export class LessonsEditLessonComponent implements OnInit {
         jingpin_cost: ['0'],
         lesson_type:[null, [Validators.required]],
         place_id: [null, [Validators.required]],
-        note: ['']
       }
     );
   }
 
   ngOnInit(): void {
     this.typeList = this.dic.getLessonTypeList();
+    this.dowList = this.dic.getDowList();
     this.dic.getCteacherList().subscribe(res => this.cteacherList = res.data);
     this.dic.getFteacherList().subscribe(res => this.fteacherList = res.data);
     this.dic.getPlaceList().subscribe(res => this.placeList = res.data);
@@ -137,30 +138,19 @@ export class LessonsEditLessonComponent implements OnInit {
   save() {
     if(this.formModel.valid) {
       Object.assign(this.req, this.formModel.value);
-      let date = this.req.date;
-      let stime = this.req.startTime;
-      let etime = this.req.endTime;
-      stime.setFullYear(date.getFullYear(), date.getMonth(), date.getDate());
-      etime.setFullYear(date.getFullYear(), date.getMonth(), date.getDate());
-      this.req.start_datetime = stime.getTime()/1000;
-      this.req.end_datetime = etime.getTime()/1000;
+      this.req.start_time = this.req.startTime.getTime()/1000;
+      this.req.end_time = this.req.endTime.getTime()/1000;
       if (this.req.fteacherTime){
-        let ftime = this.req.fteacherTime;
-        ftime.setFullYear(date.getFullYear(), date.getMonth(), date.getDate());
-        this.req.fteacher_datetime = ftime.getTime()/1000;
+        this.req.fteacher_time = this.req.fteacherTime.getTime()/1000;
       }
-      // this.req.start_datetime = '2018-09-02 15:00';
-      // this.req.end_datetime = '2018-09-02 15:30';
-      delete this.req.date;
       delete this.req.startTime;
       delete this.req.endTime;
       delete this.req.fteacherTime;
-      // console.log(this.req, stime, etime);
-      if (this.teamId)
+      if (this.userId || this.teamId)
       {
-        // this.req = this.formModel.value;
+        this.req.student_id = this.userId;
         this.req.team_id = this.teamId;
-        this.http.post(`/lessons/team`, this.req)
+        this.http.post(`/courses`, this.req)
           .subscribe(
             (val) => {
               this.msgSrv.success('保存成功');
@@ -173,25 +163,7 @@ export class LessonsEditLessonComponent implements OnInit {
           );
       }
       else{
-        if (this.userId)
-        {
-          // this.req = this.formModel.value;
-          this.req.student_id = this.userId;
-          this.http.post(`/lessons`, this.req)
-            .subscribe(
-              (val) => {
-                this.msgSrv.success('保存成功');
-                this.modal.close(true);
-              },
-              error => {
-                console.log('post请求失败', error);
-                this.loading = false;
-              }
-            );
-        }
-        else{
-          console.log('未传入用户ID');
-        }
+        console.log('未传入用户ID');
       }
       this.loading = true;
     }

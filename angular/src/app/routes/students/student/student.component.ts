@@ -9,10 +9,10 @@ import {DictionaryService} from "@shared/services/dictionary.service";
 import {UsersEditUserComponent} from "../../users/edit-user/edit-user.component";
 import {StudentsEditStudentComponent} from "../edit-student/edit-student.component";
 import {StudentsEditRechargeComponent} from "../edit-recharge/edit-recharge.component";
-import {LessonsEditLessonComponent} from "../../lessons/edit-lesson/edit-lesson.component";
-import {LessonsEditCourseComponent} from "../../lessons/edit-course/edit-course.component";
 import {LessonOperateService} from "@shared/services/lesson-operate.service";
 import {CourseOperateService} from "@shared/services/course-operate.service";
+import {SharedEditLessonComponent} from "@shared/components/edit-lesson/edit-lesson.component";
+import {SharedEditCourseComponent} from "@shared/components/edit-course/edit-course.component";
 
 @Component({
   selector: 'app-students-student',
@@ -82,7 +82,7 @@ export class StudentsStudentComponent implements OnInit {
 
   createLesson() {
     this.modal.create(
-      LessonsEditLessonComponent,
+      SharedEditLessonComponent,
       {size: 'sm'},
       {modalOptions:
           {
@@ -94,7 +94,7 @@ export class StudentsStudentComponent implements OnInit {
 
   createCourse() {
     this.modal.create(
-      LessonsEditCourseComponent,
+      SharedEditCourseComponent,
       {size: 'sm'},
       {modalOptions:
           {

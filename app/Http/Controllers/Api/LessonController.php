@@ -109,6 +109,11 @@ class LessonController extends ApiController
         }
         else
         {
+            if ($request->status)
+            {
+                $lesson->status = $request->status;
+                $lesson->save();
+            }
             $lesson->update($request->all());
         }
 

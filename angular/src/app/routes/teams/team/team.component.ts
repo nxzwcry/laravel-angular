@@ -6,11 +6,11 @@ import {ReuseTabService} from "@delon/abc";
 import {JsonData} from "@shared/shared.module";
 import {DictionaryService} from "@shared/services/dictionary.service";
 import {TeamsAddStudentsComponent} from "../add-students/add-students";
-import {LessonsEditLessonComponent} from "../../lessons/edit-lesson/edit-lesson.component";
-import {LessonsEditCourseComponent} from "../../lessons/edit-course/edit-course.component";
 import {TeamsEditTeamComponent} from "../edit-team/edit-team.component";
 import {LessonOperateService} from "@shared/services/lesson-operate.service";
 import {CourseOperateService} from "@shared/services/course-operate.service";
+import {SharedEditLessonComponent} from "@shared/components/edit-lesson/edit-lesson.component";
+import {SharedEditCourseComponent} from "@shared/components/edit-course/edit-course.component";
 
 @Component({
   selector: 'app-teams-team',
@@ -80,7 +80,7 @@ export class TeamsTeamComponent implements OnInit {
 
   createLesson() {
     this.modal.create(
-      LessonsEditLessonComponent,
+      SharedEditLessonComponent,
       {size: 'sm'},
       {modalOptions:
           {
@@ -92,7 +92,7 @@ export class TeamsTeamComponent implements OnInit {
 
   createCourse() {
     this.modal.create(
-      LessonsEditCourseComponent,
+      SharedEditCourseComponent,
       {size: 'sm'},
       {modalOptions:
           {

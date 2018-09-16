@@ -13,7 +13,6 @@ import {LessonOperateService} from "@shared/services/lesson-operate.service";
 })
 export class LessonsFutureComponent implements OnInit {
   displayList: Array<any>;
-  dowList: Array<any>;
   lessonStatusList: Array<any>;
   private wordFilter:FormControl = new FormControl();
   searchWord: string;
@@ -28,7 +27,6 @@ export class LessonsFutureComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.dowList = this.dic.getDowList();
     this.lessonStatusList = this.dic.getLessonStatusList();
     this.wordFilter.valueChanges
       .pipe(debounceTime(500))

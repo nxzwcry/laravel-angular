@@ -29,11 +29,16 @@
           <td>{{lesson.place}}</td>
           <td><a [routerLink]="['/lessons/lesson',lesson.id]">{{lesson.name}}</a></td>
           <td>
-            <a (click)="op.changeName(lesson)">改名</a>
-            <span *ngIf="lesson.lesson_type_id != 'bt'">
-                <nz-divider nzType="vertical"></nz-divider><a (click)="op.changeScore(lesson)">打分({{lesson.score}})</a>
-              </span>
-            <nz-divider nzType="vertical"></nz-divider><a (click)="op.deleteLesson(lesson.id)">删除</a>
+            <nz-dropdown [nzTrigger]="'click'">
+              <a nz-dropdown>
+                课程操作 <i class="anticon anticon-down"></i>
+              </a>
+              <ul nz-menu>
+                <li nz-menu-item (click)="op.changeName(lesson)">修改名称</li>
+                <li nz-menu-item [hidden]="lesson.lesson_type_id == 'bt'" (click)="op.changeScore(lesson)">打分({{lesson.score}})</li>
+                <li nz-menu-item [hidden]="true" (click)="op.deleteLesson(lesson.id)">删除</li>
+              </ul>
+            </nz-dropdown>
           </td>
         </tr>
         <tr [nzExpand]="lesson.expand">

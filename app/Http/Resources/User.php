@@ -27,6 +27,7 @@ class User extends Resource
             'id' => $this->id,
             'name' => $this->name,
             'ename' => $this->ename,
+            'mid' => $this->mid,
             'email' => $this->email,
             'role' => $names,
             'role_id' => $ids,

@@ -92,7 +92,7 @@
           </thead>
           <tbody>
             <tr *ngFor="let course of coursesTable.data">
-              <td><a [routerLink]="['/courses/course',course.id]">{{course.name}}</a></td>
+              <td><a [routerLink]="['/lessons/course',course.id]">{{course.name}}</a></td>
               <td>每{{course.dow | trans:dowList:'value':'label'}}</td>
               <td>{{course.stime*1000 | _date: 'HH:mm'}}~{{course.etime*1000 | _date: 'HH:mm'}}</td>
               <td>{{course.cteacher}}</td>

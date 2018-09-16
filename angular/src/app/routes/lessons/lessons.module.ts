@@ -5,12 +5,14 @@ import {LessonsFutureComponent} from "./future/future.component";
 import {LessonsPassedComponent} from "./passed/passed.component";
 import {LessonsLeaveComponent} from "./leave/leave.component";
 import {LessonsCourseListComponent} from "./course-list/course-list.component";
+import {LessonsLessonComponent} from "./lesson/lesson.component";
 
 const COMPONENTS = [
   LessonsFutureComponent,
   LessonsPassedComponent,
   LessonsLeaveComponent,
   LessonsCourseListComponent,
+  LessonsLessonComponent,
 ];
 const COMPONENTS_NOROUNT = [
 ];

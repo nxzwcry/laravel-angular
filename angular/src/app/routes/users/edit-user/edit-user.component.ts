@@ -29,6 +29,7 @@ export class UsersEditUserComponent implements OnInit {
     this.formModel = fb.group({
         name: [null, [Validators.required]],
         ename: [null],
+        mid: [null],
         email: [null, [Validators.required, Validators.email]],
         role: [null],
       }
@@ -44,6 +45,7 @@ export class UsersEditUserComponent implements OnInit {
            this.formModel.setValue({
              name: user.name,
              ename: user.ename,
+             mid: user.mid,
              email: user.email,
              role: user.role_id,
            });

@@ -19,6 +19,8 @@ import {LessonOperateService} from "@shared/services/lesson-operate.service";
 import {DictionaryService} from "@shared/services/dictionary.service";
 import {SharedAddLessonBukeComponent} from "@shared/components/add-lesson-buke/add-lesson-buke.component";
 import {CourseOperateService} from "@shared/services/course-operate.service";
+import {SharedEditCourseComponent} from "@shared/components/edit-course/edit-course.component";
+import {SharedEditLessonComponent} from "@shared/components/edit-lesson/edit-lesson.component";
 
 const THIRDMODULES = [
   NgZorroAntdModule,
@@ -31,6 +33,8 @@ const COMPONENTS = [
   SharedEditLessonNameComponent,
   SharedEditLessonScoreComponent,
   SharedAddLessonBukeComponent,
+  SharedEditCourseComponent,
+  SharedEditLessonComponent,
 ];
 const DIRECTIVES = [];
 // endregion

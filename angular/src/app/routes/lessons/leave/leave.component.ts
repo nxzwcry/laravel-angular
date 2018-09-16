@@ -5,8 +5,6 @@ import {DictionaryService} from "@shared/services/dictionary.service";
 import {NzMessageService} from "ng-zorro-antd";
 import {FormControl} from "@angular/forms";
 import {debounceTime} from "rxjs/operators";
-import {LessonsEditLessonNameComponent} from "../edit-lesson-name/edit-lesson-name.component";
-import {LessonsEditLessonScoreComponent} from "../edit-lesson-score/edit-lesson-score.component";
 import {LessonOperateService} from "@shared/services/lesson-operate.service";
 
 @Component({
