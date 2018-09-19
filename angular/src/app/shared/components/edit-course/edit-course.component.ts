@@ -67,6 +67,7 @@ export class SharedEditCourseComponent implements OnInit {
       this.formModel.patchValue({
         lesson_type: 'b',
       });
+      this.selectChange('b');
     }
     if (this.courseId)
     {

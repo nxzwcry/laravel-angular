@@ -4,6 +4,7 @@ import {NzMessageService} from "ng-zorro-antd";
 import {SharedEditLessonNameComponent} from "@shared/components/edit-lesson-name/edit-lesson-name.component";
 import {SharedEditLessonScoreComponent} from "@shared/components/edit-lesson-score/edit-lesson-score.component";
 import {SharedAddLessonBukeComponent} from "@shared/components/add-lesson-buke/add-lesson-buke.component";
+import {SharedCopyLessonComponent} from "@shared/components/copy-lesson/copy-lesson.component";
 
 @Injectable()
 export class LessonOperateService {
@@ -72,10 +73,6 @@ export class LessonOperateService {
       }).subscribe(res => lesson.score = res );
   }
 
-  copy(lessonId){
-
-  }
-
   addBuke(lessonId){
     this.modal.create(
       SharedAddLessonBukeComponent,
@@ -86,6 +83,18 @@ export class LessonOperateService {
             nzComponentParams: {lessonId: lessonId}
           }
       }).subscribe(res => this.reload(res) );
+  }
+
+  copy(lessonId){
+    this.modal.create(
+      SharedCopyLessonComponent,
+      {size: 'sm'},
+      {modalOptions:
+          {
+            nzTitle: '复制课程给学生',
+            nzComponentParams: {lessonId: lessonId}
+          }
+      }).subscribe(res => this.reload(res));
   }
 
   noBuke(lessonId){

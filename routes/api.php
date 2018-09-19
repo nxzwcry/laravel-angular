@@ -56,9 +56,11 @@ Route::middleware('auth:api')->group(function () {
     Route::prefix('lessons')->group(function () {
         Route::get('/index/{days}', 'Api\LessonController@index');
         Route::get('/leave', 'Api\LessonController@getLeave');
+        Route::get('/copy/{lesson}', 'Api\LessonController@getCopyStudents');
         Route::get('{lesson}', 'Api\LessonController@show');
         Route::post('', 'Api\LessonController@store');
         Route::post('/team', 'Api\LessonController@createTeamLesson');
+        Route::post('/copy/{lesson}', 'Api\LessonController@copyLesson');
         Route::put('/score/{lesson}', 'Api\LessonController@setScore');
         Route::put('/name/{lesson}', 'Api\LessonController@setName');
         Route::put('/buke/{lesson}', 'Api\LessonController@buke');

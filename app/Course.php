@@ -120,25 +120,33 @@ class Course extends Model
 //            -> get();
 //    }
 
+    // 当传入参数大于12时视为下一年
+
     public function createMonthLessons($month = null)
     {
         if($this->dow)
         {
             if ($month)
             {
-                $temp = new Carbon();
-                $temp->month = $month;
+                $temp = Carbon::now('Asia/Shanghai');
+                if ($month>12)
+                {
+                    $temp->month = $month-12;
+                    $temp->addYear();
+                }
+                else
+                {
+                    $temp->month = $month;
+                }
                 $monthStart = $temp->startOfMonth();
                 Carbon::setTestNow($monthStart);
             }
             $now = Carbon::now('Asia/Shanghai');
             $tail = $now->endOfMonth();
+            Carbon::setTestNow(Carbon::now('Asia/Shanghai')->subDay());
             $nextDay = new Carbon('next ' . $this->dow, 'Asia/Shanghai');
             $nextDay->hour = 9;
-            if (Carbon::hasTestNow())
-            {
-                Carbon::setTestNow();
-            }
+            Carbon::setTestNow();
             if($nextDay){
                 while ($tail->gte($nextDay))
                 {

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Resources\StudentCollection;
+use App\Student;
 use Illuminate\Http\Request;
 use App\Lesson;
 use App\Http\Resources\Lesson as LessonResource;
@@ -129,5 +131,38 @@ class LessonController extends ApiController
         $lesson->delete();
 
         return response()->json(null, 204);
+    }
+
+    public function getCopyStudents(Lesson $lesson)
+    {
+        $students = collect();
+        if ($lesson->lesson_type == 'j')
+        {
+            $students = Student::where('status', '>=', 0)->get();
+        }
+        elseif ($lesson->lesson_type == 'b')
+        {
+            $students = $lesson->team->students;
+            foreach ($students as $key => $item) {
+                if ($item->lessons()->where('syn_code', $lesson->syn_code)->first())
+                {
+                    $students->pull($key);
+                }
+            }
+            $students = $students->flatten();
+        }
+        return new StudentCollection($students);
+    }
+
+    public function copyLesson(Request $request, Lesson $lesson)
+    {
+        $students = $request->students;
+        if ($students)
+        {
+            foreach ($students as $item)
+            {
+                $lesson->copyToStudent($item);
+            }
+        }
     }
 }

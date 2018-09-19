@@ -36,9 +36,15 @@ class Kernel extends ConsoleKernel
         // 时间为UTC时间
         // $schedule->command('inspire')
         //          ->hourly();
-//        $schedule->command('AfterClass')->dailyAt('3:45');// 每天10:00运行一次...
+//        $schedule->command('CreateMonthLessons')->dailyAt('16:49');// 每天10:00运行一次...
+//        $schedule->command('AfterClass')
+//            ->everyThirtyMinutes()
+//            ->between('1:00', '15:00');// 每天9:00~23:00 每半小时运行一次
         $schedule->command('AfterClass')
-            ->everyThirtyMinutes()
+            ->hourlyAt(02)
+            ->between('1:00', '15:00');// 每天9:00~23:00 每半小时运行一次
+        $schedule->command('AfterClass')
+            ->hourlyAt(32)
             ->between('1:00', '15:00');// 每天9:00~23:00 每半小时运行一次
         $schedule->command('AddGrade')
             ->monthlyOn(1, '00:00')
@@ -51,6 +57,8 @@ class Kernel extends ConsoleKernel
                 }
                 return false;
             });// 每年年级更新一次
+        $schedule->command('CreateMonthLessons')
+            ->monthlyOn(20, '16:00');
     }
 
     /**

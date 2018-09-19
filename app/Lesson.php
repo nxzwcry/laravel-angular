@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Log;
 
 class Lesson extends Model
 {
@@ -127,7 +128,6 @@ class Lesson extends Model
                 $teamData = $data;
                 $teamData['lesson_type'] = 'bt';
                 $teamLesson = Lesson::create($teamData);
-                $teamLesson['status'] = 0;
                 $students = $team->students;
                 foreach ($students as $student)
                 {
@@ -151,19 +151,20 @@ class Lesson extends Model
 
     public function createSubLesson($sid)
     {
-        $data = $this->toArray();
-        unset($data['id']);
-        $data['syn_code'] = $this->id;
-        $data['lesson_type'] = 'b';
-        $data['student_id'] = $sid;
-        return Lesson::create($data);
+        $new = $this->replicate();
+        $new->syn_code = $this->id;
+        $new->lesson_type = 'b';
+        $new->student_id = $sid;
+        $new->save();
+        return $new;
     }
 
     public function copyToStudent($sid) //将该节课程复制给学生
     {
-        $linfo = $this->toArray();
-        $linfo['student_id'] = $sid;
-        return Lesson::create($linfo);
+        $new = $this->replicate();
+        $new->student_id = $sid;
+        $new->save();
+        return $new;
     }
 
 //    public function sameLesson()
