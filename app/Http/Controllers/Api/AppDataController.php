@@ -28,12 +28,12 @@ class AppdataController extends ApiController
             [
                 'text' => '用户管理',
                 'link' => '/users/list',
-                'icon' => 'anticon anticon-appstore-o',
+                'icon' => 'anticon anticon-user',
                 'acl' => 'user-view',
                 ],
             [
                 'text' => '权限管理',
-                'icon' => 'anticon anticon-appstore-o',
+                'icon' => 'anticon anticon-unlock',
                 'acl' => 'permission-all',
                 'children' => [
                     [
@@ -48,7 +48,7 @@ class AppdataController extends ApiController
             ],
             [
                 'text' => '学生/班级列表',
-                'icon' => 'anticon anticon-appstore-o',
+                'icon' => 'anticon anticon-team',
                 'children' => [
                     [
                         'text' => '未排课学生',
@@ -77,8 +77,8 @@ class AppdataController extends ApiController
                 ],
             ],
             [
-                'text' => '课程管理',
-                'icon' => 'anticon anticon-appstore-o',
+                'text' => '课程安排',
+                'icon' => 'anticon anticon-schedule',
                 'children' => [
                     [
                         'text' => '待上课表',
@@ -127,7 +127,7 @@ class AppdataController extends ApiController
             $this->userInfo = [
                 "id" => $user->id,
                 "name" => $user->name,
-                "avatar" => "./assets/tmp/img/avatar.jpg",
+                "avatar" => "./assets/logo.jpg",
                 "email" => $user->email,
                 "acl" =>$permissions,
             ];
