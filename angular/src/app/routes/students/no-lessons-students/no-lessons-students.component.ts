@@ -67,7 +67,11 @@ export class StudentsNoLessonsStudentsComponent implements OnInit {
   }
 
   add() {
-    this.modal.create(StudentsEditStudentComponent, {size: 'sm'}, {modalOptions: {nzTitle: '添加学生'}}).subscribe(res => this.reload(res) );
+    this.modal.create(StudentsEditStudentComponent, {size: 'sm'}, {
+      modalOptions: {
+        nzTitle: '添加学生',
+        nzMaskClosable: false,
+      }}).subscribe(res => this.reload(res) );
   }
 
   reload(b: Boolean)

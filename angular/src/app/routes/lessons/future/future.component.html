@@ -1,4 +1,11 @@
-<input nz-input type="search" class="form-control input-sm" placeholder="输入学生姓名、班名、中外教老师进行搜索" [formControl]="wordFilter" >
+<nz-row>
+  <nz-col [nzSpan]="20">
+    <input nz-input type="search" class="form-control input-sm" placeholder="输入学生姓名、班名、中外教老师进行搜索" [formControl]="wordFilter" >
+  </nz-col>
+  <nz-col [nzSpan]="4" style="text-align:right">
+    <button nz-button nzType="default" (click)="load()">刷新列表</button>
+  </nz-col>
+</nz-row>
 <div *ngFor="let data of displayList">
   <nz-card [nzTitle]="data.date | _date: 'MM月DD日 dddd'">
     <nz-table #newLessonsTable [nzData]="data.lessons | filter:['student','team','cteacher','fteacher']:searchWord" nzSize="middle" [nzShowPagination]="false" [nzFrontPagination]="false">
@@ -20,7 +27,14 @@
       <ng-template ngFor let-lesson [ngForOf]="newLessonsTable.data">
         <tr>
           <td [nzShowExpand]="!!lesson.sub_lessons" [(nzExpand)]="lesson.expand"></td>
-          <td>{{lesson.student ? lesson.student : ''}}{{lesson.team ? lesson.team : ''}}</td>
+          <td>
+            <span *ngIf="lesson.student">
+              <a [routerLink]="['/students/student',lesson.student_id]">{{lesson.student}}{{lesson.student_ename}}</a>
+            </span>
+            <span *ngIf="lesson.team">
+              <a [routerLink]="['/teams/team',lesson.team_id]">{{lesson.team}}</a>
+            </span>
+          </td>
           <td>{{lesson.lesson_type}}</td>
           <td>{{lesson.cteacher ? lesson.cteacher : '无'}}</td>
           <td>{{lesson.stime*1000 | _date: 'HH:mm'}}~{{lesson.etime*1000 | _date: 'HH:mm'}}</td>
@@ -34,9 +48,9 @@
                 课程操作 <i class="anticon anticon-down"></i>
               </a>
               <ul nz-menu>
-                <li nz-menu-item (click)="op.changeName(lesson)">修改名称</li>
-                <li nz-menu-item [hidden]="lesson.lesson_type_id == 'bt'" (click)="op.changeScore(lesson)">打分({{lesson.score}})</li>
-                <li nz-menu-item [hidden]="true" (click)="op.deleteLesson(lesson.id)">删除</li>
+                <li nz-menu-item (click)="op.changeName(lesson)" [acl]="'lesson-name-change'">修改名称</li>
+                <li nz-menu-item [hidden]="lesson.lesson_type_id == 'bt'" (click)="op.changeScore(lesson)" [acl]="'lesson-score-change'">打分({{lesson.score}})</li>
+                <li nz-menu-item [hidden]="true" (click)="op.deleteLesson(lesson.id)" [acl]="'lesson-delete'">删除</li>
               </ul>
             </nz-dropdown>
           </td>
@@ -52,11 +66,15 @@
         <td><nz-badge [nzStatus]="'success'" [nzText]="item.status | trans:lessonStatusList:'value':'label'"></nz-badge></td>
         <td>外{{item.waijiao_cost}}/中{{item.zhongjiao_cost}}/精{{item.jingpin_cost}}</td>
         <td>
-                      <span *ngIf="item.status < 3">
-                        <a (click)="op.leave(item)">请假</a>
-                      </span>
-          <nz-divider nzType="vertical"></nz-divider><a (click)="op.changeScore(item)">打分({{item.score}})</a>
-          <nz-divider nzType="vertical"></nz-divider><a (click)="op.deleteLesson(item.id)">删除</a>
+          <span *ngIf="item.status < 3" [acl]="'lesson-status-change'">
+            <a (click)="op.leave(item)">请假</a>
+            <nz-divider nzType="vertical"></nz-divider>
+          </span>
+          <span [acl]="'lesson-score-change'">
+            <a (click)="op.changeScore(item)">打分({{item.score}})</a>
+            <nz-divider nzType="vertical"></nz-divider>
+          </span>
+          <a (click)="op.deleteLesson(item.id)" [acl]="'lesson-delete'">删除</a>
         </td>
       </tr>
       </tbody>

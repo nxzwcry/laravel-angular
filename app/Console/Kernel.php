@@ -36,7 +36,7 @@ class Kernel extends ConsoleKernel
         // 时间为UTC时间
         // $schedule->command('inspire')
         //          ->hourly();
-//        $schedule->command('CreateMonthLessons')->dailyAt('16:49');// 每天10:00运行一次...
+        $schedule->command('AfterClass')->dailyAt('10:10');// 每天10:00运行一次...
 //        $schedule->command('AfterClass')
 //            ->everyThirtyMinutes()
 //            ->between('1:00', '15:00');// 每天9:00~23:00 每半小时运行一次

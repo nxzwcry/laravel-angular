@@ -56,7 +56,8 @@ export class LessonOperateService {
       {modalOptions:
           {
             nzTitle: '修改课程名称',
-            nzComponentParams: {lessonId: lesson.id}
+            nzComponentParams: {lessonId: lesson.id},
+            nzMaskClosable: false,
           }
       }).subscribe(res => lesson.name = res );
   }
@@ -68,7 +69,8 @@ export class LessonOperateService {
       {modalOptions:
           {
             nzTitle: '修改课程得分',
-            nzComponentParams: {lessonId: lesson.id}
+            nzComponentParams: {lessonId: lesson.id},
+            nzMaskClosable: false,
           }
       }).subscribe(res => lesson.score = res );
   }
@@ -80,7 +82,8 @@ export class LessonOperateService {
       {modalOptions:
           {
             nzTitle: '添加补课',
-            nzComponentParams: {lessonId: lessonId}
+            nzComponentParams: {lessonId: lessonId},
+            nzMaskClosable: false,
           }
       }).subscribe(res => this.reload(res) );
   }
@@ -92,7 +95,8 @@ export class LessonOperateService {
       {modalOptions:
           {
             nzTitle: '复制课程给学生',
-            nzComponentParams: {lessonId: lessonId}
+            nzComponentParams: {lessonId: lessonId},
+            nzMaskClosable: false,
           }
       }).subscribe(res => this.reload(res));
   }

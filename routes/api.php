@@ -29,10 +29,10 @@ Route::middleware('auth:api')->group(function () {
         Route::get('', 'Api\StudentController@index');
         Route::get('/type/{type}', 'Api\StudentController@index');
         Route::get('{student}', 'Api\StudentController@show');
-        Route::post('', 'Api\StudentController@store');
-        Route::put('{student}', 'Api\StudentController@update');
-        Route::put('/stop/{student}', 'Api\StudentController@stop');
-        Route::delete('{student}', 'Api\StudentController@delete');
+        Route::middleware('permission:student-create')->post('', 'Api\StudentController@store');
+        Route::middleware('permission:student-create')->put('{student}', 'Api\StudentController@update');
+        Route::middleware('permission:student-status-change')->put('/stop/{student}', 'Api\StudentController@stop');
+        Route::middleware('permission:student-create')->delete('{student}', 'Api\StudentController@delete');
     });
 
     Route::prefix('users')->group(function () {
@@ -46,10 +46,10 @@ Route::middleware('auth:api')->group(function () {
     Route::prefix('teams')->group(function () {
         Route::get('', 'Api\TeamController@index');
         Route::get('{team}', 'Api\TeamController@show');
-        Route::post('', 'Api\TeamController@store');
-        Route::put('/addstudents/{team}', 'Api\TeamController@addStudents');
-        Route::put('/deletestudent/{team}', 'Api\TeamController@deleteStudent');
-        Route::put('{team}', 'Api\TeamController@update');
+        Route::middleware('permission:team-create')->post('', 'Api\TeamController@store');
+        Route::middleware('permission:team-change')->put('/addstudents/{team}', 'Api\TeamController@addStudents');
+        Route::middleware('permission:team-change')->put('/deletestudent/{team}', 'Api\TeamController@deleteStudent');
+        Route::middleware('permission:team-change')->put('{team}', 'Api\TeamController@update');
         Route::delete('{team}', 'Api\TeamController@delete');
     });
 
@@ -58,23 +58,23 @@ Route::middleware('auth:api')->group(function () {
         Route::get('/leave', 'Api\LessonController@getLeave');
         Route::get('/copy/{lesson}', 'Api\LessonController@getCopyStudents');
         Route::get('{lesson}', 'Api\LessonController@show');
-        Route::post('', 'Api\LessonController@store');
-        Route::post('/team', 'Api\LessonController@createTeamLesson');
-        Route::post('/copy/{lesson}', 'Api\LessonController@copyLesson');
-        Route::put('/score/{lesson}', 'Api\LessonController@setScore');
-        Route::put('/name/{lesson}', 'Api\LessonController@setName');
-        Route::put('/buke/{lesson}', 'Api\LessonController@buke');
-        Route::put('/status/{lesson}', 'Api\LessonController@setStatus');
-        Route::put('{lesson}', 'Api\LessonController@update');
-        Route::delete('{lesson}', 'Api\LessonController@delete');
+        Route::middleware('permission:lesson-create')->post('', 'Api\LessonController@store');
+        Route::middleware('permission:lesson-create')->post('/team', 'Api\LessonController@createTeamLesson');
+        Route::middleware('permission:lesson-create')->post('/copy/{lesson}', 'Api\LessonController@copyLesson');
+        Route::middleware('permission:lesson-score-change')->put('/score/{lesson}', 'Api\LessonController@setScore');
+        Route::middleware('permission:lesson-name-change')->put('/name/{lesson}', 'Api\LessonController@setName');
+        Route::middleware('permission:bulesson-create')->put('/buke/{lesson}', 'Api\LessonController@buke');
+        Route::middleware('permission:lesson-status-change')->put('/status/{lesson}', 'Api\LessonController@setStatus');
+        Route::middleware('permission:lesson-create')->put('{lesson}', 'Api\LessonController@update');
+        Route::middleware('permission:lesson-delete')->delete('{lesson}', 'Api\LessonController@delete');
     });
 
     Route::prefix('courses')->group(function () {
         Route::get('', 'Api\CourseController@index');
         Route::get('{course}', 'Api\CourseController@show');
-        Route::post('', 'Api\CourseController@store');
-        Route::put('{course}', 'Api\CourseController@update');
-        Route::delete('{course}', 'Api\CourseController@delete');
+        Route::middleware('permission:course-create')->post('', 'Api\CourseController@store');
+        Route::middleware('permission:course-create')->put('{course}', 'Api\CourseController@update');
+        Route::middleware('permission:course-delete')->delete('{course}', 'Api\CourseController@delete');
     });
 
     Route::prefix('recharges')->group(function () {
@@ -88,19 +88,19 @@ Route::middleware('auth:api')->group(function () {
     Route::prefix('permissions')->group(function () {
         Route::get('', 'Api\PermissionController@index');
         Route::get('{permission}', 'Api\PermissionController@show');
-        Route::post('', 'Api\PermissionController@store');
-        Route::put('{permission}', 'Api\PermissionController@update');
-        Route::delete('{permission}', 'Api\PermissionController@delete');
+        Route::middleware('permission:permission-all')->post('', 'Api\PermissionController@store');
+        Route::middleware('permission:permission-all')->put('{permission}', 'Api\PermissionController@update');
+        Route::middleware('permission:permission-all')->delete('{permission}', 'Api\PermissionController@delete');
     });
 
     Route::prefix('roles')->group(function () {
         Route::get('', 'Api\RoleController@index');
-        Route::get('{roles}', 'Api\RoleController@show');
-        Route::post('', 'Api\RoleController@store');
-        Route::put('/add/{roles}', 'Api\RoleController@addPermissions');
-        Route::put('/remove/{roles}', 'Api\RoleController@removePermissions');
-        Route::put('{roles}', 'Api\RoleController@update');
-        Route::delete('{roles}', 'Api\RoleController@delete');
+        Route::get('{role}', 'Api\RoleController@show');
+        Route::middleware('permission:permission-all')->post('', 'Api\RoleController@store');
+        Route::middleware('permission:permission-all')->put('/add/{role}', 'Api\RoleController@addPermissions');
+        Route::middleware('permission:permission-all')->put('/remove/{role}', 'Api\RoleController@removePermissions');
+        Route::middleware('permission:permission-all')->put('{role}', 'Api\RoleController@update');
+        Route::middleware('permission:permission-all')->delete('{role}', 'Api\RoleController@delete');
     });
 
     Route::get('places', 'Api\PlaceController@index');
@@ -108,7 +108,7 @@ Route::middleware('auth:api')->group(function () {
     Route::get('agents', 'Api\UserController@getAgents');
     Route::get('cteachers', 'Api\UserController@getCteachers');
     Route::get('logout', 'Api\AuthenticateController@logout');
-    Route::post('sendResetEmail', 'Api\UserController@sendResetEmail');
+    Route::middleware('permission:user-email-send')->post('sendResetEmail', 'Api\UserController@sendResetEmail');
 });
 
 

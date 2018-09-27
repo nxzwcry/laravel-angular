@@ -25,7 +25,7 @@ class Course extends Resource
             'stime' => $this->start_time->timestamp,
             'etime' => $this->end_time->timestamp,
             'ftime' => $this->fteacher_time ? $this->fteacher_time->timestamp : null,
-            'cteacher' => $this->cteacher ? $this->cteacher->name : null,
+            'cteacher' => $this->cteacher ? $this->cteacher->ename . '('. $this->cteacher->name . ')' : null,
             'cteacher_id' => $this->cteacher ? $this->cteacher->id : null,
             'fteacher' => $this->fteacher ? $this->fteacher->name : null,
             'fteacher_id' => $this->fteacher ? $this->fteacher->id : null,

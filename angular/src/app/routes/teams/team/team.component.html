@@ -14,7 +14,7 @@
           <tbody>
             <tr *ngFor="let item of middleTable.data">
               <td><a [routerLink]="['/students/student',item.id]">{{item.name}}{{item.ename}}</a></td>
-              <td><a (click)="deleteStudent(item.id)">删除</a></td>
+              <td><a (click)="deleteStudent(item.id)" [acl]="'team-change'">删除</a></td>
             </tr>
           </tbody>
         </nz-table>
@@ -50,7 +50,7 @@
                 <td>{{lesson.fteacher}}</td>
                 <td>{{lesson.place}}</td>
                 <td>
-                  <a (click)="lessonOp.deleteLesson(lesson.id)">删除</a>
+                  <a (click)="lessonOp.deleteLesson(lesson.id)" [acl]="'lesson-delete'">删除</a>
                 </td>
               </tr>
               <tr [nzExpand]="lesson.expand">
@@ -64,7 +64,7 @@
                         <td><nz-badge [nzStatus]="'success'" [nzText]="item.status | trans:lessonStatusList:'value':'label'"></nz-badge></td>
                         <td>外{{item.waijiao_cost}}/中{{item.zhongjiao_cost}}/精{{item.jingpin_cost}}</td>
                         <td>
-                          <a (click)="lessonOp.deleteLesson(item.id)">删除</a>
+                          <a (click)="lessonOp.deleteLesson(item.id)" [acl]="'lesson-delete'">删除</a>
                         </td>
                       </tr>
                     </tbody>
@@ -99,7 +99,7 @@
               <td>{{course.fteacher}}</td>
               <td>{{course.place}}</td>
               <td>
-                <a (click)="courseOp.deleteCourse(course.id)">删除</a>
+                <a (click)="courseOp.deleteCourse(course.id)" [acl]="'course-delete'">删除</a>
               </td>
             </tr>
           </tbody>
@@ -118,6 +118,7 @@
             <th nzWidth="150px">中教老师</th>
             <th nzWidth="200px">外教老师</th>
             <th nzWidth="200px">上课地点</th>
+            <th nzWidth="100px"></th>
           </tr>
           </thead>
           <tbody>
@@ -130,6 +131,9 @@
                 <td>{{lesson.cteacher}}</td>
                 <td>{{lesson.fteacher}}</td>
                 <td>{{lesson.place}}</td>
+                <td>
+                  <a (click)="lessonOp.deleteLesson(lesson.id)" [acl]="'lesson-delete'">删除</a>
+                </td>
               </tr>
               <tr [nzExpand]="lesson.expand">
                 <td></td>
@@ -142,8 +146,8 @@
                       <td><nz-badge [nzStatus]="'success'" [nzText]="item.status | trans:lessonStatusList:'value':'label'"></nz-badge></td>
                       <td>外{{item.waijiao_cost}}/中{{item.zhongjiao_cost}}/精{{item.jingpin_cost}}</td>
                       <td>
-                          <a (click)="lessonOp.copy(item.id)">复制</a>
-                          <nz-divider nzType="vertical"></nz-divider><a (click)="lessonOp.deleteLesson(item.id)">删除</a>
+                          <a (click)="lessonOp.copy(item.id)" [acl]="'lesson-create'">复制</a>
+                          <nz-divider nzType="vertical"></nz-divider><a (click)="lessonOp.deleteLesson(item.id)" [acl]="'lesson-delete'">删除</a>
                       </td>
                     </tr>
                     </tbody>
@@ -159,21 +163,21 @@
   </div>
 </div>
 <ng-template #editTeamTemplate>
-  <a (click)="change()">修改信息</a>
+  <a (click)="change()" [acl]="'team-change'">修改信息</a>
 </ng-template>
 <ng-template #addStudentTemplate>
-  <a (click)="addStudent()">增加学生</a>
+  <a (click)="addStudent()" [acl]="'team-change'">增加学生</a>
 </ng-template>
 <ng-template #lessonTemplate>
   <nz-row>
     <nz-col [nzSpan]="12"><b>已排课程</b></nz-col>
-    <nz-col [nzSpan]="11" ><p align="right" style="margin: 0"><a (click)="createLesson()">安排单节课程</a></p></nz-col>
+    <nz-col [nzSpan]="11" ><p align="right" style="margin: 0"><a (click)="createLesson()" [acl]="'lesson-create'">安排单节课程</a></p></nz-col>
   </nz-row>
 </ng-template>
 <ng-template #courseTemplate>
   <nz-row>
     <nz-col [nzSpan]="12"><b>固定课程</b></nz-col>
-    <nz-col [nzSpan]="11" ><p align="right" style="margin: 0"><a (click)="createCourse()">安排固定课程</a></p></nz-col>
+    <nz-col [nzSpan]="11" ><p align="right" style="margin: 0"><a (click)="createCourse()" [acl]="'course-create'">安排固定课程</a></p></nz-col>
   </nz-row>
 </ng-template>
 <ng-template #oldTemplate>

@@ -5,8 +5,6 @@ import {TeamsListComponent} from "./list/list.component";
 import {TeamsTeamComponent} from "./team/team.component";
 import {TeamsEditTeamComponent} from "./edit-team/edit-team.component";
 import {TeamsAddStudentsComponent} from "./add-students/add-students";
-import {LessonsEditLessonComponent} from "../lessons/edit-lesson/edit-lesson.component";
-import {LessonsEditCourseComponent} from "../lessons/edit-course/edit-course.component";
 
 const COMPONENTS = [
   TeamsListComponent,

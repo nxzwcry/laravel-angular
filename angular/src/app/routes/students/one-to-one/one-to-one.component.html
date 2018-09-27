@@ -4,6 +4,11 @@
       <div nz-col nzSpan="8">
         <input nz-input type="search" class="form-control input-sm" placeholder="输入id、姓名、中外教老师进行搜索" [formControl]="wordFilter" >
       </div>
+      <div nz-col nzSpan="16">
+        <div nz-row nzType="flex" nzJustify="end">
+          <button nz-button nzType="default" (click)="load()">刷新列表</button>
+        </div>
+      </div>
     </div>
   <!--</div>-->
   <!--<simple-table #st [data]="studentList | filter:['name','ename','id','cteacher','fteacher','agent']:searchWord" [columns]="columns" frontPagination="false" showPagination="false" [scroll]="{ y: '440px' }"></simple-table>-->

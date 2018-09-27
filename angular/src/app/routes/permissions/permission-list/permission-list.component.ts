@@ -52,6 +52,7 @@ export class PermissionsPermissionListComponent implements OnInit {
             nzComponentParams: {
               url: '/permissions',
             },
+            nzMaskClosable: false,
           }
       }).subscribe(res => this.reload(res) );
   }

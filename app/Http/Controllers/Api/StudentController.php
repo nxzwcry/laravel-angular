@@ -16,7 +16,7 @@ class StudentController extends ApiController
         $students = null;
         if (!$type)
         {
-            $students = Student::all();
+            $students = Student::where('status', '>=', 0)->get();
         }
         elseif ($type == 'one-to-one')
         {

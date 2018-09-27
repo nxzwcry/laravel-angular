@@ -18,7 +18,7 @@ class UserController extends ApiController
 
     public function index()
     {
-        return new UserCollection(User::all());;
+        return new UserCollection(User::all());
     }
 
     public function show(User $user)
@@ -31,7 +31,7 @@ class UserController extends ApiController
     {
         $this->validator($request->all())->validate();
         $user = User::create($request->all());
-
+        $user->changeRole($request->all());
         $this->sendResetLinkEmail($request);
 
         return response()->json(new UserResource($user), 201);

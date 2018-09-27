@@ -39,7 +39,11 @@ export class UsersListComponent implements OnInit {
   }
 
   add() {
-    this.modal.create(UsersEditUserComponent, {size: 'sm'}, {modalOptions: {nzTitle: '添加用户'}}).subscribe(res => this.reload(res) );
+    this.modal.create(UsersEditUserComponent, {size: 'sm'}, {
+      modalOptions: {
+        nzTitle: '添加用户',
+        nzMaskClosable: false,
+      }}).subscribe(res => this.reload(res) );
   }
 
   reset(email: string) {

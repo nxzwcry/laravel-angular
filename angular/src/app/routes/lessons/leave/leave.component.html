@@ -26,7 +26,9 @@
             <td>
               <a (click)="op.addBuke(lesson.id)">安排补课</a>
               <nz-divider nzType="vertical"></nz-divider><a (click)="op.noBuke(lesson.id)">不补课</a>
-              <nz-divider nzType="vertical"></nz-divider><a (click)="op.deleteLesson(lesson.id)">删除</a>
+              <span [acl]="'lesson-delete'">
+                <nz-divider nzType="vertical"></nz-divider><a (click)="op.deleteLesson(lesson.id)">删除</a>
+              </span>
             </td>
           </tr>
         </ng-template>

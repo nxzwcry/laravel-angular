@@ -6,7 +6,8 @@
     </div>
     <div nz-col nzSpan="16">
       <div nz-row nzType="flex" nzJustify="end">
-        <button (click)="add()" nz-button nzType="primary">添加学生</button>
+        <button (click)="add()" nz-button nzType="primary" [acl]="'student-create'">添加学生</button>
+        <button nz-button nzType="default" (click)="load()">刷新列表</button>
       </div>
     </div>
   </div>
@@ -24,7 +25,7 @@
         <th nzShowSort nzSortKey="jingpin" nzWidth="100px">精品</th>
         <th nzWidth="200px">中教老师</th>
         <th nzShowFilter [nzFilterMultiple]="true" [nzFilters]="agentList" (nzFilterChange)="filter($event)" nzWidth="250px">课程顾问</th>
-        <th nzWidth="80px"></th>
+        <th nzWidth="100px"></th>
       </tr>
       </thead>
       <tbody>
@@ -37,7 +38,7 @@
         <td>{{student.jingpin}}</td>
         <td>{{student.cteacher}}</td>
         <td>{{student.agent}}</td>
-        <td><a (click)="stop(student.id)">停课</a></td>
+        <td nzWidth="100px"><a (click)="stop(student.id)" [acl]="'student-status-change'">不续费</a></td>
       </tr>
       </tbody>
     </nz-table>

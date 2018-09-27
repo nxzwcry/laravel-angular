@@ -1,4 +1,11 @@
-<input nz-input type="search" class="form-control input-sm" placeholder="输入学生姓名、班名、中外教老师进行搜索" [formControl]="wordFilter" >
+<nz-row>
+  <nz-col [nzSpan]="20">
+    <input nz-input type="search" class="form-control input-sm" placeholder="输入学生姓名、班名、中外教老师进行搜索" [formControl]="wordFilter" >
+  </nz-col>
+  <nz-col [nzSpan]="4" style="text-align:right">
+    <button nz-button nzType="default" (click)="load()">刷新列表</button>
+  </nz-col>
+</nz-row>
 <div *ngFor="let data of displayList">
 <nz-card [nzTitle]="data.date">
     <nz-table #newLessonsTable [nzData]="data.courses | filter:['student','team','cteacher','fteacher']:searchWord" nzSize="middle" [nzShowPagination]="false" [nzFrontPagination]="false">
@@ -18,7 +25,14 @@
       <tbody>
       <ng-template ngFor let-lesson [ngForOf]="newLessonsTable.data">
         <tr>
-          <td>{{lesson.student ? lesson.student : ''}}{{lesson.team ? lesson.team : ''}}</td>
+          <td>
+            <span *ngIf="lesson.student">
+              <a [routerLink]="['/students/student',lesson.student_id]">{{lesson.student}}{{lesson.student_ename}}</a>
+            </span>
+            <span *ngIf="lesson.team">
+              <a [routerLink]="['/teams/team',lesson.team_id]">{{lesson.team}}</a>
+            </span>
+          </td>
           <td>{{lesson.lesson_type}}</td>
           <td>{{lesson.cteacher ? lesson.cteacher : '无'}}</td>
           <td>{{lesson.stime*1000 | _date: 'HH:mm'}}~{{lesson.etime*1000 | _date: 'HH:mm'}}</td>
@@ -27,7 +41,7 @@
           <td>{{lesson.place}}</td>
           <td><a [routerLink]="['/lessons/course',lesson.id]">{{lesson.name}}</a></td>
           <td>
-            <a (click)="op.deleteCourse(lesson.id)">删除</a>
+            <a (click)="op.deleteCourse(lesson.id)" [acl]="'course-delete'">删除</a>
           </td>
          </tr>
         </ng-template>

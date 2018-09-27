@@ -153,6 +153,36 @@ class Student extends Model
         return $this;
     }
 
+    public function statusInit()
+    {
+        if ($this->status == 2)
+        {
+            if ($this->team)
+            {
+                $this->status = 0;
+            }
+            elseif ($this->getNewLessons())
+            {
+                $this->status = 1;
+            }
+        }
+        elseif ($this->status == 1)
+        {
+            if (!$this->getNewLessons())
+            {
+                $this->status = 2;
+            }
+        }
+        elseif ($this->status == 0)
+        {
+            if (!$this->team)
+            {
+                $this->status = 2;
+            }
+        }
+        $this->save();
+    }
+
     // 获取每周外教课节数
     public function oneWeekNumber()
     {

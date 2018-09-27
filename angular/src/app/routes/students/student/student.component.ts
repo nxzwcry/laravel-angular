@@ -51,7 +51,8 @@ export class StudentsStudentComponent implements OnInit {
       {modalOptions:
           {
             nzTitle: '修改学生信息',
-            nzComponentParams: {id: this.id}
+            nzComponentParams: {id: this.id},
+            nzMaskClosable: false,
           }
       }).subscribe(res => this.reload(res) );
   }
@@ -63,7 +64,8 @@ export class StudentsStudentComponent implements OnInit {
       {modalOptions:
           {
             nzTitle: `${this.student.name}-购课充值`,
-            nzComponentParams: {userId: this.id}
+            nzComponentParams: {userId: this.id},
+            nzMaskClosable: false,
           }
       }).subscribe(res => this.reload(res) );
   }
@@ -87,7 +89,8 @@ export class StudentsStudentComponent implements OnInit {
       {modalOptions:
           {
             nzTitle: `${this.student.name}-安排单节课程`,
-            nzComponentParams: {userId: this.id}
+            nzComponentParams: {userId: this.id},
+            nzMaskClosable: false,
           }
       }).subscribe(res => this.reload(res) );
   }
@@ -99,7 +102,8 @@ export class StudentsStudentComponent implements OnInit {
       {modalOptions:
           {
             nzTitle: `${this.student.name}-安排固定课程`,
-            nzComponentParams: {userId: this.id}
+            nzComponentParams: {userId: this.id},
+            nzMaskClosable: false,
           }
       }).subscribe(res => this.reload(res) );
   }

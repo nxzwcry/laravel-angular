@@ -71,7 +71,7 @@ class AppdataController extends ApiController
 //                        'link' => '/students/demo',
 //                    ],
                     [
-                        'text' => '停课学生',
+                        'text' => '不续费学生',
                         'link' => '/students/stoped',
                     ],
                 ],
@@ -95,6 +95,7 @@ class AppdataController extends ApiController
                     [
                         'text' => '请假列表',
                         'link' => '/lessons/leave',
+                        'acl' => 'bulesson-create',
                     ],
 //                    [
 //                        'text' => '安排试听课',

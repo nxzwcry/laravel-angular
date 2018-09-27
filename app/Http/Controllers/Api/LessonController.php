@@ -38,13 +38,13 @@ class LessonController extends ApiController
 
     public function buke(Request $request, Lesson $lesson)
     {
-        if ($request->cteacher)
+        if ($request->cteacher_id)
         {
             $res = $lesson->createBuke($request->all());
+            $lesson->setBuke();
+            $lesson->save();
+            return new LessonResource($res);
         }
-        $lesson->setBuke();
-        $lesson->save();
-        return new LessonResource($lesson);
     }
 
     public function store(Request $request)

@@ -5,18 +5,20 @@
     </div>
     <div nz-col nzSpan="16">
       <div nz-row nzType="flex" nzJustify="end">
-        <button (click)="add()" nz-button nzType="primary">添加班级</button>
+        <button (click)="add()" nz-button nzType="primary" [acl]="'team-create'">添加班级</button>
+        <button nz-button nzType="default" (click)="load()">刷新列表</button>
       </div>
     </div>
   </div>
   <div nz-row style="margin-top: 8px">
     <nz-table #filterTable [nzData]="displayList | filter:['name', 'id', 'cteacher']:searchWord" nzSize="Middle" [nzScroll]="{ y: '435px' }" [nzShowPagination]="false" [nzFrontPagination]="false">
-      <thead>
+      <thead (nzSortChange)="sort($event)" nzSingleSort>
       <tr>
-        <th nzWidth="150px">班级编号</th>
-        <th nzWidth="400px">班名</th>
-        <th nzWidth="200px">中教老师</th>
-        <th nzWidth="200px">上课地点</th>
+        <th nzWidth="150px" nzShowSort nzSortKey="id">班级编号</th>
+        <th nzWidth="400px" nzShowSort nzSortKey="name" nzSort="ascend">班名</th>
+        <th nzWidth="150px" nzShowSort nzSortKey="student_count">班级人数</th>
+        <th nzWidth="200px" nzShowSort nzSortKey="cteacher">中教老师</th>
+        <th nzWidth="200px" nzShowSort nzSortKey="place_id">上课地点</th>
         <th nzWidth="400px">上课时间</th>
       </tr>
       </thead>
@@ -24,6 +26,7 @@
       <tr *ngFor="let item of filterTable.data">
         <td>{{item.id}}</td>
         <td><a [routerLink]="['/teams/team',item.id]">{{item.name}}</a></td>
+        <td>{{item.student_count}}</td>
         <td>{{item.cteacher}}</td>
         <td>{{item.place}}</td>
         <td>

@@ -13,7 +13,6 @@ import { throwIfAlreadyLoaded } from '@core/module-import-guard';
 
 import { NgZorroAntdModule } from 'ng-zorro-antd';
 import { AlainThemeModule  } from '@delon/theme';
-import {DelonThemeConfig} from "@delon/theme/src/src/theme.config";
 // export function fnDelonThemeConfig(): DelonThemeConfig {
 //   return Object.assign(new DelonThemeConfig(), <DelonThemeConfig>{
 //     http: {
@@ -47,6 +46,8 @@ export function delonAuthConfig(): DelonAuthConfig {
     login_url: '/passport/login',
     token_send_key: 'Authorization',
     token_send_template: 'Bearer ${token}',
+    // ignores: [ /\/passport\/login/, /\/passport\/reset-password\/5ef7a205178132dcb7b4cc88abd62a5cbd2c232145bb98d0b1ebe2633cd49629/, /assets\// ],
+    // token_invalid_redirect: false,
   });
 }
 

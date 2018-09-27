@@ -56,6 +56,7 @@ class AfterClass extends Command
 		$i = 0;
 		foreach( $lessons as $lesson )
 		{
+		    $lesson->chackAndSetStatus();
 		    $lesson->save();
 		    $i++;
 //            if ( $lesson -> ChackConduct() )
@@ -102,7 +103,7 @@ class AfterClass extends Command
 //                        'keyword5' => $nextstring ] );
 //                }
 //            }
-            Log::info($lesson->id.'完课');
+//            Log::info($lesson->id.'完课');
 		}
 		Log::info('完课执行');
     }

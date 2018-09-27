@@ -15,6 +15,8 @@ export class TeamsListComponent implements OnInit {
   private wordFilter:FormControl = new FormControl();
   searchWord: string;
   dowList: Array<any>;
+  sortName = 'name';
+  sortValue = 'ascend';
 
   constructor(private http: _HttpClient,
               private modal: ModalHelper,
@@ -32,7 +34,11 @@ export class TeamsListComponent implements OnInit {
   }
 
   add() {
-    this.modal.create(TeamsEditTeamComponent, {size: 'sm'}, {modalOptions: {nzTitle: '添加班级'}}).subscribe(res => this.reload(res) );
+    this.modal.create(TeamsEditTeamComponent, {size: 'sm'}, {
+      modalOptions: {
+        nzTitle: '添加班级',
+        nzMaskClosable: false,
+      }}).subscribe(res => this.reload(res) );
   }
 
   reload(b: Boolean)
@@ -44,8 +50,25 @@ export class TeamsListComponent implements OnInit {
     this.http.get<JsonData>('/teams').subscribe(
       (data) =>{
         this.displayList = data.data;
+        this.search();
       }
     );
+  }
+
+  sort(sort: { key: string, value: string }): void {
+    this.sortName = sort.key;
+    this.sortValue = sort.value;
+    this.search();
+  }
+
+  search(): void {
+    /** filter data **/
+    // const filterFunc = item => (this.listOfSearchAgent.length ? this.listOfSearchAgent.some(name => item.agent.indexOf(name) !== -1) : true);
+    // const data = this.studentList.filter(item => filterFunc(item));
+    /** sort data **/
+    if (this.sortName && this.sortValue) {
+      this.displayList = this.displayList.sort((a, b) => (this.sortValue === 'ascend') ? (a[ this.sortName ] > b[ this.sortName ] ? 1 : -1) : (b[ this.sortName ] > a[ this.sortName ] ? 1 : -1));
+    }
   }
 
 }

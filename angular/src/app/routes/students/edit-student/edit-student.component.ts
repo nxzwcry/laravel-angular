@@ -57,7 +57,7 @@ export class StudentsEditStudentComponent implements OnInit {
             name: item.name,
             ename: item.ename,
             sex: item.sex,
-            birthday: new Date(item.birthday*1000),
+            birthday: item.birthday ? new Date(item.birthday*1000) : null,
             grade: item.grade,
             cteacher_user_id: item.cteacher_user_id,
             agent_user_id: item.agent_user_id,

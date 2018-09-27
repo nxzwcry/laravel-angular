@@ -27,7 +27,7 @@ class CreateDeepspringTables extends Migration
             $table->unsignedInteger('team_id')->nullable($value = true);
 //            $table->Integer('kk_value')->default(1); // 1表示不适用 正常情况下小于等于0
             $table->longText('desc')->nullable($value = true);
-            $table->Integer('status')->default(2);  // 0：班课 1:1对1 2：未排课 -1:试听 -2：停课（不续课）
+            $table->Integer('status')->default(2);  // 0：班课 1:1对1 2：停课（未排课） -1:试听 -2：停课（不续课）
             $table->timestamps();
             $table->softDeletes();
         });
@@ -123,7 +123,7 @@ class CreateDeepspringTables extends Migration
             $table->Integer('score')->default(0);
             $table->unsignedInteger('team_id')->nullable($value = true);
             $table->unsignedInteger('syn_code')->nullable($value = true);
-            $table->unsignedInteger('place_id')->default(0);
+            $table->unsignedInteger('place_id')->default(1);
             $table->Integer('status')->default(0);  // 0：未上 1:已上 2:待确认 3:请假(未补) 4:请假(已补) 5:旷课
             $table->longText('note')->nullable($value = true);
             $table->timestamps();
@@ -138,7 +138,7 @@ class CreateDeepspringTables extends Migration
             $table->unsignedInteger('cteacher_id')->nullable($value = true);
             $table->unsignedInteger('fteacher_id')->nullable($value = true);
             $table->string('name')->nullable($value = true);
-            $table->Integer('dow'); //0:周日
+            $table->string('dow'); //0:周日
             $table->timestamp('start_time');
             $table->timestamp('end_time');
             $table->timestamp('fteacher_time')->nullable($value = true);

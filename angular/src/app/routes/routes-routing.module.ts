@@ -21,21 +21,6 @@ import {SimpleGuard} from "@delon/auth";
 import {UserResetPasswordComponent} from "./passport/reset-password/reset-password.component";
 
 const routes: Routes = [
-  {
-    path: '',
-    component: LayoutDefaultComponent,
-    children: [
-      { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
-      { path: 'dashboard', component: DashboardComponent, data: { title: '首页' } },
-      // 业务子模块
-      { path: 'students', loadChildren: './students/students.module#StudentsModule' },
-      { path: 'users', loadChildren: './users/users.module#UsersModule' },
-      { path: 'permissions', loadChildren: './permissions/permissions.module#PermissionsModule' },
-      { path: 'lessons', loadChildren: './lessons/lessons.module#LessonsModule' },
-      { path: 'teams', loadChildren: './teams/teams.module#TeamsModule' },
-    ],
-    canActivate: [SimpleGuard],
-  },
   // 全屏布局
   // {
   //     path: 'fullscreen',
@@ -44,6 +29,21 @@ const routes: Routes = [
   //     ]
   // },
   // passport
+  {
+    path: '',
+    component: LayoutDefaultComponent,
+    canActivateChild: [SimpleGuard],
+    children: [
+      { path: '', redirectTo: 'dashboard', pathMatch: 'full'},
+      { path: 'dashboard', component: DashboardComponent, data: { title: '首页' }, },
+      // 业务子模块
+      { path: 'students', loadChildren: './students/students.module#StudentsModule', },
+      { path: 'users', loadChildren: './users/users.module#UsersModule', },
+      { path: 'permissions', loadChildren: './permissions/permissions.module#PermissionsModule', },
+      { path: 'lessons', loadChildren: './lessons/lessons.module#LessonsModule', },
+      { path: 'teams', loadChildren: './teams/teams.module#TeamsModule', },
+    ],
+  },
   {
     path: 'passport',
     component: LayoutPassportComponent,
@@ -61,7 +61,7 @@ const routes: Routes = [
   { path: '403', component: Exception403Component },
   { path: '404', component: Exception404Component },
   { path: '500', component: Exception500Component },
-  { path: '**', redirectTo: 'dashboard' }
+  { path: '**', redirectTo: 'dashboard' },
 ];
 
 @NgModule({

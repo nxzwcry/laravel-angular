@@ -49,7 +49,8 @@ export class TeamsTeamComponent implements OnInit {
       {modalOptions:
           {
             nzTitle: '修改班级信息',
-            nzComponentParams: {teamId: this.id}
+            nzComponentParams: {teamId: this.id},
+            nzMaskClosable: false,
           }
       }).subscribe(res => this.reload(res) );
   }
@@ -73,7 +74,8 @@ export class TeamsTeamComponent implements OnInit {
       {modalOptions:
           {
             nzTitle: `${this.team.name}-添加学生`,
-            nzComponentParams: {id: this.id}
+            nzComponentParams: {id: this.id},
+            nzMaskClosable: false,
           }
       }).subscribe(res => this.reload(res) );
   }
@@ -85,7 +87,8 @@ export class TeamsTeamComponent implements OnInit {
       {modalOptions:
           {
             nzTitle: `${this.team.name}-安排单节课程`,
-            nzComponentParams: {teamId: this.id}
+            nzComponentParams: {teamId: this.id},
+            nzMaskClosable: false,
           }
       }).subscribe(res => this.reload(res) );
   }
@@ -97,7 +100,8 @@ export class TeamsTeamComponent implements OnInit {
       {modalOptions:
           {
             nzTitle: `${this.team.name}-安排固定课程`,
-            nzComponentParams: {teamId: this.id}
+            nzComponentParams: {teamId: this.id},
+            nzMaskClosable: false,
           }
       }).subscribe(res => this.reload(res) );
   }

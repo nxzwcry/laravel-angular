@@ -44,7 +44,7 @@ class Lesson extends Model
      * @var array
      */
     protected $dispatchesEvents = [
-        'saving' => LessonSaving::class,
+        'updating' => LessonSaving::class,
         'creating' => LessonCreating::class,
         'saved' => LessonSaved::class,
     ];
@@ -176,6 +176,35 @@ class Lesson extends Model
 //            return null;
 //    }
 
+    public function chackAndSetStatus()
+    {
+        // 判断课程是否在保存时从未上可以变为已上或者待确认
+        if ($this->status == 0)
+        {
+            if ($this->isTimeOut())
+            {
+                // 外教课和精品课、班课显示课过期后直接变为已上
+                if ($this->lesson_type == 'w' || $this->lesson_type == 'j' || $this->lesson_type == 'bt')
+                {
+                    $this->setFinish();
+                    Log::info($this->id.'完课:');
+                }
+                // 班课、中教课和补课过期后变为待确认
+                else {
+                    $this->setConfirm();
+                }
+            }
+        }
+        // 判断课程是否在保存时从已上或者待确认可以变为未上
+        elseif($this->status == 1 || $this->status == 2)
+        {
+            if (!$this->isTimeOut())
+            {
+                $this->setNew();
+            }
+        }
+    }
+
     // 课程是否过期
     public function isTimeOut()
     {
@@ -213,6 +242,7 @@ class Lesson extends Model
         $lessonInfo['zhongjiao_cost'] = 1;
         $lessonInfo['waijiao_cost'] = 0;
         $lessonInfo['jingpin_cost'] = 0;
+        $lessonInfo['team_id'] = null;
         unset($lessonInfo['fteacher_id']);
         unset($lessonInfo['fteacher_datetime']);
         return Lesson::create($lessonInfo);

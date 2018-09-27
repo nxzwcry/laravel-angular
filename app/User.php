@@ -5,6 +5,7 @@ namespace App;
 use Laravel\Passport\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Log;
 use Spatie\Permission\Traits\HasRoles;
 use App\Notifications\ResetEmail as RestPasswordNotification;
 use Spatie\Permission\Models\Role;

@@ -141,7 +141,7 @@ export class SharedEditLessonComponent implements OnInit {
       this.listDisable.fteacher_id = false;
       this.listDisable.jingpin_cost = true;
       this.listDisable.waijiao_cost = false;
-      this.listDisable.status = false;
+      this.listDisable.status = true;
       return;
     }
     this.listDisable.type = false;

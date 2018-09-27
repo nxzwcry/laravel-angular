@@ -14,12 +14,12 @@
         <nz-table #filterTable [nzData]="displayList | filter:['name', 'guard_name', 'id', 'permissions']:searchWord" nzSize="Middle" [nzShowPagination]="false" [nzFrontPagination]="false">
             <thead (nzSortChange)="sort($event)" nzSingleSort>
             <tr>
-                <th>ID</th>
-                <th>名称</th>
-                <th>name</th>
-                <th>guard_name</th>
-                <th>拥有权限</th>
-                <th>操作</th>
+                <th nzWidth="80px">ID</th>
+                <th nzWidth="200px">名称</th>
+                <th nzWidth="200px">name</th>
+                <th nzWidth="100px">guard_name</th>
+                <th nzWidth="600px">拥有权限</th>
+                <th nzWidth="100px">操作</th>
             </tr>
             </thead>
             <tbody>
