@@ -31,6 +31,11 @@ class LessonController extends ApiController
         return LessonResource::collection(Lesson::where('status', 3)->get());
     }
 
+    public function getConfirm()
+    {
+        return LessonResource::collection(Lesson::where('status', 2)->get());
+    }
+
     public function show(Lesson $lesson)
     {
         return new LessonResource($lesson);

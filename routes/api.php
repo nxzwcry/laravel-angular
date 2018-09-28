@@ -56,6 +56,7 @@ Route::middleware('auth:api')->group(function () {
     Route::prefix('lessons')->group(function () {
         Route::get('/index/{days}', 'Api\LessonController@index');
         Route::get('/leave', 'Api\LessonController@getLeave');
+        Route::get('/confirm', 'Api\LessonController@getConfirm');
         Route::get('/copy/{lesson}', 'Api\LessonController@getCopyStudents');
         Route::get('{lesson}', 'Api\LessonController@show');
         Route::middleware('permission:lesson-create')->post('', 'Api\LessonController@store');

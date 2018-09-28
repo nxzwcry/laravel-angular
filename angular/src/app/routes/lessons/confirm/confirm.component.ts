@@ -9,10 +9,10 @@ import {LessonOperateService} from "@shared/services/lesson-operate.service";
 import {ACLService} from "@delon/acl";
 
 @Component({
-  selector: 'app-lessons-leave',
-  templateUrl: './leave.component.html',
+  selector: 'app-lessons-confirm',
+  templateUrl: './confirm.component.html',
 })
-export class LessonsLeaveComponent implements OnInit {
+export class LessonsConfirmComponent implements OnInit {
   displayList: Array<any>;
   dowList: Array<any>;
   lessonStatusList: Array<any>;
@@ -44,7 +44,7 @@ export class LessonsLeaveComponent implements OnInit {
   }
 
   load() {
-    this.http.get<JsonData>('/lessons/leave').subscribe(
+    this.http.get<JsonData>('/lessons/confirm').subscribe(
       (data) =>{
         this.displayList = data.data;
       }

@@ -43,7 +43,7 @@
             <td>{{lesson.place}}</td>
             <td><a [routerLink]="['/lessons/lesson',lesson.id]">{{lesson.name}}</a></td>
             <td>
-              <nz-dropdown [nzTrigger]="'click'">
+              <nz-dropdown [nzTrigger]="'click'" *ngIf="acl.can('lesson-delete') || userid == lesson.cteacher_id">
                 <a nz-dropdown>
                   课程操作 <i class="anticon anticon-down"></i>
                 </a>
@@ -51,7 +51,7 @@
                   <li nz-menu-item [hidden]="lesson.status != 2" (click)="op.confirm(lesson)" [acl]="'lesson-status-change'">确认已上</li>
                   <li nz-menu-item (click)="op.changeName(lesson)" [acl]="'lesson-name-change'">修改名称</li>
                   <li nz-menu-item [hidden]="lesson.lesson_type_id == 'bt'" (click)="op.changeScore(lesson)" [acl]="'lesson-score-change'">打分({{lesson.score}})</li>
-                  <li nz-menu-item [hidden]="true" (click)="op.deleteLesson(lesson.id)" [acl]="'lesson-delete'">删除</li>
+                  <li nz-menu-item (click)="op.deleteLesson(lesson.id)" [acl]="'lesson-delete'">删除</li>
                 </ul>
               </nz-dropdown>
             </td>
@@ -67,13 +67,13 @@
                     <td><nz-badge [nzStatus]="'success'" [nzText]="item.status | trans:lessonStatusList:'value':'label'"></nz-badge></td>
                     <td>外{{item.waijiao_cost}}/中{{item.zhongjiao_cost}}/精{{item.jingpin_cost}}</td>
                     <td>
-                      <span *ngIf="item.status == 2" [acl]="'lesson-status-change'">
+                      <span *ngIf="item.status == 2 && userid == item.cteacher_id" [acl]="'lesson-status-change'">
                         <a (click)="op.confirm(item)">确认已上</a>
                       </span>
-                      <span *ngIf="item.status < 3" [acl]="'lesson-status-change'">
+                      <span *ngIf="item.status < 3 && userid == item.cteacher_id" [acl]="'lesson-status-change'">
                         <nz-divider nzType="vertical"></nz-divider><a (click)="op.leave(item)">请假</a>
                       </span>
-                      <span [acl]="'lesson-score-change'">
+                      <span [acl]="'lesson-score-change'" *ngIf="userid == item.cteacher_id">
                         <nz-divider nzType="vertical"></nz-divider>
                         <a (click)="op.changeScore(item)">打分({{item.score}})</a>
                       </span>

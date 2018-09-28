@@ -97,6 +97,11 @@ class AppdataController extends ApiController
                         'link' => '/lessons/leave',
                         'acl' => 'bulesson-create',
                     ],
+                    [
+                        'text' => '待确认列表',
+                        'link' => '/lessons/confirm',
+                        'acl' => 'bulesson-create',
+                    ],
 //                    [
 //                        'text' => '安排试听课',
 //                        'link' => '/lessons/create-demo',
