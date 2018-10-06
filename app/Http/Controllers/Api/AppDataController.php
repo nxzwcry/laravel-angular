@@ -102,10 +102,31 @@ class AppdataController extends ApiController
                         'link' => '/lessons/confirm',
                         'acl' => 'bulesson-create',
                     ],
+                    [
+                        'text' => '日课表查询',
+                        'link' => '/lessons/day-list',
+                    ],
 //                    [
 //                        'text' => '安排试听课',
 //                        'link' => '/lessons/create-demo',
 //                    ],
+                ],
+            ],
+            [
+                'text' => '统计',
+                'icon' => 'anticon anticon anticon-bars',
+                'acl' => ['teacher-count', 'month-count'],
+                'children' => [
+                    [
+                        'text' => '个人统计',
+                        'link' => '/count/user',
+                        'acl' => 'teacher-count',
+                    ],
+                    [
+                        'text' => '月度统计',
+                        'link' => '/count/month',
+                        'acl' => 'month-count',
+                    ],
                 ],
             ],
 //            [

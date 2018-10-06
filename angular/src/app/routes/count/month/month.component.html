@@ -1,0 +1,34 @@
+<nz-row>
+  <nz-col [nzSpan]="20">
+    <nz-month-picker [formControl]="month" [nzDisabledDate]="disabledDate" (ngModelChange)="change($event)"></nz-month-picker>
+    <!--<input nz-input type="search" class="form-control input-sm" placeholder="输入学生姓名、班名、中外教老师进行搜索" [formControl]="wordFilter" >-->
+  </nz-col>
+  <nz-col [nzSpan]="4" style="text-align:right">
+    <button nz-button nzType="default" (click)="load()">刷新列表</button>
+  </nz-col>
+</nz-row>
+<nz-card nzTitle="月度统计">
+  <nz-table #countTable [nzData]="displayList" nzSize="middle" [nzShowPagination]="false" [nzFrontPagination]="false" [hidden]="hidden">
+    <thead>
+    <tr>
+      <th>姓名</th>
+      <th>班课课次</th>
+      <th>班课人次</th>
+      <th>中教课时</th>
+      <th>状态异常</th>
+      <th>总计</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr *ngFor="let item of countTable.data">
+      <td>{{item.name}}</td>
+      <td>{{item.team_count}}次</td>
+      <td>{{item.b_count}}人次</td>
+      <td>{{item.zhongjiao_count}}课时</td>
+      <td>{{item.others}}</td>
+      <td>{{item.b_count+item.zhongjiao_count}}</td>
+    </tr>
+    </tbody>
+  </nz-table>
+</nz-card>

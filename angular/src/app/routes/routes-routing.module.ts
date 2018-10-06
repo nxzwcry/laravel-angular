@@ -42,6 +42,7 @@ const routes: Routes = [
       { path: 'permissions', loadChildren: './permissions/permissions.module#PermissionsModule', },
       { path: 'lessons', loadChildren: './lessons/lessons.module#LessonsModule', },
       { path: 'teams', loadChildren: './teams/teams.module#TeamsModule', },
+      { path: 'count', loadChildren: './count/count.module#CountModule', },
     ],
   },
   {

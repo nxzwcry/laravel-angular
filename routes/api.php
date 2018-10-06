@@ -58,6 +58,7 @@ Route::middleware('auth:api')->group(function () {
         Route::get('/leave', 'Api\LessonController@getLeave');
         Route::get('/confirm', 'Api\LessonController@getConfirm');
         Route::get('/copy/{lesson}', 'Api\LessonController@getCopyStudents');
+        Route::post('/time-list', 'Api\LessonController@getTimeList');
         Route::get('{lesson}', 'Api\LessonController@show');
         Route::middleware('permission:lesson-create')->post('', 'Api\LessonController@store');
         Route::middleware('permission:lesson-create')->post('/team', 'Api\LessonController@createTeamLesson');
@@ -102,6 +103,10 @@ Route::middleware('auth:api')->group(function () {
         Route::middleware('permission:permission-all')->put('/remove/{role}', 'Api\RoleController@removePermissions');
         Route::middleware('permission:permission-all')->put('{role}', 'Api\RoleController@update');
         Route::middleware('permission:permission-all')->delete('{role}', 'Api\RoleController@delete');
+    });
+
+    Route::prefix('count')->group(function () {
+        Route::post('/getCount', 'Api\CountController@getCount');
     });
 
     Route::get('places', 'Api\PlaceController@index');

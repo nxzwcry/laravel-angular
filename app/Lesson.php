@@ -301,6 +301,30 @@ class Lesson extends Model
         return [];
     }
 
+    public static function getTimeLessonList(Carbon $stime, Carbon $etime)
+    {
+        if ($stime && $etime)
+        {
+            return Lesson::where('start_datetime', '>=', $stime)
+                ->where('start_datetime', '<=', $etime)
+                ->where('lesson_type', '<>', 'b') // 班课作为bt显示班课的子课显示
+                ->orderby('start_datetime')
+                ->get();
+        }
+        return [];
+    }
+
+    public static function getCountList(Carbon $stime, Carbon $etime)
+    {
+        if ($stime && $etime)
+        {
+            return Lesson::where('start_datetime', '>=', $stime)
+                ->where('start_datetime', '<=', $etime)
+                ->get();
+        }
+        return [];
+    }
+
     // 设置课程为临时请假
 //    public  function setTodayLeave()
 //    {

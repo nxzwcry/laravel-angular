@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Api;
 
+use Carbon\Carbon;
+use App\Events\LessonSaved;
 use App\Http\Resources\StudentCollection;
 use App\Student;
 use Illuminate\Http\Request;
@@ -24,6 +26,16 @@ class LessonController extends ApiController
             }
         }
         return new LessonCollection($lessons);
+    }
+
+    public function getTimeList(Request $request)
+    {
+        if ($request->stime && $request->etime)
+        {
+            $stime = Carbon::createFromTimeStamp($request->stime,'Asia/Shanghai');
+            $etime = Carbon::createFromTimeStamp($request->etime,'Asia/Shanghai');
+            return new LessonCollection(Lesson::getTimeLessonList($stime, $etime));
+        }
     }
 
     public function getLeave()
