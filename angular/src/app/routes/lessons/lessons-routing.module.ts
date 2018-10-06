@@ -7,6 +7,7 @@ import {LessonsCourseListComponent} from "./course-list/course-list.component";
 import {LessonsLessonComponent} from "./lesson/lesson.component";
 import {LessonsCourseComponent} from "./course/course.component";
 import {LessonsConfirmComponent} from "./confirm/confirm.component";
+import {LessonsDayListComponent} from "./day-list/day-list.component";
 
 const routes: Routes = [
   { path: 'future', component: LessonsFutureComponent },
@@ -16,6 +17,7 @@ const routes: Routes = [
   { path: 'course-list', component: LessonsCourseListComponent },
   { path: 'lesson/:id', component: LessonsLessonComponent },
   { path: 'course/:id', component: LessonsCourseComponent },
+  { path: 'day-list', component: LessonsDayListComponent },
 ];
 
 @NgModule({

@@ -16,9 +16,10 @@ export class LessonsDayListComponent implements OnInit {
   displayList: Array<any>;
   dowList: Array<any>;
   lessonStatusList: Array<any>;
-  private wordFilter:FormControl = new FormControl();
-  private wordFilter:FormControl = new FormControl();
-  searchWord: string;
+  private day:FormControl = new FormControl();
+  hidden = true;
+  stime: any;
+  etime: any;
   userid: number;
 
   constructor(private http: _HttpClient,
@@ -36,20 +37,35 @@ export class LessonsDayListComponent implements OnInit {
     this.userid = this.settingService.user.id;
     this.dowList = this.dic.getDowList();
     this.lessonStatusList = this.dic.getLessonStatusList();
-    this.wordFilter.valueChanges
-      .pipe(debounceTime(500))
-      .subscribe(
-        value => this.searchWord = value
-      );
-    this.load();
   }
 
   load() {
-    this.http.post<JsonData>('/lessons/time-list').subscribe(
-      (data) =>{
-        this.displayList = data.data;
-      }
-    );
+    if (this.stime && this.etime)
+    {
+      this.http.post<JsonData>('/lessons/time-list', {'stime': this.stime, 'etime': this.etime}).subscribe(
+        (data) =>{
+          if (data.data[0])
+          {
+            this.hidden = false;
+            this.displayList = data.data;
+          }
+          else
+          {
+            this.hidden = true;
+          }
+        }
+      );
+    }
+  }
+
+  change(time: Date) {
+    // console.log(time);
+    let temp = new Date(time.valueOf());
+    temp.setHours(0, 0, 0);
+    this.stime = temp.getTime()/1000;
+    temp.setHours(23, 59, 59);
+    this.etime = temp.getTime()/1000;
+    this.load();
   }
 
 }

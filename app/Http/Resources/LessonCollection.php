@@ -17,22 +17,32 @@ class LessonCollection extends ResourceCollection
     {
         $data = collect();
         $lessons = collect();
-        $date = $this->collection->first()->start_datetime->setTimezone('Asia/Shanghai')->toDateString();
-        foreach ($this->collection as $item)
+        if ($this->collection->first())
         {
-            $temp = $item->start_datetime->setTimezone('Asia/Shanghai')->toDateString();
-            if ($date <> $temp)
+            $date = $this->collection->first()->start_datetime->setTimezone('Asia/Shanghai')->toDateString();
+            foreach ($this->collection as $item)
+            {
+                $temp = $item->start_datetime->setTimezone('Asia/Shanghai')->toDateString();
+                if ($date <> $temp)
+                {
+                    $data->push([
+                        'date' => $date,
+                        'lessons' => $lessons,
+                    ]);
+                    $date = $temp;
+                    $lessons = collect([$item]);
+                }
+                else
+                {
+                    $lessons->push($item);
+                }
+            }
+            if ($lessons->count())
             {
                 $data->push([
                     'date' => $date,
                     'lessons' => $lessons,
                 ]);
-                $date = $temp;
-                $lessons = collect([$item]);
-            }
-            else
-            {
-                $lessons->push($item);
             }
         }
         return [

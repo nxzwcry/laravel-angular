@@ -8,6 +8,7 @@ import {LessonsCourseListComponent} from "./course-list/course-list.component";
 import {LessonsLessonComponent} from "./lesson/lesson.component";
 import {LessonsCourseComponent} from "./course/course.component";
 import {LessonsConfirmComponent} from "./confirm/confirm.component";
+import {LessonsDayListComponent} from "./day-list/day-list.component";
 
 const COMPONENTS = [
   LessonsFutureComponent,
@@ -17,6 +18,7 @@ const COMPONENTS = [
   LessonsLessonComponent,
   LessonsCourseComponent,
   LessonsConfirmComponent,
+  LessonsDayListComponent,
 ];
 const COMPONENTS_NOROUNT = [
 ];
