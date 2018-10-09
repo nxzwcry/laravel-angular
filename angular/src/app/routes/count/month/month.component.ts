@@ -21,6 +21,10 @@ export class CountMonthComponent implements OnInit {
   hidden = true;
   stime: any;
   etime: any;
+  visible = false;
+  type: string;
+  index: number;
+  count: any;
 
   constructor(private http: _HttpClient,
               public msgSrv: NzMessageService,
@@ -43,6 +47,7 @@ export class CountMonthComponent implements OnInit {
         (data) =>{
           this.hidden = false;
           this.displayList = data.data;
+          this.count = data.count;
         }
       );
     }
@@ -62,6 +67,28 @@ export class CountMonthComponent implements OnInit {
     temp.setMonth(temp.getMonth()+1);
     this.etime = temp.getTime()/1000;
     this.load();
+  }
+
+  openBanke(i): void {
+    this.index = i;
+    this.type = 'banke';
+    this.visible = true;
+  }
+
+  openBuke(i): void {
+    this.index = i;
+    this.type = 'buke';
+    this.visible = true;
+  }
+
+  openZhongjiao(i): void {
+    this.index = i;
+    this.type = 'zhongjiao';
+    this.visible = true;
+  }
+
+  close(): void {
+    this.visible = false;
   }
 
 }

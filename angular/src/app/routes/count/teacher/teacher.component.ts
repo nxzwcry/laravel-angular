@@ -22,6 +22,9 @@ export class CountTeacherComponent implements OnInit {
   stime: any;
   etime: any;
   cteacher_id: number;
+  visible = false;
+  type: string;
+  index: number;
 
   constructor(private http: _HttpClient,
               public msgSrv: NzMessageService,
@@ -64,6 +67,28 @@ export class CountTeacherComponent implements OnInit {
     temp.setMonth(temp.getMonth()+1);
     this.etime = temp.getTime()/1000;
     this.load();
+  }
+
+  openBanke(i): void {
+    this.index = i;
+    this.type = 'banke';
+    this.visible = true;
+  }
+
+  openBuke(i): void {
+    this.index = i;
+    this.type = 'buke';
+    this.visible = true;
+  }
+
+  openZhongjiao(i): void {
+    this.index = i;
+    this.type = 'zhongjiao';
+    this.visible = true;
+  }
+
+  close(): void {
+    this.visible = false;
   }
 
 }

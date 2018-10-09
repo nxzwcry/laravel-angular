@@ -14,21 +14,83 @@
       <th>姓名</th>
       <th>班课课次</th>
       <th>班课人次</th>
+      <th>补课人次</th>
       <th>中教课时</th>
-      <th>状态异常</th>
+      <th>未确认课程</th>
       <th>总计</th>
     </tr>
     </thead>
 
     <tbody>
-    <tr *ngFor="let item of countTable.data">
+    <tr *ngFor="let item of countTable.data; index as i">
       <td>{{item.name}}</td>
       <td>{{item.team_count}}次</td>
-      <td>{{item.b_count}}人次</td>
-      <td>{{item.zhongjiao_count}}课时</td>
-      <td>{{item.others}}</td>
-      <td>{{item.b_count+item.zhongjiao_count}}</td>
+      <td><a (click)="openBanke(i)">{{item.b_count}}人次</a></td>
+      <td><a (click)="openBuke(i)">{{item.bu_count}}人次</a></td>
+      <td><a (click)="openZhongjiao(i)">{{item.zhongjiao_count}}课时</a></td>
+      <td>{{item.others_count}}</td>
+      <td>{{item.count}}</td>
     </tr>
     </tbody>
   </nz-table>
 </nz-card>
+
+<nz-drawer [nzVisible]="visible" [nzWidth]="640" [nzClosable]="false" (nzOnClose)="close()">
+  <p class="title" style=" margin-bottom: 24px;">详细记录</p>
+  <nz-table *ngIf="type == 'banke'" #bankeTable [nzData]="displayList[index].banke" nzSize="small">
+    <thead>
+    <tr>
+      <th>班名</th>
+      <th>上课时间</th>
+      <th>实到人数</th>
+      <th nzWidth="200px">到课学生</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let item of bankeTable.data">
+      <td>{{item.team_name}}</td>
+      <td>{{item.stime*1000 | _date: 'YYYY-MM-DD HH:mm'}}</td>
+      <td>{{item.count}}人</td>
+      <td><span *ngFor="let name of item.student_list">{{name}} &emsp;</span></td>
+    </tr>
+    </tbody>
+  </nz-table>
+
+  <nz-table *ngIf="type == 'buke'" #bukeTable [nzData]="displayList[index].buke" nzSize="small">
+    <thead>
+    <tr>
+      <th>学生姓名</th>
+      <th>补课时间</th>
+      <th>补课内容</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let item of bukeTable.data">
+      <td>{{item.student}}{{item.student_ename}}</td>
+      <td>{{item.stime*1000 | _date: 'YYYY-MM-DD HH:mm'}}</td>
+      <td>{{item.name}}</td>
+    </tr>
+    </tbody>
+  </nz-table>
+
+  <nz-table *ngIf="type == 'zhongjiao'" #zhongjiaoTable [nzData]="displayList[index].zhongjiao" nzSize="small">
+    <thead>
+    <tr>
+      <th>学生姓名</th>
+      <th>课程类型</th>
+      <th>上课时间</th>
+      <th>上课内容</th>
+      <th>消耗课时</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let item of zhongjiaoTable.data">
+      <td>{{item.student}}{{item.student_ename}}</td>
+      <td>{{item.lesson_type}}</td>
+      <td>{{item.stime*1000 | _date: 'YYYY-MM-DD HH:mm'}}</td>
+      <td>{{item.name}}</td>
+      <td>{{item.zhongjiao_cost}}课时</td>
+    </tr>
+    </tbody>
+  </nz-table>
+</nz-drawer>

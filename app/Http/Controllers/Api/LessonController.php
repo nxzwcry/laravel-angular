@@ -40,12 +40,12 @@ class LessonController extends ApiController
 
     public function getLeave()
     {
-        return LessonResource::collection(Lesson::where('status', 3)->get());
+        return LessonResource::collection(Lesson::where('status', 3)->get()->sortBy('start_datetime')->flatten());
     }
 
     public function getConfirm()
     {
-        return LessonResource::collection(Lesson::where('status', 2)->get());
+        return LessonResource::collection(Lesson::where('status', 2)->get()->sortBy('start_datetime')->flatten());
     }
 
     public function show(Lesson $lesson)
@@ -58,10 +58,10 @@ class LessonController extends ApiController
         if ($request->cteacher_id)
         {
             $res = $lesson->createBuke($request->all());
-            $lesson->setBuke();
-            $lesson->save();
-            return new LessonResource($res);
         }
+        $lesson->setBuke();
+        $lesson->save();
+        return new LessonResource($res);
     }
 
     public function store(Request $request)
@@ -114,8 +114,15 @@ class LessonController extends ApiController
     {
         if($request->name)
         {
-            $lesson->name = $request->name;
-            $lesson->save();
+            if ($lesson->lesson_type == 'bt')
+            {
+                $lesson->updateTeamLesson(['name' => $request->name]);
+            }
+            else
+            {
+                $lesson->name = $request->name;
+                $lesson->save();
+            }
         }
         return new LessonResource($lesson);
     }

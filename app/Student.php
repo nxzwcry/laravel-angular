@@ -43,7 +43,7 @@ class Student extends Model
     public function getOldLessons()
     {
         $lessons = $this->lessons()
-            ->where('status', 1)
+            ->where('status', '>', 0)
             ->get();
         return $lessons;
     }

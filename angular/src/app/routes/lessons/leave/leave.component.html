@@ -1,4 +1,11 @@
-<input nz-input type="search" class="form-control input-sm" placeholder="输入学生姓名、班名、中外教老师进行搜索" [formControl]="wordFilter" >
+<nz-row>
+  <nz-col [nzSpan]="20">
+    <input nz-input type="search" class="form-control input-sm" placeholder="输入学生姓名、班名、中外教老师进行搜索" [formControl]="wordFilter" >
+  </nz-col>
+  <nz-col [nzSpan]="4" style="text-align:right">
+    <button nz-button nzType="default" (click)="load()">刷新列表</button>
+  </nz-col>
+</nz-row>
   <nz-card nzTitle="请假列表">
     <nz-table #newLessonsTable [nzData]="displayList | filter:['student','team','cteacher','fteacher']:searchWord" nzSize="middle" [nzShowPagination]="false" [nzFrontPagination]="false">
       <thead>
@@ -16,7 +23,7 @@
       <tbody>
         <ng-template ngFor let-lesson [ngForOf]="newLessonsTable.data">
           <tr *ngIf="lesson.cteacher_id == userid || acl.can('lesson-delete')">
-            <td><a [routerLink]="['/students/student',lesson.student_id]">{{lesson.student}}</a></td>
+            <td><a [routerLink]="['/students/student',lesson.student_id]">{{lesson.student}}{{lesson.student_ename}}</a></td>
             <td>{{lesson.team ? lesson.team : '无'}}</td>
             <td>{{lesson.lesson_type}}</td>
             <td>{{lesson.cteacher ? lesson.cteacher : '无'}}</td>
@@ -25,7 +32,7 @@
             <td><a [routerLink]="['/lessons/lesson',lesson.id]">{{lesson.name}}</a></td>
             <td>
               <a (click)="op.addBuke(lesson.id)">安排补课</a>
-              <nz-divider nzType="vertical"></nz-divider><a (click)="op.noBuke(lesson.id)">不补课</a>
+              <!--<nz-divider nzType="vertical"></nz-divider><a (click)="op.noBuke(lesson.id)">不补课</a>-->
               <span [acl]="'lesson-delete'">
                 <nz-divider nzType="vertical"></nz-divider><a (click)="op.deleteLesson(lesson.id)">删除</a>
               </span>
