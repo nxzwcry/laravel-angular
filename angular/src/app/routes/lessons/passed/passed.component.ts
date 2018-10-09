@@ -18,6 +18,8 @@ export class LessonsPassedComponent implements OnInit {
   private wordFilter:FormControl = new FormControl();
   searchWord: string;
   userid: number;
+  isVisible = false;
+  index: number;
 
   constructor(private http: _HttpClient,
               public msgSrv: NzMessageService,
@@ -47,6 +49,16 @@ export class LessonsPassedComponent implements OnInit {
         this.displayList = data.data;
       }
     );
+  }
+
+  showModal(i): void {
+    this.index = i;
+    this.isVisible = true;
+  }
+
+  handleCancel(): void {
+    console.log('Button cancel clicked!');
+    this.isVisible = false;
   }
 
 }

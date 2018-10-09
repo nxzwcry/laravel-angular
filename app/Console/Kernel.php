@@ -36,16 +36,28 @@ class Kernel extends ConsoleKernel
         // 时间为UTC时间
         // $schedule->command('inspire')
         //          ->hourly();
-        $schedule->command('AfterClass')->dailyAt('10:10');// 每天10:00运行一次...
+//        $schedule->command('AfterClass')->dailyAt('10:10');// 每天10:00运行一次...
 //        $schedule->command('AfterClass')
 //            ->everyThirtyMinutes()
 //            ->between('1:00', '15:00');// 每天9:00~23:00 每半小时运行一次
         $schedule->command('AfterClass')
-            ->hourlyAt(02)
-            ->between('1:00', '15:00');// 每天9:00~23:00 每半小时运行一次
+            ->hourlyAt(01)
+            ->between('1:00', '15:00');// 每天9:00~23:00 每十分钟运行一次
         $schedule->command('AfterClass')
-            ->hourlyAt(32)
-            ->between('1:00', '15:00');// 每天9:00~23:00 每半小时运行一次
+            ->hourlyAt(11)
+            ->between('1:00', '15:00');// 每天9:00~23:00 每十分钟运行一次
+        $schedule->command('AfterClass')
+            ->hourlyAt(21)
+            ->between('1:00', '15:00');// 每天9:00~23:00 每十分钟运行一次
+        $schedule->command('AfterClass')
+            ->hourlyAt(31)
+            ->between('1:00', '15:00');// 每天9:00~23:00 每十分钟运行一次
+        $schedule->command('AfterClass')
+            ->hourlyAt(41)
+            ->between('1:00', '15:00');// 每天9:00~23:00 每十分钟运行一次
+        $schedule->command('AfterClass')
+            ->hourlyAt(51)
+            ->between('1:00', '15:00');// 每天9:00~23:00 每十分钟运行一次
         $schedule->command('AddGrade')
             ->monthlyOn(1, '00:00')
             ->when(function () {

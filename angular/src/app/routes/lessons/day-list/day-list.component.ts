@@ -21,6 +21,7 @@ export class LessonsDayListComponent implements OnInit {
   stime: any;
   etime: any;
   userid: number;
+  isVisible = false;
 
   constructor(private http: _HttpClient,
               public msgSrv: NzMessageService,
@@ -66,6 +67,15 @@ export class LessonsDayListComponent implements OnInit {
     temp.setHours(23, 59, 59);
     this.etime = temp.getTime()/1000;
     this.load();
+  }
+
+  showModal(i): void {
+    this.isVisible = true;
+  }
+
+  handleCancel(): void {
+    console.log('Button cancel clicked!');
+    this.isVisible = false;
   }
 
 }

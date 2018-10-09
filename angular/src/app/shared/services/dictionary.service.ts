@@ -114,24 +114,29 @@ export class DictionaryService {
   }
 
   getCteacherList() : Observable<any> {
-    return this.cacheService.get('/cteachers', {mode: 'promise', type: 'm', expire: 1200});
+    // return this.cacheService.get('/cteachers', {mode: 'promise', type: 'm', expire: 1200});
+    return this.http.get('/cteachers', {mode: 'promise', type: 'm', expire: 1200});
   }
 
 
   getFteacherList() : Observable<any> {
-    return this.cacheService.get('/fteachers', {mode: 'promise', type: 'm', expire: 1200});
+    // return this.cacheService.get('/fteachers', {mode: 'promise', type: 'm', expire: 1200});
+    return this.http.get('/fteachers', {mode: 'promise', type: 'm', expire: 1200});
   }
 
   getAgentList() : Observable<any> {
-    return this.cacheService.get('/agents', {mode: 'promise', type: 'm', expire: 1200});
+    // return this.cacheService.get('/agents', {mode: 'promise', type: 'm', expire: 1200});
+    return this.http.get('/agents', {mode: 'promise', type: 'm', expire: 1200});
   }
 
   getRoleList() : Observable<any> {
-    return this.cacheService.get('/roles', {mode: 'promise', type: 'm', expire: 1200});
+    // return this.cacheService.get('/roles', {mode: 'promise', type: 'm', expire: 1200});
+    return this.http.get('/roles', {mode: 'promise', type: 'm', expire: 1200});
   }
 
   getPlaceList() : Observable<any> {
-    return this.cacheService.get('/places', {mode: 'promise', type: 'm', expire: 1200});
+    // return this.cacheService.get('/places', {mode: 'promise', type: 'm', expire: 1200});
+    return this.http.get('/places', {mode: 'promise', type: 'm', expire: 1200});
   }
 
   getStudentList() : Observable<any> {
