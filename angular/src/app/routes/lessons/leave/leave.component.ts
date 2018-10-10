@@ -16,7 +16,7 @@ export class LessonsLeaveComponent implements OnInit {
   displayList: Array<any>;
   dowList: Array<any>;
   lessonStatusList: Array<any>;
-  private wordFilter:FormControl = new FormControl();
+  wordFilter:FormControl = new FormControl();
   searchWord: string;
   userid: number;
 

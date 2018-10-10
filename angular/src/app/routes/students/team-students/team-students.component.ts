@@ -12,7 +12,7 @@ import {DictionaryService} from "@shared/services/dictionary.service";
 export class StudentsTeamStudentsComponent implements OnInit {
   displayList: Array<any>;
   studentList: Array<any>;
-  private wordFilter:FormControl = new FormControl();
+  wordFilter:FormControl = new FormControl();
   searchWord: string;
   listOfSearchAgent = [ ];
   sortName = 'id';

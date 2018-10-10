@@ -11,7 +11,7 @@ import {PermissionsAddComponent} from "../add/add.component";
 })
 export class PermissionsPermissionListComponent implements OnInit {
   displayList: Array<any>;
-  private wordFilter:FormControl = new FormControl();
+  wordFilter:FormControl = new FormControl();
   searchWord: string;
 
   constructor(private http: _HttpClient, private modal: ModalHelper) { }

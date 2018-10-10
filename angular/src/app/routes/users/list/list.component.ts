@@ -3,9 +3,7 @@ import {_HttpClient, ModalHelper} from '@delon/theme';
 import {FormControl} from "@angular/forms";
 import {DictionaryService} from "../../../shared/services/dictionary.service";
 import {debounceTime} from "rxjs/operators";
-import {StudentsEditStudentComponent} from "../../students/edit-student/edit-student.component";
 import {JsonData} from "../../../shared/shared.module";
-import {Student} from "../../../shared/modules/student";
 import {NzModalService} from "ng-zorro-antd";
 import {UsersEditUserComponent} from "../edit-user/edit-user.component";
 
@@ -16,7 +14,7 @@ import {UsersEditUserComponent} from "../edit-user/edit-user.component";
 export class UsersListComponent implements OnInit {
   displayList: Array<any>;
   userList: Array<any>;
-  private wordFilter:FormControl = new FormControl();
+  wordFilter:FormControl = new FormControl();
   searchWord: string;
   listOfSearchRole = [ ];
   sortName = 'id';

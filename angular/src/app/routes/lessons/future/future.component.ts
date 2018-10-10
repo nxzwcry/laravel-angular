@@ -15,7 +15,7 @@ import {ACLService} from "@delon/acl";
 export class LessonsFutureComponent implements OnInit {
   displayList: Array<any>;
   lessonStatusList: Array<any>;
-  private wordFilter:FormControl = new FormControl();
+  wordFilter:FormControl = new FormControl();
   searchWord: string;
   userid: number;
   isVisible = false;

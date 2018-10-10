@@ -12,7 +12,7 @@ import {TeamsEditTeamComponent} from "../edit-team/edit-team.component";
 })
 export class TeamsListComponent implements OnInit {
   displayList: Array<any>;
-  private wordFilter:FormControl = new FormControl();
+  wordFilter:FormControl = new FormControl();
   searchWord: string;
   dowList: Array<any>;
   sortName = 'name';

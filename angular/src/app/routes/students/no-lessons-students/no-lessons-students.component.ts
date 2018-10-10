@@ -14,7 +14,7 @@ import {NzMessageService} from "ng-zorro-antd";
 export class StudentsNoLessonsStudentsComponent implements OnInit {
   displayList: Array<any>;
   studentList: Array<any>;
-  private wordFilter:FormControl = new FormControl();
+  wordFilter:FormControl = new FormControl();
   searchWord: string;
   listOfSearchAgent = [ ];
   sortName = 'id';

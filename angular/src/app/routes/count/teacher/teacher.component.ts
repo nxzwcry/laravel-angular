@@ -7,7 +7,7 @@ import {debounceTime} from "rxjs/operators";
 import {FormControl} from "@angular/forms";
 import {LessonOperateService} from "@shared/services/lesson-operate.service";
 import {ACLService} from "@delon/acl";
-import differenceInCalendarDays from 'date-fns/difference_in_calendar_days';
+import * as differenceInCalendarDays from "date-fns/difference_in_calendar_days";
 import {copy} from "@delon/util";
 
 @Component({
@@ -16,7 +16,7 @@ import {copy} from "@delon/util";
 })
 export class CountTeacherComponent implements OnInit {
   displayList: Array<any>;
-  private month:FormControl = new FormControl();
+  month:FormControl = new FormControl();
   today = new Date();
   hidden = true;
   stime: any;

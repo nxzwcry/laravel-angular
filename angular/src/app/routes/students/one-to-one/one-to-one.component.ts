@@ -19,7 +19,7 @@ import {forEach} from "@angular/router/src/utils/collection";
 export class StudentsOneToOneComponent implements OnInit {
   displayList: Array<any>;
   studentList: Array<any>;
-  private wordFilter:FormControl = new FormControl();
+  wordFilter:FormControl = new FormControl();
   searchWord: string;
   listOfSearchAgent = [ ];
   sortName = 'id';

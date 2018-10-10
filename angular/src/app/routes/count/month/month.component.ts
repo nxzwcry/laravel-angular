@@ -1,14 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import {_HttpClient, ModalHelper, SettingsService} from '@delon/theme';
+import {_HttpClient, ModalHelper} from '@delon/theme';
 import {JsonData} from "@shared/shared.module";
 import {DictionaryService} from "@shared/services/dictionary.service";
 import {NzMessageService} from "ng-zorro-antd";
-import {debounceTime} from "rxjs/operators";
 import {FormControl} from "@angular/forms";
 import {LessonOperateService} from "@shared/services/lesson-operate.service";
-import {ACLService} from "@delon/acl";
-import differenceInCalendarDays from 'date-fns/difference_in_calendar_days';
-import {copy} from "@delon/util";
+import * as differenceInCalendarDays from "date-fns/difference_in_calendar_days";
 
 @Component({
   selector: 'app-count-month',
@@ -16,7 +13,7 @@ import {copy} from "@delon/util";
 })
 export class CountMonthComponent implements OnInit {
   displayList: Array<any>;
-  private month:FormControl = new FormControl();
+  month:FormControl = new FormControl();
   today = new Date();
   hidden = true;
   stime: any;
@@ -31,8 +28,6 @@ export class CountMonthComponent implements OnInit {
               private modal: ModalHelper,
               private dic: DictionaryService,
               private op: LessonOperateService,
-              private acl: ACLService,
-              private settingService: SettingsService,
   ) {
     this.op.setCom(this);
   }

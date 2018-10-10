@@ -10,6 +10,28 @@ export class Student {
    * @param {any} sex
    * @param {any} grade
    */
+
+  age: number;
+  lessonstage: string;
+  agent: string;
+  cteacher: string;
+  team: string;
+  score: number;
+  waijiaocost: number;
+  waijiaototal: number;
+  zhongjiaocost: number;
+  zhongjiaototal: number;
+  jingpincost: number;
+  jingpintotal: number;
+  email: string;
+  address: string;
+  phones: any[];
+  desc: string;
+  newlessons: any[];
+  courses: any[];
+  oldlessons: any[];
+  recharges: any[];
+
   constructor(
     public id: number,
     public ename: string,

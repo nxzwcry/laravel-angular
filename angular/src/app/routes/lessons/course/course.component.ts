@@ -15,6 +15,7 @@ import {SharedEditCourseComponent} from "@shared/components/edit-course/edit-cou
 export class LessonsCourseComponent implements OnInit {
   lesson: any;
   id = this.route.snapshot.params.id;
+  dowList: Array<any>;
 
   constructor(
     private route: ActivatedRoute,
@@ -41,6 +42,7 @@ export class LessonsCourseComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.dowList = this.dic.getDowList();
     this.load();
   }
 

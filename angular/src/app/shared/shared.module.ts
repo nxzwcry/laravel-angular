@@ -98,4 +98,5 @@ const MYSERVICES = [
 export class SharedModule { }
 export class JsonData {
   data: any;
+  count: any;
 }

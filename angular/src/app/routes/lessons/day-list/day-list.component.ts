@@ -16,7 +16,7 @@ export class LessonsDayListComponent implements OnInit {
   displayList: Array<any>;
   dowList: Array<any>;
   lessonStatusList: Array<any>;
-  private day:FormControl = new FormControl();
+  day:FormControl = new FormControl();
   hidden = true;
   stime: any;
   etime: any;

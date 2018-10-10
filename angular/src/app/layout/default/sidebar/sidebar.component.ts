@@ -13,7 +13,7 @@ export class SidebarComponent {
   constructor(
     public settings: SettingsService,
     public msgSrv: NzMessageService,
-    private dic: DictionaryService,
+    public dic: DictionaryService,
     @Inject(DA_SERVICE_TOKEN) private tokenService: TokenService,
     private router: Router,
     ) { }

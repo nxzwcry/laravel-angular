@@ -46,11 +46,11 @@ export class PermissionsAddPermissionToRoleComponent implements OnInit {
     this.modal.destroy(true);
   }
 
-  select(ret: {}): void {
+  select(ret: transfer): void {
     console.log('nzSelectChange', ret);
   }
 
-  change(ret: {}): void {
+  change(ret: transfer): void {
     console.log('nzChange', ret);
     let req = [];
     for(let item of ret.list){
@@ -79,4 +79,9 @@ export class PermissionsAddPermissionToRoleComponent implements OnInit {
         );
     }
   }
+}
+
+class transfer {
+  list: any[];
+  from: string;
 }

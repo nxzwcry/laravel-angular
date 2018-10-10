@@ -12,7 +12,7 @@
     </div>
     <div nz-row style="margin-top: 8px">
         <nz-table #filterTable [nzData]="displayList | filter:['name', 'guard_name', 'id']:searchWord" nzSize="Middle" [nzShowPagination]="false" [nzFrontPagination]="false">
-            <thead (nzSortChange)="sort($event)" nzSingleSort>
+            <thead>
             <tr>
                 <th>ID</th>
                 <th>名称</th>

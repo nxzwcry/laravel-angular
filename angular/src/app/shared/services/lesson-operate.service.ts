@@ -5,6 +5,7 @@ import {SharedEditLessonNameComponent} from "@shared/components/edit-lesson-name
 import {SharedEditLessonScoreComponent} from "@shared/components/edit-lesson-score/edit-lesson-score.component";
 import {SharedAddLessonBukeComponent} from "@shared/components/add-lesson-buke/add-lesson-buke.component";
 import {SharedCopyLessonComponent} from "@shared/components/copy-lesson/copy-lesson.component";
+import {JsonData} from "@shared/shared.module";
 
 @Injectable()
 export class LessonOperateService {
@@ -24,7 +25,7 @@ export class LessonOperateService {
 
   leave(lesson){
     this.http.put(`/lessons/status/${lesson.id}`, {status: 3})
-      .subscribe(res => {
+      .subscribe((res:JsonData) => {
           this.msgSrv.success('保存成功');
           lesson.status = res.data.status;
           lesson.waijiao_cost = res.data.waijiao_cost;
@@ -122,7 +123,7 @@ export class LessonOperateService {
 
   confirm(lesson){
     this.http.put(`/lessons/status/${lesson.id}`, {status: 2})
-      .subscribe(res => {
+      .subscribe((res:JsonData) => {
           this.msgSrv.success('保存成功');
           lesson.status = res.data.status;
         },
