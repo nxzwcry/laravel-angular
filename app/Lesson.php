@@ -184,14 +184,24 @@ class Lesson extends Model
             if ($this->isTimeOut())
             {
                 // 外教课和精品课、班课显示课过期后直接变为已上
-                if ($this->lesson_type == 'w' || $this->lesson_type == 'j' || $this->lesson_type == 'bt')
+//                if ($this->lesson_type == 'w' || $this->lesson_type == 'j' || $this->lesson_type == 'bt')
+//                {
+//                    $this->setFinish();
+//                    Log::info($this->id.'完课:');
+//                }
+//                // 班课、中教课和补课过期后变为待确认
+//                else {
+//                    $this->setConfirm();
+//                }
+                // 有中教参与的课程过期后变为待确认
+                if ($this->cteacher && $this->lesson_type <> 'bt')
                 {
+                    $this->setConfirm();
+                }
+                // 无中教参与的课程直接变为已上
+                else {
                     $this->setFinish();
                     Log::info($this->id.'完课:');
-                }
-                // 班课、中教课和补课过期后变为待确认
-                else {
-                    $this->setConfirm();
                 }
             }
         }
