@@ -36,7 +36,7 @@ class TeacherLessonsCount extends ResourceCollection
                     $b_list->push([
                         'stime' => $team_lesson->first()->start_datetime->timestamp,
                         'student_list' => $student_list,
-                        'team_name' => $team_lesson->first()->team->name,
+                        'team_name' => $team_lesson->first()->team ? $team_lesson->first()->team->name : null,
                         'count' => $student_list->count(),
                     ]);
                 }
