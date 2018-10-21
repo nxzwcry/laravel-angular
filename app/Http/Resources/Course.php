@@ -30,6 +30,7 @@ class Course extends Resource
             'fteacher' => $this->fteacher ? $this->fteacher->name : null,
             'fteacher_id' => $this->fteacher ? $this->fteacher->id : null,
             'fteacher_time' => $this->fteacher_time ? $this->fteacher_time->timestamp : null,
+            'mid' => $this->fteacher ? $this->fteacher->mid : null,
             'place' => $this->place ? $this->place->name : null,
             'place_id' => $this->place ? $this->place->id : null,
             'lesson_type' => lessonType($this->lesson_type),

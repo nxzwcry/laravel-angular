@@ -29,7 +29,7 @@ class Lesson extends Model
     protected $dates = ['start_datetime', 'end_datetime', 'fteacher_datetime', 'deleted_at', 'created_at', 'updated_at'];
 
     //不允许批量赋值的字段
-    protected $guarded = ['id', 'status', 'report_id', 'note', 'score', 'created_at', 'updated_at'];
+    protected $guarded = ['id', 'status', 'report_id', 'score', 'created_at', 'updated_at'];
 
     /**
      * 模型日期列的存储格式

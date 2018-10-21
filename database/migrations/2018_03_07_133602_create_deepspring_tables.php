@@ -116,9 +116,9 @@ class CreateDeepspringTables extends Migration
             $table->unsignedInteger('report_id')->nullable($value = true);
             $table->unsignedInteger('file_id')->nullable($value = true);
             $table->unsignedInteger('courseware_id')->nullable($value = true);
-            $table->Integer('waijiao_cost')->default(0);
-            $table->Integer('zhongjiao_cost')->default(0);
-            $table->Integer('jingpin_cost')->default(0);
+            $table->Float('waijiao_cost')->default(0);
+            $table->Float('zhongjiao_cost')->default(0);
+            $table->Float('jingpin_cost')->default(0);
             $table->string('lesson_type');  // w：外教课 b：班课 f：复习课 j：精品课 bu：补课 s：试听 bt：班课显示课
             $table->Integer('score')->default(0);
             $table->unsignedInteger('team_id')->nullable($value = true);
@@ -143,9 +143,9 @@ class CreateDeepspringTables extends Migration
             $table->timestamp('end_time');
             $table->timestamp('fteacher_time')->nullable($value = true);
             $table->unsignedInteger('courseware_id')->nullable($value = true);
-            $table->Integer('waijiao_cost')->default(0);
-            $table->Integer('zhongjiao_cost')->default(0);
-            $table->Integer('jingpin_cost')->default(0);
+            $table->Float('waijiao_cost')->default(0);
+            $table->Float('zhongjiao_cost')->default(0);
+            $table->Float('jingpin_cost')->default(0);
             $table->unsignedInteger('place_id')->default(0);
             $table->timestamps();
             $table->softDeletes();

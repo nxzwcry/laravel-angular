@@ -67,6 +67,12 @@
                             <a (click)="op.changeScore(lesson)" [acl]="'lesson-score-change'">修改</a>
                         </td>
                     </tr>
+                    <tr>
+                        <td>备注</td>
+                        <td>
+                            {{lesson.note}}
+                        </td>
+                    </tr>
                 </tbody>
             </nz-table>
         </nz-card>

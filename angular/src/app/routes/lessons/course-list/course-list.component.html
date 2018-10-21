@@ -1,6 +1,6 @@
 <nz-row>
   <nz-col [nzSpan]="20">
-    <input nz-input type="search" class="form-control input-sm" placeholder="输入学生姓名、班名、中外教老师进行搜索" [formControl]="wordFilter" >
+    <input nz-input type="search" class="form-control input-sm" placeholder="输入学生姓名、班名、中外教老师、会议ID、课程名称进行搜索" [formControl]="wordFilter" >
   </nz-col>
   <nz-col [nzSpan]="4" style="text-align:right">
     <button nz-button nzType="default" (click)="load()">刷新列表</button>
@@ -8,7 +8,7 @@
 </nz-row>
 <div *ngFor="let data of displayList">
 <nz-card [nzTitle]="data.date">
-    <nz-table #newLessonsTable [nzData]="data.courses | filter:['student','team','cteacher','fteacher']:searchWord" nzSize="middle" [nzShowPagination]="false" [nzFrontPagination]="false">
+    <nz-table #newLessonsTable [nzData]="data.courses | filter:['student','team','cteacher','fteacher','mid','name']:searchWord" nzSize="middle" [nzShowPagination]="false" [nzFrontPagination]="false">
         <thead>
       <tr>
         <th>上课学员/班级</th>
@@ -17,6 +17,7 @@
         <th>上课时间</th>
         <th>外教老师</th>
         <th>外教时间</th>
+        <th>外教会议ID</th>
         <th>上课地点</th>
         <th>课程名称</th>
         <th></th>
@@ -38,7 +39,12 @@
           <td>{{lesson.stime*1000 | _date: 'HH:mm'}}~{{lesson.etime*1000 | _date: 'HH:mm'}}</td>
           <td>{{lesson.fteacher ? lesson.fteacher : '无'}}</td>
           <td>{{lesson.fteacher_time ? (lesson.fteacher_time*1000 | _date: 'HH:mm') : '无'}}</td>
-          <td>{{lesson.place}}</td>
+          <td>{{lesson.mid ? lesson.mid : '无'}}</td>
+          <td>
+            <ellipsis lines="1" style="width: 100px;">
+              {{lesson.place}}
+            </ellipsis>
+          </td>
           <td><a [routerLink]="['/lessons/course',lesson.id]">{{lesson.name}}</a></td>
           <td>
             <a (click)="op.deleteCourse(lesson.id)" [acl]="'course-delete'">删除</a>
