@@ -16,10 +16,12 @@
     <nz-table #filterTable [nzData]="displayList | filter:['name','ename','id','cteacher','fteacher']:searchWord" nzSize="Middle" [nzScroll]="{ y: '435px' }" [nzShowPagination]="false" [nzFrontPagination]="false">
       <thead (nzSortChange)="sort($event)" nzSingleSort>
       <tr>
-        <th nzShowSort nzSortKey="id" nzWidth="150px" nzSort="descend">学生编号</th>
+        <th nzShowSort nzSortKey="id" nzWidth="170px" nzSort="descend">学生编号</th>
         <th nzWidth="200px">姓名</th>
         <th nzWidth="250px">英文名</th>
-        <th nzShowSort nzSortKey="waijiao" nzWidth="150px">剩余外教</th>
+        <th nzShowSort nzSortKey="add" nzWidth="200px">剩余中外教</th>
+        <th nzShowSort nzSortKey="waijiao" nzWidth="120px">外教</th>
+        <!--<th nzWidth="80px">中教</th>-->
         <th nzWidth="200px">中教老师</th>
         <th nzWidth="250px">外教老师</th>
         <th nzShowFilter [nzFilterMultiple]="true" [nzFilters]="agentList" (nzFilterChange)="filter($event)" nzWidth="250px">课程顾问</th>
@@ -30,7 +32,9 @@
         <td>{{student.id}}</td>
         <td><a [routerLink]="['/students/student',student.id]">{{student.name}}</a></td>
         <td>{{student.ename}}</td>
+        <td>{{student.add}}</td>
         <td>{{student.waijiao}}</td>
+        <!--<td>{{student.zhongjiao}}</td>-->
         <td>{{student.cteacher}}</td>
         <td>{{student.fteacher}}</td>
         <td>{{student.agent}}</td>

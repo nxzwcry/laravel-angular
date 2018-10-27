@@ -19,7 +19,7 @@
         <th nzShowSort nzSortKey="id" nzWidth="150px" nzSort="descend">学生编号</th>
         <th nzWidth="200px">姓名</th>
         <th nzWidth="250px">英文名</th>
-        <th nzShowSort nzSortKey="waijiao" nzWidth="150px">剩余课次</th>
+        <th nzShowSort nzSortKey="times" nzWidth="150px">剩余课次</th>
         <th nzWidth="200px">中教老师</th>
         <th nzWidth="250px">班级</th>
         <th nzShowFilter [nzFilterMultiple]="true" [nzFilters]="agentList" (nzFilterChange)="filter($event)" nzWidth="250px">课程顾问</th>
@@ -30,7 +30,7 @@
         <td>{{student.id}}</td>
         <td><a [routerLink]="['/students/student',student.id]">{{student.name}}</a></td>
         <td>{{student.ename}}</td>
-        <td>{{(student.waijiao + student.zhongjiao)/2}}</td>
+        <td>{{student.times}}</td>
         <td>{{student.cteacher}}</td>
         <td>{{student.team}}</td>
         <td>{{student.agent}}</td>
