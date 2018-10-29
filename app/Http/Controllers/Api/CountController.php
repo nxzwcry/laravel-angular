@@ -15,7 +15,7 @@ class CountController extends ApiController
         {
             $stime = Carbon::createFromTimeStamp($request->stime,'Asia/Shanghai');
             $etime = Carbon::createFromTimeStamp($request->etime,'Asia/Shanghai');
-            $data = Lesson::getCountList($stime, $etime)->where('cteacher_id', '<>', null);
+            $data = Lesson::getCountList($stime, $etime)->where('cteacher_id', '<>', null)->where('zhongjiao_cost', '>', 0);
             if ($request->cteacher_id)
             {
                 $data = $data->where('cteacher_id', $request->cteacher_id);
