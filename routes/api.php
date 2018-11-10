@@ -23,6 +23,9 @@ Route::post('passwordreset', 'Api\ResetPasswordController@reset')->name('passwor
 //
 //Route::middleware('auth:api')->get('/index', 'Api\IndexController@index');
 
+Route::any('wechat', 'Api\WeChatController@serve');
+Route::any('wechat/menu', 'Api\WeChatController@menu');
+
 Route::middleware('auth:api')->group(function () {
 
     Route::prefix('students')->group(function () {
