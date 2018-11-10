@@ -5,12 +5,13 @@ namespace App\Http\Controllers\Api;
 use Log;
 use Illuminate\Http\Request;
 use EasyWeChat\Kernel\Messages\Image;
+use EasyWeChat\Kernel\Messages\NewsItem;
 use EasyWeChat\Kernel\Messages\News;
 use EasyWeChat\Kernel\Messages\Text;
 
 class WeChatController extends ApiController
 {
-    protected $image_enter_id = 'vtbLSsSNTmRkKNBgjySygAPhUoVetGjbH_D_HZxFFqY';
+    protected $image_enter_id = 'vtbLSsSNTmRkKNBgjySygKW3KJ5SlBIQzzUOfArcziY';
     protected $news_adv_id = 'vtbLSsSNTmRkKNBgjySygFahZ7t5Y0X1puemnwGXrJ8';
     protected $news_adv =[
         "title" => "深泉教育招聘—英语老师&教学顾问" ,
@@ -41,14 +42,14 @@ class WeChatController extends ApiController
 
         $wechat = app('wechat.official_account');
         $wechat->server->push(function($message) {
-            if ($message->MsgType=='event') {
-                $user_openid = $message->FromUserName;
+            if ($message['MsgType']=='event') {
+                $user_openid = $message['FromUserName'];
                 Log::info('用户'.$user_openid);
-                if ($message->Event=='subscribe') {
+                if ($message['Event']=='subscribe') {
                     //下面是你点击关注时，进行的操作
                     return $this -> entermessage();
                 }
-                else if ($message->Event=='unsubscribe') {
+                else if ($message['Event']=='unsubscribe') {
                     //取消关注时执行的操作，（注意下面返回的信息用户不会收到，因为你已经取消关注，但别的操作还是会执行的<如：取消关注的时候，要把记录该用户从记录微信用户信息的表中删掉>）
                     $users = Wechat::where( 'openid' , $user_openid ) -> get();
                     if (  $users -> first() ) {
@@ -62,25 +63,25 @@ class WeChatController extends ApiController
                         }
                     }
                 }
-                else if ($message->Event=='CLICK') {
+                else if ($message['Event']=='CLICK') {
                     //自定义菜单
                     //深泉招聘菜单
-                    if ( $message -> EventKey == 'BUTTEN_ADV' )
+                    if ( $message['EventKey'] == 'BUTTEN_ADV' )
                     {
                         return $this -> advertisemessage();
                     }
                     //报名试课菜单
-                    else if ( $message -> EventKey == 'BUTTEN_ENTER' )
+                    else if ( $message['EventKey'] == 'BUTTEN_ENTER' )
                     {
                         return $this -> entermessage();
                     }
                     //采访报道菜单
-                    else if ( $message -> EventKey == 'BUTTEN_TV' )
+                    else if ( $message['EventKey'] == 'BUTTEN_TV' )
                     {
                         return $this -> tvmessage();
                     }
                     //用户信息临时菜单
-                    else if ( $message -> EventKey == 'BUTTEN_USER' )
+                    else if ( $message['EventKey'] == 'BUTTEN_USER' )
                     {
                         return $this -> usermessage();
                     }
@@ -90,7 +91,7 @@ class WeChatController extends ApiController
             {
                 return $this -> entermessage();
             }
-
+//            return "欢迎关注 深泉英语！";
         });
 
 //      $wechat->server->setMessageHandler(function($message){
@@ -178,9 +179,9 @@ class WeChatController extends ApiController
     {
         $type = $request -> type;
         $offset = $request -> offset;
-        $wechat = app('wechat');
+        $wechat = app('wechat.official_account');
         $material = $wechat -> material;
-        $lists = $material -> lists( $type , $offset , 10 );
+        $lists = $material -> list( $type , $offset , 10 );
         dd($lists);
     }
 
@@ -232,28 +233,34 @@ class WeChatController extends ApiController
 
     public function entermessage()
     {
-        $material = new Image(['media_id' => $this -> image_enter_id]);
+        $image = new Image($this -> image_enter_id);
 //		$material = new Material('image', $this -> image_enter_id);
-        return $material;
+        return $image;
     }
 
     public function advertisemessage()
     {
+        $items = [
+            new NewsItem($this -> news_adv),
+        ];
 //		$material = new Material('mpnews', $this -> news_adv_id);
-        $material = new News( $this -> news_adv );
+        $material = new News($items);
         return $material;
     }
 
     public function tvmessage()
     {
+        $items = [
+            new NewsItem($this -> news_tv),
+        ];
 //		$material = new Material('mpnews', $this -> news_adv_id);
-        $material = new News( $this -> news_tv );
+        $material = new News($items);
         return $material;
     }
 
     public function usermessage()
     {
-        $text = new Text(['content' => '系统升级，暂不可用。']);
+        $text = new Text('系统升级，暂不可用。');
         return $text;
     }
 

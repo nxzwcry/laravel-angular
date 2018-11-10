@@ -25,6 +25,7 @@ Route::post('passwordreset', 'Api\ResetPasswordController@reset')->name('passwor
 
 Route::any('wechat', 'Api\WeChatController@serve');
 Route::any('wechat/menu', 'Api\WeChatController@menu');
+Route::any('wechat/list', 'Api\WeChatController@getlist');
 
 Route::middleware('auth:api')->group(function () {
 
