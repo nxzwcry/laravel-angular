@@ -89,6 +89,9 @@ class Lesson extends Model
         return $this->belongsTo('App\Team' , 'team_id');
     }
 
+
+    // 在修改班级的lesson信息后，调用此函数，修改与该课程相关联的所有子课（每个学生的该节lesson）的信息
+    // 需要注意$guarded数组中的列不允许使用update批量赋值
     public function updateTeamLesson(array $data)
     {
         if ($this->lesson_type == 'bt')

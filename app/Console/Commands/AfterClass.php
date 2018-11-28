@@ -49,7 +49,7 @@ class AfterClass extends Command
      */
     public function handle()
     {
-		Log::info('完课执行');
+//		Log::info('完课执行');
 		$lessons = Lesson::where( 'status' , 0 )
 						->where( 'end_datetime' , '<=' , Carbon::now() )
 						->get();
@@ -105,7 +105,7 @@ class AfterClass extends Command
 //            }
 //            Log::info($lesson->id.'完课');
 		}
-		Log::info('完课执行');
+//		Log::info('完课执行');
     }
     
     public function endmassage( $data )

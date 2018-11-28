@@ -27,9 +27,12 @@ class CourseSavedListener
      */
     public function handle(CourseSaved $courseSaved)
     {
-        //
         $course = $courseSaved->course;
+
+        // 固定课程首次被创建时，创建本月课程
         $course->createMonthLessons();
+
+        // 如果创建固定课程的时间在当月的21日0点之后，创建下月课程
         $now = Carbon::now('Asia/Shanghai');
         if ($now->day >= 21) // 每月21日0点创建下月课程
         {

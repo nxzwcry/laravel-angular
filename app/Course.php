@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Carbon\Carbon;
 use Log;
 
+// 固定课程类，每月根据学生、班级的固定课程来创建lessons（单节课程）
+// 固定课程的定义为每周周期性固定上课的课程，为创建lesson的模板
+
 class Course extends Model
 {
     use SoftDeletes;
@@ -27,11 +30,8 @@ class Course extends Model
     //不允许批量赋值的字段
     protected $guarded = [ 'id' , 'created_at' , 'updated_at' ];
 
-    /**
-     * 模型的事件映射。
-     *
-     * @var array
-     */
+
+    // 固定课程首次创建时，创建lessons
     protected $dispatchesEvents = [
         'created' => CourseSaved::class,
     ];
@@ -120,15 +120,19 @@ class Course extends Model
 //            -> get();
 //    }
 
+    // 根据传入的月份参数，创建固定课程该月的lessons
+    // 不会创建当天的课程（如当前时间是周二，创建周二的固定课程时，会从下一周开始）
     // 当传入参数大于12时视为下一年
-
     public function createMonthLessons($month = null)
     {
         if($this->dow)
         {
+            // 如果传入月份不为null的话，设置一个虚拟的now为传入月份的起始时间
             if ($month)
             {
                 $temp = Carbon::now('Asia/Shanghai');
+
+                // 如果传入月份大于12，对月份和年份进行处理
                 if ($month>12)
                 {
                     $temp->month = $month-12;
@@ -138,16 +142,27 @@ class Course extends Model
                 {
                     $temp->month = $month;
                 }
+
+                // 将now设置为传入月份的起始时间（1日0点0分）
                 $monthStart = $temp->startOfMonth();
                 Carbon::setTestNow($monthStart);
             }
+
+            // 如果传入月份为null的话，意味着创建当前月份的课程
             $now = Carbon::now('Asia/Shanghai');
-            $tail = $now->endOfMonth();
+            $tail = $now->endOfMonth(); // 设定tail为北京时间当月最后一天的23点59分
+
+            // 因为后面要用到next，为了不漏掉起始日期，这里对now的时间减1天
             Carbon::setTestNow(Carbon::now('Asia/Shanghai')->subDay());
             $nextDay = new Carbon('next ' . $this->dow, 'Asia/Shanghai');
-            $nextDay->hour = 9;
+
+            // 因后面需要用到比较，故重置now为真正的现在时间
             Carbon::setTestNow();
             if($nextDay){
+                if (Carbon::now()->gte($nextDay)) // 如果出现了当天的日期，去除
+                {
+                    $nextDay->addDays(7);
+                }
                 while ($tail->gte($nextDay))
                 {
                     $this->createLessonFromDate($nextDay);
@@ -204,20 +219,25 @@ class Course extends Model
 //        return 0;
 //    }
 
+
+    // 根据传入的日期，创建该日期的课程
     public function createLessonFromDate(Carbon $date)
     {
+        // 将传入时间分别拷贝至stime和etime，并设置时区
+        $stime = Carbon::createFromTimestampUTC($date->timestamp)->setTimezone('Asia/Shanghai');
+        $etime = Carbon::createFromTimeStampUTC($date->timestamp)->setTimezone('Asia/Shanghai');
+        // 设置具体上下课时间
+        $stime->setTime($this->start_time->setTimezone('Asia/Shanghai')->hour, $this->start_time->minute);
+        $etime->setTime($this->end_time->setTimezone('Asia/Shanghai')->hour, $this->end_time->minute);
+
+        // 准备创建lesson时需要使用的其他数据
         $lessoninfo = $this->toArray();
-//        $date->timezone('UTC');
-        $stime = Carbon::createFromTimestampUTC($date->timestamp);
-        $etime = Carbon::createFromTimeStampUTC($date->timestamp);
-        $stime->setTime($this->start_time->hour, $this->start_time->minute);
-        $etime->setTime($this->end_time->hour, $this->end_time->minute);
         $lessoninfo['start_datetime'] = $stime->timestamp;
         $lessoninfo['end_datetime'] = $etime->timestamp;
         if ($this->fteacher_time)
         {
-            $ftime = Carbon::createFromTimeStampUTC($date->timestamp);
-            $ftime->setTime($this->fteacher_time->hour, $this->fteacher_time->minute);
+            $ftime = Carbon::createFromTimeStampUTC($date->timestamp)->setTimezone('Asia/Shanghai');
+            $ftime->setTime($this->fteacher_time->setTimezone('Asia/Shanghai')->hour, $this->fteacher_time->minute);
             $lessoninfo['fteacher_datetime'] = $ftime->timestamp;
         }
         unset($lessoninfo['id']);
@@ -227,7 +247,7 @@ class Course extends Model
         unset($lessoninfo['fteacher_time']);
         unset($lessoninfo['updated_at']);
         unset($lessoninfo['created_at']);
-//        unset($lessoninfo['courseware']);
+
         if($lessoninfo['lesson_type'] == 'b')
         {
             $lesson = Lesson::createTeamLesson($lessoninfo);
@@ -235,7 +255,7 @@ class Course extends Model
         else{
             $lesson = Lesson::create($lessoninfo);
         }
-//        $lesson->chackStatus();
+
         return $lesson;
     }
 
