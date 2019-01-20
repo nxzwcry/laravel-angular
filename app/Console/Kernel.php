@@ -39,25 +39,29 @@ class Kernel extends ConsoleKernel
 //        $schedule->command('AfterClass')->dailyAt('10:10');// 每天10:00运行一次...
 //        $schedule->command('AfterClass')
 //            ->everyThirtyMinutes()
-//            ->between('1:00', '15:00');// 每天9:00~23:00 每半小时运行一次
+//            ->between('1:00', '15:00');
+
+        // 北京时间每天9:00~23:00 每半小时运行一次
         $schedule->command('AfterClass')
             ->hourlyAt(01)
-            ->between('1:00', '15:00');// 每天9:00~23:00 每十分钟运行一次
+            ->between('1:00', '15:00');
         $schedule->command('AfterClass')
             ->hourlyAt(11)
-            ->between('1:00', '15:00');// 每天9:00~23:00 每十分钟运行一次
+            ->between('1:00', '15:00');
         $schedule->command('AfterClass')
             ->hourlyAt(21)
-            ->between('1:00', '15:00');// 每天9:00~23:00 每十分钟运行一次
+            ->between('1:00', '15:00');
         $schedule->command('AfterClass')
             ->hourlyAt(31)
-            ->between('1:00', '15:00');// 每天9:00~23:00 每十分钟运行一次
+            ->between('1:00', '15:00');
         $schedule->command('AfterClass')
             ->hourlyAt(41)
-            ->between('1:00', '15:00');// 每天9:00~23:00 每十分钟运行一次
+            ->between('1:00', '15:00');
         $schedule->command('AfterClass')
             ->hourlyAt(51)
-            ->between('1:00', '15:00');// 每天9:00~23:00 每十分钟运行一次
+            ->between('1:00', '15:00');
+
+        // 每年更新年级
         $schedule->command('AddGrade')
             ->monthlyOn(1, '00:00')
             ->when(function () {
@@ -68,7 +72,9 @@ class Kernel extends ConsoleKernel
                     return true;
                 }
                 return false;
-            });// 每年年级更新一次
+            });
+
+        // 北京时间每月21日0点，添加下月课程
         $schedule->command('CreateMonthLessons')
             ->monthlyOn(20, '16:00');
     }

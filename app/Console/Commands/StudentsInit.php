@@ -21,7 +21,7 @@ class StudentsInit extends Command
      *
      * @var string
      */
-    protected $description = '初始化学生状态';
+    protected $description = '整理学生状态';
 
     /**
      * Create a new command instance.

@@ -13,6 +13,7 @@ use App\Http\Resources\LessonCollection;
 
 class LessonController extends ApiController
 {
+    // 获取待上/已上课表
     public function index($days)
     {
         if($days<>0)
@@ -28,6 +29,7 @@ class LessonController extends ApiController
         return new LessonCollection($lessons);
     }
 
+    // 获取期间课表
     public function getTimeList(Request $request)
     {
         if ($request->stime && $request->etime)
@@ -38,11 +40,13 @@ class LessonController extends ApiController
         }
     }
 
+    // 获取请假列表
     public function getLeave()
     {
         return LessonResource::collection(Lesson::where('status', 3)->get()->sortBy('start_datetime')->flatten());
     }
 
+    // 获取待确认列表
     public function getConfirm()
     {
         return LessonResource::collection(Lesson::where('status', 2)->get()->sortBy('start_datetime')->flatten());
@@ -53,6 +57,7 @@ class LessonController extends ApiController
         return new LessonResource($lesson);
     }
 
+    // 安排补课
     public function buke(Request $request, Lesson $lesson)
     {
         if ($request->cteacher_id)
@@ -71,6 +76,7 @@ class LessonController extends ApiController
         return new LessonResource($lesson);
     }
 
+    // 创建班课
     public function createTeamLesson(Request $request)
     {
         $lesson = Lesson::createTeamLesson($request->all());
@@ -78,6 +84,7 @@ class LessonController extends ApiController
         return new LessonResource($lesson);
     }
 
+    // 设置状态（非批量更新字段）
     public function setStatus(Request $request, Lesson $lesson)
     {
         if ($request->status)
@@ -100,6 +107,7 @@ class LessonController extends ApiController
 
     }
 
+    // 设置分数（非批量更新字段）
     public function setScore(Request $request, Lesson $lesson)
     {
         if($request->score)
@@ -110,6 +118,7 @@ class LessonController extends ApiController
         return new LessonResource($lesson);
     }
 
+    // 设置名称
     public function setName(Request $request, Lesson $lesson)
     {
         if($request->name)
@@ -135,6 +144,7 @@ class LessonController extends ApiController
         }
         else
         {
+            // 单独更新课程状态（非批量更新字段）
             $lesson->update($request->all());
             if ($request->status <> $lesson->status)
             {
@@ -157,13 +167,16 @@ class LessonController extends ApiController
         return response()->json(null, 204);
     }
 
+    // 获取此课程可以复制给的学生
     public function getCopyStudents(Lesson $lesson)
     {
         $students = collect();
+        // 精品课可以复制给所有未停课学生
         if ($lesson->lesson_type == 'j')
         {
             $students = Student::where('status', '>=', 0)->get();
         }
+        // 班课可以复制给同班的且没有此课程的学生
         elseif ($lesson->lesson_type == 'b')
         {
             $students = $lesson->team->students;
@@ -178,6 +191,7 @@ class LessonController extends ApiController
         return new StudentCollection($students);
     }
 
+    // 复制课程给某个学生
     public function copyLesson(Request $request, Lesson $lesson)
     {
         $students = $request->students;

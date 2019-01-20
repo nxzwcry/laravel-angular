@@ -25,6 +25,12 @@ class WeChatController extends ApiController
         "url" => "http://mp.weixin.qq.com/s?__biz=MzI5NTc3MTg2MQ==&mid=100000578&idx=1&sn=abce25974ad882d2ad62af4cd6937e04&chksm=6c4fc8f85b3841eeb944b5c35575a9ebfbf07f30981323a0335f5c0b10bcb06827280706d77c#rd" ,
         "image" => "http://mmbiz.qpic.cn/mmbiz_jpg/a0PJJ0nV5OSBsLQa3Ha18egmN6ENcRljlUibbib3BjYntjLqVtuu1ru9k6p3lhZT2hkjOW4GQl33raeTbOmSZSnQ/0?wx_fmt=jpeg" ,
     ];
+    protected $news_huiben =[
+        "title" => "深泉英语阅读打卡活动" ,
+        "description" => "深泉英语第二届“阅读打卡“活动5.22正式启动！" ,
+        "url" => "https://mp.weixin.qq.com/mp/homepage?__biz=MzI5NTc3MTg2MQ==&hid=4&sn=806359302f5ab9bd3178a11740277346" ,
+        "image" => "https://mmbiz.qlogo.cn/mmbiz_jpg/a0PJJ0nV5OTCR5oa104LekBAp4lb2GAIeHvTpicLnz0vUBY0otwu0uHrc7ibmdW8LicpSD1uwNQUYlw4KBYXapDpw/0" ,
+    ];
 
     //处理微信的请求消息
     public function serve()
@@ -42,55 +48,124 @@ class WeChatController extends ApiController
 
         $wechat = app('wechat.official_account');
         $wechat->server->push(function($message) {
-            if ($message['MsgType']=='event') {
-                $user_openid = $message['FromUserName'];
-                Log::info('用户'.$user_openid);
-                if ($message['Event']=='subscribe') {
-                    //下面是你点击关注时，进行的操作
-                    return $this -> entermessage();
-                }
-                else if ($message['Event']=='unsubscribe') {
-                    //取消关注时执行的操作，（注意下面返回的信息用户不会收到，因为你已经取消关注，但别的操作还是会执行的<如：取消关注的时候，要把记录该用户从记录微信用户信息的表中删掉>）
-                    $users = Wechat::where( 'openid' , $user_openid ) -> get();
-                    if (  $users -> first() ) {
-                        foreach( $users as $user )
-                        {
-                            if ( $user -> delete() )
-                            {
-                                Log::info('用户 ' . $user -> nickname . ' 已删除');
-                                return '解除关注';
-                            }
+            switch ($message['MsgType']) {
+                // 收到事件信息
+                case 'event':
+                    {
+                        $user_openid = $message['FromUserName'];
+                        Log::info('用户'.$user_openid);
+
+                        switch ($message['Event']) {
+                            //下面是你点击关注时，进行的操作
+                            case 'subscribe':
+                                return $this -> entermessage();
+                                break;
+
+                            //下面是你取消关注时，进行的操作
+                            case 'unsubscribe':
+                                $users = Wechat::where( 'openid' , $user_openid ) -> get();
+                                if (  $users -> first() ) {
+                                    foreach( $users as $user )
+                                    {
+                                        if ( $user -> delete() )
+                                        {
+                                            Log::info('用户 ' . $user -> nickname . ' 已删除');
+                                            return '解除关注';
+                                        }
+                                    }
+                                }
+                                break;
+
+                            // 自定义菜单
+                            case 'CLICK':
+                                switch ($message['EventKey']) {
+                                    // 深泉招聘
+                                    case 'BUTTEN_ADV':
+                                        return $this -> advertisemessage();
+                                        break;
+                                    // 报名试课
+                                    case 'BUTTEN_ENTER':
+                                        return $this -> entermessage();
+                                        break;
+                                    // 采访报道
+                                    case 'BUTTEN_TV':
+                                        return $this -> tvmessage();
+                                        break;
+                                    // 采用户信息
+                                    case 'BUTTEN_USER':
+                                        return $this -> usermessage();
+                                        break;
+                                }
                         }
                     }
-                }
-                else if ($message['Event']=='CLICK') {
-                    //自定义菜单
-                    //深泉招聘菜单
-                    if ( $message['EventKey'] == 'BUTTEN_ADV' )
-                    {
-                        return $this -> advertisemessage();
-                    }
-                    //报名试课菜单
-                    else if ( $message['EventKey'] == 'BUTTEN_ENTER' )
+//                    return '收到事件消息';
+                    break;
+
+                // 收到文字消息
+                case 'text':
+                    if (strrpos($message['Content'], "绘本") === false)
                     {
                         return $this -> entermessage();
                     }
-                    //采访报道菜单
-                    else if ( $message['EventKey'] == 'BUTTEN_TV' )
-                    {
-                        return $this -> tvmessage();
+                    else{
+                        return $this -> huibenmessage();
                     }
-                    //用户信息临时菜单
-                    else if ( $message['EventKey'] == 'BUTTEN_USER' )
-                    {
-                        return $this -> usermessage();
-                    }
-                }
+                    break;
+
+                default:
+                    return $this -> entermessage();
+                    break;
             }
-            else	//自动回复
-            {
-                return $this -> entermessage();
-            }
+//
+//            if ($message['MsgType']=='event') {
+//                $user_openid = $message['FromUserName'];
+//                Log::info('用户'.$user_openid);
+//                if ($message['Event']=='subscribe') {
+//                    //下面是你点击关注时，进行的操作
+//                    return $this -> entermessage();
+//                }
+//                else if ($message['Event']=='unsubscribe') {
+//                    //取消关注时执行的操作，（注意下面返回的信息用户不会收到，因为你已经取消关注，但别的操作还是会执行的<如：取消关注的时候，要把记录该用户从记录微信用户信息的表中删掉>）
+//                    $users = Wechat::where( 'openid' , $user_openid ) -> get();
+//                    if (  $users -> first() ) {
+//                        foreach( $users as $user )
+//                        {
+//                            if ( $user -> delete() )
+//                            {
+//                                Log::info('用户 ' . $user -> nickname . ' 已删除');
+//                                return '解除关注';
+//                            }
+//                        }
+//                    }
+//                }
+//                else if ($message['Event']=='CLICK') {
+//                    //自定义菜单
+//                    //深泉招聘菜单
+//                    if ( $message['EventKey'] == 'BUTTEN_ADV' )
+//                    {
+//                        return $this -> advertisemessage();
+//                    }
+//                    //报名试课菜单
+//                    else if ( $message['EventKey'] == 'BUTTEN_ENTER' )
+//                    {
+//                        return $this -> entermessage();
+//                    }
+//                    //采访报道菜单
+//                    else if ( $message['EventKey'] == 'BUTTEN_TV' )
+//                    {
+//                        return $this -> tvmessage();
+//                    }
+//                    //用户信息临时菜单
+//                    else if ( $message['EventKey'] == 'BUTTEN_USER' )
+//                    {
+//                        return $this -> usermessage();
+//                    }
+//                }
+//            }
+//            else	//自动回复
+//            {
+//                return $this -> entermessage();
+//            }
 //            return "欢迎关注 深泉英语！";
         });
 
@@ -134,28 +209,33 @@ class WeChatController extends ApiController
                 "sub_button" => [
                     [
                         "type" => "view",
-                        "name" => "绘本跟读",
-                        "url"  => "https://mp.weixin.qq.com/mp/homepage?__biz=MzI5NTc3MTg2MQ%3D%3D&hid=4&sn=806359302f5ab9bd3178a11740277346"
+                        "name" => "单词打卡P1组",
+                        "url"  => "https://mp.weixin.qq.com/mp/homepage?__biz=MzI5NTc3MTg2MQ==&hid=13&sn=9704df6d65094f1a877fbd161710ee5a"
                     ],
                     [
                         "type" => "view",
-                        "name" => "单词打卡Phonics1",
-                        "url"  => "https://mp.weixin.qq.com/mp/homepage?__biz=MzI5NTc3MTg2MQ%3D%3D&hid=5&sn=281bce1e3f7df0340169996df4af81f8"
+                        "name" => "单词打卡P2组",
+                        "url"  => "https://mp.weixin.qq.com/mp/homepage?__biz=MzI5NTc3MTg2MQ==&hid=14&sn=39b63d0bbc477405b1eef25e3a04f441"
                     ],
                     [
                         "type" => "view",
-                        "name" => "单词打卡Phonics2-4",
-                        "url"  => "https://mp.weixin.qq.com/mp/homepage?__biz=MzI5NTc3MTg2MQ%3D%3D&hid=6&sn=5c2bd3de38b71dda09363e63e63ef29d"
+                        "name" => "单词打卡P3组",
+                        "url"  => "https://mp.weixin.qq.com/mp/homepage?__biz=MzI5NTc3MTg2MQ==&hid=15&sn=5839e1bf73fbaad3d7453a5484437228"
                     ],
                     [
                         "type" => "view",
-                        "name" => "单词打卡Show and Tell",
-                        "url"  => "https://mp.weixin.qq.com/mp/homepage?__biz=MzI5NTc3MTg2MQ%3D%3D&hid=7&sn=e6324b97e86a40bedbac723e3504bacc"
+                        "name" => "单词打卡剑桥1组",
+                        "url"  => "https://mp.weixin.qq.com/mp/homepage?__biz=MzI5NTc3MTg2MQ==&hid=10&sn=750ab8b239a96eff7ed9af14eaf52be4"
+                    ],
+                    [
+                        "type" => "view",
+                        "name" => "单词打卡剑桥2组",
+                        "url"  => "https://mp.weixin.qq.com/mp/homepage?__biz=MzI5NTc3MTg2MQ==&hid=11&sn=70de9a6a76ff6c9297f7df6ce730ce08"
                     ],
 //                    [
 //                        "type" => "view",
-//                        "name" => "配音大赛高年级组",
-//                        "url"  => "https://video.qupeiyin.cn/index.php?m=Home&c=MatchNew&a=share&id=35448"
+//                        "name" => "绘本跟读",
+//                        "url"  => "https://mp.weixin.qq.com/mp/homepage?__biz=MzI5NTc3MTg2MQ%3D%3D&hid=4&sn=806359302f5ab9bd3178a11740277346"
 //                    ],
                 ],
             ],
@@ -257,6 +337,17 @@ class WeChatController extends ApiController
         $material = new News($items);
         return $material;
     }
+
+    public function huibenmessage()
+    {
+        $items = [
+            new NewsItem($this -> news_huiben),
+        ];
+//		$material = new Material('mpnews', $this -> news_adv_id);
+        $material = new News($items);
+        return $material;
+    }
+
 
     public function usermessage()
     {

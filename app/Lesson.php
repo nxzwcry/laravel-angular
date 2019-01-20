@@ -44,8 +44,11 @@ class Lesson extends Model
      * @var array
      */
     protected $dispatchesEvents = [
+        // 更新时检查课程状态并更新
         'updating' => LessonSaving::class,
+        // 创建时检查课程时间并设置课程状态
         'creating' => LessonCreating::class,
+        // 保存后更新学生状态
         'saved' => LessonSaved::class,
     ];
 
@@ -141,17 +144,22 @@ class Lesson extends Model
         return $teamLesson;
     }
 
+    // 如果课程是班级lesson的话，返回该班级lesson的子课（每个学生的该节lesson）
     public function getSubLessons()
     {
         if($this->lesson_type == 'bt')
         {
-            return Lesson::where('syn_code', $this->id)->get();
+            // syn_code字段存放班级lesson的id，如果syn_code为空的话，证明它是一节独立的课程
+            return Lesson::where('syn_code', $this->id)
+                ->where('lesson_type', 'b')
+                ->get();
         }
         else{
             return null;
         }
     }
 
+    // 根据传入的学生id，创建子课
     public function createSubLesson($sid)
     {
         $new = $this->replicate();
@@ -162,7 +170,8 @@ class Lesson extends Model
         return $new;
     }
 
-    public function copyToStudent($sid) //将该节课程复制给学生
+    // 根据学生id，复制课程给该学生
+    public function copyToStudent($sid)
     {
         $new = $this->replicate();
         $new->student_id = $sid;
@@ -179,38 +188,33 @@ class Lesson extends Model
 //            return null;
 //    }
 
+    // 检查lesson是否过期，并设置相应的状态
     public function chackAndSetStatus()
     {
         // 判断课程是否在保存时从未上可以变为已上或者待确认
         if ($this->status == 0)
         {
+            // 如果课程已过期
             if ($this->isTimeOut())
             {
-                // 外教课和精品课、班课显示课过期后直接变为已上
-//                if ($this->lesson_type == 'w' || $this->lesson_type == 'j' || $this->lesson_type == 'bt')
-//                {
-//                    $this->setFinish();
-//                    Log::info($this->id.'完课:');
-//                }
-//                // 班课、中教课和补课过期后变为待确认
-//                else {
-//                    $this->setConfirm();
-//                }
                 // 有中教参与的课程过期后变为待确认
+                // 班级lesson直接变为已上
                 if ($this->cteacher && $this->lesson_type <> 'bt')
                 {
                     $this->setConfirm();
+                    Log::info($this->id.'待确认;');
                 }
                 // 无中教参与的课程直接变为已上
                 else {
                     $this->setFinish();
-                    Log::info($this->id.'完课:');
+                    Log::info($this->id.'完课;');
                 }
             }
         }
         // 判断课程是否在保存时从已上或者待确认可以变为未上
         elseif($this->status == 1 || $this->status == 2)
         {
+            // 如果课程未过期，则设置为未上
             if (!$this->isTimeOut())
             {
                 $this->setNew();
@@ -221,6 +225,7 @@ class Lesson extends Model
     // 课程是否过期
     public function isTimeOut()
     {
+        // 根据课程结束时间判断课程是否过期
         if (Carbon::now()->gte($this->end_datetime))
         {
             return true;
@@ -237,7 +242,10 @@ class Lesson extends Model
     // 删除班课
     public function deleteTeamLesson()
     {
-        $lessons = Lesson::where('syn_code', $this->id)->get();
+        // 删除班课时需要同时删除该课程的子课
+        $lessons = Lesson::where('syn_code', $this->id)
+            ->where('lesson_type', 'b')
+            ->get();
         foreach ($lessons as $lesson) {
             $lesson->delete();
         }
@@ -246,12 +254,14 @@ class Lesson extends Model
     // 创建补课
     public function createBuke(array $data)
     {
+        // 输入信息：代课教师、开始时间、结束时间
         $lessonInfo = $this->toArray();
         $lessonInfo['cteacher_id'] = $data['cteacher_id'];
         $lessonInfo['start_datetime'] = $data['start_datetime'];
         $lessonInfo['end_datetime'] = $data['end_datetime'];
         $lessonInfo['syn_code'] = $lessonInfo['id'];
         $lessonInfo['lesson_type'] = 'bu';
+        // 重设课时消耗信息
         $lessonInfo['zhongjiao_cost'] = 1;
         $lessonInfo['waijiao_cost'] = 0;
         $lessonInfo['jingpin_cost'] = 0;
@@ -261,9 +271,10 @@ class Lesson extends Model
         return Lesson::create($lessonInfo);
     }
 
-    // 请假
+    // 请假操作
     public function setLeave()
     {
+        // 请假时将中教课时清空，外教课时保留
         $this->zhongjiao_cost = 0;
         $this->status = 3;
     }
@@ -286,47 +297,53 @@ class Lesson extends Model
         $this->status = 1;
     }
 
+    // 根据天数，获取过去days天的已上课程
     public static function getOldLessons($days)
     {
         if ($days>=0)
         {
+            // 获取days天前的0点
             $time = Carbon::now('Asia/Shanghai')->subDays($days)->startOfDay();
             return Lesson::where('end_datetime', '>=', $time)
                 ->where('status', '>', 0)
-                ->where('lesson_type', '<>', 'b') // 班课作为bt显示班课的子课显示
+                ->where('lesson_type', '<>', 'b') // b作为bt的子课显示
                 ->orderby('start_datetime' , 'desc' )
                 ->get();
         }
         return [];
     }
 
+    // 根据天数，获取未来days天的未上课程
     public static function getNewLessons($days)
     {
         if ($days>=0)
         {
+            // 获取days天后的23点59分
             $time = Carbon::now('Asia/Shanghai')->addDays($days)->endOfDay();
             return Lesson::where('end_datetime', '<=', $time)
                 ->where('status', 0)
-                ->where('lesson_type', '<>', 'b') // 班课作为bt显示班课的子课显示
+                ->where('lesson_type', '<>', 'b') // b作为bt的子课显示
                 ->orderby('start_datetime')
                 ->get();
         }
         return [];
     }
 
+    // 获取lesson的开始时间在stime到etime之间的课程
     public static function getTimeLessonList(Carbon $stime, Carbon $etime)
     {
         if ($stime && $etime)
         {
             return Lesson::where('start_datetime', '>=', $stime)
                 ->where('start_datetime', '<=', $etime)
-                ->where('lesson_type', '<>', 'b') // 班课作为bt显示班课的子课显示
+                ->where('lesson_type', '<>', 'b') // b作为bt的子课显示
                 ->orderby('start_datetime')
                 ->get();
         }
         return [];
     }
 
+    // 获取stime到etime之间的所有课程，用作统计使用
     public static function getCountList(Carbon $stime, Carbon $etime)
     {
         if ($stime && $etime)

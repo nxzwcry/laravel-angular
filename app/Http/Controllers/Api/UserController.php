@@ -26,7 +26,7 @@ class UserController extends ApiController
         return new UserResource($user);
     }
 
-    // 创建用户时没有密码
+    // 创建用户时随机生成密码
     public function store(Request $request)
     {
         $this->validator($request->all())->validate();
@@ -64,12 +64,14 @@ class UserController extends ApiController
         return response()->json(null, 204);
     }
 
+    // 获取中教老师列表
     public function getCteachers()
     {
 //        $roel = Role::where('name', 'cteacher');
         return new UserCollection(User::role("cteacher")->get());;
     }
 
+    // 获取顾问列表
     public function getAgents()
     {
 //        $roel = Role::where('name', 'agent');

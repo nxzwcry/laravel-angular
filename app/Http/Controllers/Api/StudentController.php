@@ -11,6 +11,7 @@ use Carbon\Carbon;
 
 class StudentController extends ApiController
 {
+    // 根据传来的类型，获取该类型的学生名单
     public function index(String $type=null)
     {
         $students = null;

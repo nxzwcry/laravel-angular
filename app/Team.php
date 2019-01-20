@@ -58,6 +58,7 @@ class Team extends Model
         return $this->belongsTo('App\Place' , 'place_id');
     }
 
+    // 向班级添加多个学生，传入参数为学生的id数组
     public function addStudents(array $data)
     {
         $students = Student::find($data);
@@ -95,6 +96,7 @@ class Team extends Model
 //
 //    }
 
+    // 获取未上课程
     public function getNewLessons()
     {
         return $this->lessons()
@@ -104,6 +106,7 @@ class Team extends Model
             ->get();
     }
 
+    // 获取已上和待确认课程
     public function getNotNewLessons()
     {
         return $this->lessons()
@@ -113,33 +116,34 @@ class Team extends Model
             ->get();
     }
 
-    public function getCourseName() //获取课程名称
-    {
-        $course = $this->getCourse();
-        if ($course)
-        {
-            return $course->name;
-        }
-        else
-        {
-            return null;
-        }
+    //获取课程名称
+//    public function getCourseName()
+//    {
+//        $course = $this->getCourse();
+//        if ($course)
+//        {
+//            return $course->name;
+//        }
+//        else
+//        {
+//            return null;
+//        }
+//
+//    }
 
-    }
-
-    public function getCourse() //获取该班级的一节课程
-    {
-        $course = $this->courses()->first();
-        if ($course)
-        {
-            return $course;
-        }
-        else
-        {
-            return null;
-        }
-
-    }
+//    public function getCourse() //获取该班级的一节课程
+//    {
+//        $course = $this->courses()->first();
+//        if ($course)
+//        {
+//            return $course;
+//        }
+//        else
+//        {
+//            return null;
+//        }
+//
+//    }
 
 //    public function getCourses() //获取该班级还在继续上的课程
 //    {
@@ -177,11 +181,13 @@ class Team extends Model
 //        return $courses;
 //    }
 
-    public function getStudentLessons($sid) //获取该学生在班级里的未上单节课
+    //获取该学生在班级里的未上单节课
+    public function getStudentLessons($sid)
     {
         $lessons = $this->lessons()
             ->where('student_id', $sid)
-            ->where('status', 0)->get();
+            ->where('start_datetime', '>=', Carbon::now()) // 将请假状态的课程也包含在内
+            ->get();
         return $lessons;
     }
 
@@ -203,7 +209,8 @@ class Team extends Model
 //        return $courses;
 //    }
 
-    public function getNextLessons() //获取该班级的下节课程（复数）
+    //获取该班级的已排课程
+    public function getNextLessons()
     {
         $lessons = $this->lessons()
             ->where('lesson_type' , 'bt' )
@@ -265,15 +272,19 @@ class Team extends Model
     //删除学生
     public function deleteStudent(Student $student)
     {
+        // 删除该学生与本班相关的未上课程
         $this->deleteLessonsFromStudent($student);
         $student->team_id = null;
+
         // 设置学生的状态
         if ($student->getNewLessons())
         {
+            // 如删除后还有剩余课程则转移至1对1学生
             $student->status = 1;
         }
         else
         {
+            // 如没有剩余课程则转移至未排课学生
             $student->status = 2;
         }
         $student->save(); //将学生从班级删去
@@ -283,6 +294,7 @@ class Team extends Model
     // 删除此学生的所有本班未上课程
     public function deleteLessonsFromStudent(Student $student)
     {
+        // 删除学生在本班的未上课程
         $lessons = $this->getStudentLessons($student->id);
         $num = 0;
         foreach ($lessons as $lesson)
@@ -290,28 +302,44 @@ class Team extends Model
             $lesson->delete();
             $num++;
         }
+
+        // 删除该学生的未上补课
+        $lessons = $student->getNewLessons();
+        if ($lessons)
+        {
+            $bu = $lessons->where('lesson_type', 'bu');
+            if ($bu->first())
+            {
+                foreach ($bu as $lesson)
+                {
+                    $lesson->delete();
+                    $num++;
+                }
+            }
+        }
+
         return $num;
     }
 
-    // 获取已上外教课数
-    public function getLessonCost(){
-        return $this->getOldLessons()->sum(function ($group) {
-            return $group->first()->waijiao_cost;
-        });
-    }
-
-    // 获取KK剩余提醒的显示系数 输出0：正常 输出1：黄色（下周续费） 输出2：红色（本周续费）
-    public function getKKBalance(){
-        if ($this->kk_recharge < 0){ // 当kk_recharge<0时表示不显示kk续费提醒
-            $oneWeek = $this->getCourses()->count();
-            $left = $this->kk_recharge - $this->getLessonCost();
-            if ($left <= $oneWeek)
-                return 2;
-            elseif ($left-$oneWeek <= $oneWeek)
-                return 1;
-            else
-                return 0;
-        }
-    }
+//    // 获取已上外教课数
+//    public function getLessonCost(){
+//        return $this->getOldLessons()->sum(function ($group) {
+//            return $group->first()->waijiao_cost;
+//        });
+//    }
+//
+//    // 获取KK剩余提醒的显示系数 输出0：正常 输出1：黄色（下周续费） 输出2：红色（本周续费）
+//    public function getKKBalance(){
+//        if ($this->kk_recharge < 0){ // 当kk_recharge<0时表示不显示kk续费提醒
+//            $oneWeek = $this->getCourses()->count();
+//            $left = $this->kk_recharge - $this->getLessonCost();
+//            if ($left <= $oneWeek)
+//                return 2;
+//            elseif ($left-$oneWeek <= $oneWeek)
+//                return 1;
+//            else
+//                return 0;
+//        }
+//    }
 
 }
