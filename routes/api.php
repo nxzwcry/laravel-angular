@@ -13,9 +13,12 @@ use Illuminate\Http\Request;
 |
 */
 
+// 登录和重置
 Route::post('login', 'Api\AuthenticateController@login');
-Route::get('appdata', 'Api\AppDataController@index');
 Route::post('passwordreset', 'Api\ResetPasswordController@reset')->name('password.reset');
+
+
+Route::get('appdata', 'Api\AppDataController@index');
 
 //Route::middleware('auth:api')->get('/user', function (Request $request) {
 //    return $request->user();
@@ -23,9 +26,13 @@ Route::post('passwordreset', 'Api\ResetPasswordController@reset')->name('passwor
 //
 //Route::middleware('auth:api')->get('/index', 'Api\IndexController@index');
 
+// 微信公众号相关
 Route::any('wechat', 'Api\WeChatController@serve');
 Route::any('wechat/menu', 'Api\WeChatController@menu');
 Route::any('wechat/list', 'Api\WeChatController@getlist');
+
+// 线索提交
+Route::post('signup', 'Api\SignUpListController@store');
 
 Route::middleware('auth:api')->group(function () {
 
