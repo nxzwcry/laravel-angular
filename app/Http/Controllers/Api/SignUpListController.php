@@ -34,7 +34,7 @@ class SignUpListController extends ApiController
         $request->validate([
             'name' => 'required|max:8',
             'tel' => 'required|max:16',
-            'ip' => 'required|ip',
+            'ip' => 'required',
         ]);
 
         $res = SignUp::where('ip', $request->ip)

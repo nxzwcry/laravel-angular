@@ -17,7 +17,7 @@ class CreateSignUpTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->string('tel');
-            $table->ipAddress('ip');
+            $table->string('ip');
             $table->unsignedInteger('read')->nullable($value = true);
             $table->timestamps();
             $table->softDeletes();
