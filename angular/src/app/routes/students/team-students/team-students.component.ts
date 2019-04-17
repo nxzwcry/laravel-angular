@@ -60,10 +60,10 @@ export class StudentsTeamStudentsComponent implements OnInit {
     this.http.get<JsonData>('/students/type/team').subscribe(
       (data) =>{
         this.studentList = data.data;
-        for (let s of this.studentList)
-        {
-          s.times = (s.waijiao + s.zhongjiao)/2;
-        }
+        // for (let s of this.studentList)
+        // {
+        //   s.times = (s.waijiao + s.zhongjiao)/2;
+        // }
         this.search();
       }
     );

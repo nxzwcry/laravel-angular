@@ -18,13 +18,13 @@
       <tr>
         <th nzShowSort nzSortKey="id" nzWidth="170px" nzSort="descend">学生编号</th>
         <th nzWidth="200px">姓名</th>
-        <th nzWidth="250px">英文名</th>
-        <th nzShowSort nzSortKey="add" nzWidth="200px">剩余中外教</th>
-        <th nzShowSort nzSortKey="waijiao" nzWidth="120px">外教</th>
-        <!--<th nzWidth="80px">中教</th>-->
+        <th nzWidth="200px">英文名</th>
+        <th nzShowSort nzSortKey="add" nzWidth="200px">剩余课时</th>
+        <th nzShowSort nzSortKey="waijiao" nzWidth="150px">外教</th>
+        <th nzShowSort nzSortKey="zhongjiao" nzWidth="150px">中教</th>
         <th nzWidth="200px">中教老师</th>
         <th nzWidth="250px">外教老师</th>
-        <th nzShowFilter [nzFilterMultiple]="true" [nzFilters]="agentList" (nzFilterChange)="filter($event)" nzWidth="250px">课程顾问</th>
+        <th nzShowFilter [nzFilterMultiple]="true" [nzFilters]="agentList" (nzFilterChange)="filter($event)" nzWidth="200px">课程顾问</th>
       </tr>
       </thead>
       <tbody>
@@ -32,9 +32,9 @@
         <td>{{student.id}}</td>
         <td><a [routerLink]="['/students/student',student.id]">{{student.name}}</a></td>
         <td>{{student.ename}}</td>
-        <td>{{student.add}}</td>
+        <td>{{student.total}}</td>
         <td>{{student.waijiao}}</td>
-        <!--<td>{{student.zhongjiao}}</td>-->
+        <td>{{student.zhongjiao}}</td>
         <td>{{student.cteacher}}</td>
         <td>{{student.fteacher}}</td>
         <td>{{student.agent}}</td>

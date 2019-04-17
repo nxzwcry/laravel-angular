@@ -83,10 +83,10 @@ export class StudentsOneToOneComponent implements OnInit {
     this.http.get<JsonData>('/students/type/one-to-one').subscribe(
       (data) =>{
         this.studentList = data.data;
-        for (let s of this.studentList)
-        {
-          s.add = s.waijiao + s.zhongjiao;
-        }
+        // for (let s of this.studentList)
+        // {
+        //   s.add = s.waijiao + s.zhongjiao;
+        // }
         this.search();
         // this.displayList = this.studentList;
       }

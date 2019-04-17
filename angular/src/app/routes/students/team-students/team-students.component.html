@@ -21,7 +21,7 @@
         <th nzWidth="250px">英文名</th>
         <th nzShowSort nzSortKey="times" nzWidth="150px">剩余课次</th>
         <th nzWidth="200px">中教老师</th>
-        <th nzWidth="250px">班级</th>
+        <th nzWidth="300px">班级</th>
         <th nzShowFilter [nzFilterMultiple]="true" [nzFilters]="agentList" (nzFilterChange)="filter($event)" nzWidth="250px">课程顾问</th>
       </tr>
       </thead>
@@ -32,7 +32,7 @@
         <td>{{student.ename}}</td>
         <td>{{student.times}}</td>
         <td>{{student.cteacher}}</td>
-        <td>{{student.team}}</td>
+        <td><a [routerLink]="['/teams/team',student.team_id]">{{student.team}}</a></td>
         <td>{{student.agent}}</td>
       </tr>
       </tbody>

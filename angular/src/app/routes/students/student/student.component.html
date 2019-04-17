@@ -15,9 +15,9 @@
           </nz-collapse-panel>
           <nz-collapse-panel nzHeader="课时信息" [nzActive]="true">
             <desc-list size="small" [col]="1" style="margin-left: 22px">
-              <desc-list-item term="外教课时"><p align="right">消耗:{{student.waijiaocost}}/总:{{student.waijiaototal}}节</p></desc-list-item>
-              <desc-list-item term="中教课时"><p align="right">消耗:{{student.zhongjiaocost}}/总:{{student.zhongjiaototal}}节</p></desc-list-item>
-              <desc-list-item term="精品课时"><p align="right">消耗:{{student.jingpincost}}/总:{{student.jingpintotal}}节</p></desc-list-item>
+              <desc-list-item term="外教课时"><p align="right">剩余:{{student.waijiao}}/总:{{student.waijiaototal}}节</p></desc-list-item>
+              <desc-list-item term="中教课时"><p align="right">剩余:{{student.zhongjiao}}/总:{{student.zhongjiaototal}}节</p></desc-list-item>
+              <!--<desc-list-item term="精品课时"><p align="right">消耗:{{student.jingpincost}}/总:{{student.jingpintotal}}节</p></desc-list-item>-->
             </desc-list>
           </nz-collapse-panel>
           <nz-collapse-panel nzHeader="联系方式" [nzActive]="false">
