@@ -1,0 +1,11 @@
+:host /deep/ #tabCard .ant-card-head {
+    border-bottom:0;
+}
+
+nz-divider {
+    margin: 16px 0;
+}
+
+:host /deep/ .ant-card-body {
+    padding: 16px 24px 24px 24px;
+}

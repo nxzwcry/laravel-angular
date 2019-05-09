@@ -17,12 +17,14 @@ import {SharedEditCourseComponent} from "@shared/components/edit-course/edit-cou
 @Component({
   selector: 'app-students-student',
   templateUrl: './student.component.html',
+  styleUrls: ['./student.component.css']
 })
 export class StudentsStudentComponent implements OnInit {
   id = this.route.snapshot.params.id;
   student: Student;
   dowList: Array<any>;
   lessonStatusList: Array<any>;
+  indexTab: number;
 
   constructor(
     private route: ActivatedRoute,
