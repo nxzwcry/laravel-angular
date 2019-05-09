@@ -8,6 +8,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { UserLoginComponent } from './passport/login/login.component';
 import { UserRegisterComponent } from './passport/register/register.component';
 import { UserRegisterResultComponent } from './passport/register-result/register-result.component';
+import { ResetPasswordComponent } from "./passport/reset-password/reset-password.component";
 // single pages
 import { CallbackComponent } from './callback/callback.component';
 import { UserLockComponent } from './passport/lock/lock.component';
@@ -21,6 +22,7 @@ const COMPONENTS = [
   // single pages
   CallbackComponent,
   UserLockComponent,
+  ResetPasswordComponent,
 ];
 const COMPONENTS_NOROUNT = [];
 

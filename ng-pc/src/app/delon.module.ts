@@ -31,11 +31,11 @@ const MOCK_MODULES = !environment.production
 import { RouteReuseStrategy } from '@angular/router';
 import { ReuseTabService, ReuseTabStrategy } from '@delon/abc/reuse-tab';
 const REUSETAB_PROVIDES = [
-  // {
-  //   provide: RouteReuseStrategy,
-  //   useClass: ReuseTabStrategy,
-  //   deps: [ReuseTabService],
-  // },
+  {
+    provide: RouteReuseStrategy,
+    useClass: ReuseTabStrategy,
+    deps: [ReuseTabService],
+  },
 ];
 // #endregion
 
@@ -53,7 +53,11 @@ import { DelonAuthConfig } from '@delon/auth';
 export function fnDelonAuthConfig(): DelonAuthConfig {
   return {
     ...new DelonAuthConfig(),
-    ...{ login_url: '/passport/login' } as DelonAuthConfig
+    ...{
+      login_url: '/passport/login',
+      token_send_key: 'Authorization',
+      token_send_template: 'Bearer ${token}',
+    } as DelonAuthConfig
   };
 }
 

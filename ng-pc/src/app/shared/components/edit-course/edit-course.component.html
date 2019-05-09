@@ -1,0 +1,88 @@
+<form nz-form [formGroup]="formModel">
+  <nz-form-item [hidden]="listDisable.type">
+    <nz-form-label [nzSpan]="7" nzRequired>课程类型</nz-form-label>
+    <nz-form-control [nzSpan]="12" nzHasFeedback>
+      <nz-select formControlName="lesson_type" nzShowSearch nzPlaceHolder="Choose" (ngModelChange)="selectChange($event)">
+        <nz-option *ngFor="let option of typeList" [nzValue]="option.value" [nzLabel]="option.label"></nz-option>
+      </nz-select>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item [hidden]="listDisable.always">
+    <nz-form-label [nzSpan]="7" nzRequired>课程名称</nz-form-label>
+    <nz-form-control [nzSpan]="12" nzHasFeedback>
+      <input nz-input formControlName="name" placeholder="请输入课程名称">
+      <nz-form-explain *ngIf="formModel.get('name').dirty && formModel.get('name').errors">
+        <ng-container *ngIf="formModel.get('name').hasError('required')">
+          请输入课程名称
+        </ng-container>
+      </nz-form-explain>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item [hidden]="listDisable.always">
+    <nz-form-label [nzSpan]="7">中教老师</nz-form-label>
+    <nz-form-control [nzSpan]="12">
+      <nz-select formControlName="cteacher_id" nzShowSearch nzAllowClear nzPlaceHolder="Choose">
+        <nz-option *ngFor="let option of cteacherList" [nzValue]="option.id" [nzLabel]="option.name"></nz-option>
+      </nz-select>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item [hidden]="listDisable.fteacher_id">
+    <nz-form-label [nzSpan]="7">外教老师</nz-form-label>
+    <nz-form-control [nzSpan]="12">
+      <nz-select formControlName="fteacher_id" nzShowSearch nzAllowClear nzPlaceHolder="Choose">
+        <nz-option *ngFor="let option of fteacherList" [nzValue]="option.id" [nzLabel]="option.name"></nz-option>
+      </nz-select>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item [hidden]="listDisable.always">
+    <nz-form-label [nzSpan]="7" nzRequired>授课日期</nz-form-label>
+    <nz-form-control [nzSpan]="12" nzHasFeedback>
+      <nz-select formControlName="dow" nzShowSearch nzPlaceHolder="Choose">
+        <nz-option *ngFor="let option of dowList" [nzValue]="option.value" [nzLabel]="option.label"></nz-option>
+      </nz-select>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item [hidden]="listDisable.always">
+    <nz-form-label [nzSpan]="7" nzRequired>授课时间</nz-form-label>
+    <nz-form-control [nzSpan]="12" nzHasFeedback>
+      <nz-time-picker formControlName="startTime" nzFormat="HH:mm" nzPlaceHolder="开始时间" [nzMinuteStep]="5" (ngModelChange)="changeTime($event)"></nz-time-picker>~
+      <nz-time-picker formControlName="endTime" nzFormat="HH:mm" nzPlaceHolder="结束时间" [nzMinuteStep]="5"></nz-time-picker>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item [hidden]="listDisable.fteacher_id">
+    <nz-form-label [nzSpan]="7" nzRequired>外教开始时间</nz-form-label>
+    <nz-form-control [nzSpan]="12" nzHasFeedback>
+      <nz-time-picker formControlName="fteacherTime" nzFormat="HH:mm" nzPlaceHolder="开始时间" [nzMinuteStep]="5"></nz-time-picker>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item [hidden]="listDisable.always">
+    <nz-form-label [nzSpan]="7" nzRequired>上课地点</nz-form-label>
+    <nz-form-control [nzSpan]="12">
+      <nz-select formControlName="place_id" nzShowSearch nzAllowClear nzPlaceHolder="Choose">
+        <nz-option *ngFor="let option of placeList" [nzValue]="option.id" [nzLabel]="option.name"></nz-option>
+      </nz-select>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item [hidden]="listDisable.waijiao_cost">
+    <nz-form-label [nzSpan]="7" nzRequired>外教秏课</nz-form-label>
+    <nz-form-control [nzSpan]="12">
+      <nz-input-number formControlName="waijiao_cost"></nz-input-number>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item [hidden]="listDisable.always">
+    <nz-form-label [nzSpan]="7" nzRequired>中教秏课</nz-form-label>
+    <nz-form-control [nzSpan]="12">
+      <nz-input-number formControlName="zhongjiao_cost"></nz-input-number>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item [hidden]="listDisable.jingpin_cost">
+    <nz-form-label [nzSpan]="7" nzRequired>精品秏课</nz-form-label>
+    <nz-form-control [nzSpan]="12">
+      <nz-input-number formControlName="jingpin_cost"></nz-input-number>
+    </nz-form-control>
+  </nz-form-item>
+  <div class="modal-footer">
+    <button nz-button type="button" (click)="close()">关闭</button>
+    <button nz-button type="submit" (click)="save()" [disabled]="!formModel.valid" [nzLoading]="loading">保存</button>
+  </div>
+</form>

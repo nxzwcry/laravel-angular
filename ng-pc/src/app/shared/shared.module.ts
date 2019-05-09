@@ -11,6 +11,24 @@ import { DelonFormModule } from '@delon/form';
 // #region third libs
 import { NgZorroAntdModule } from 'ng-zorro-antd';
 import { CountdownModule } from 'ngx-countdown';
+
+// PIPES
+import { FilterPipe } from "./pipe/filter.pipe";
+import { TransPipe } from "@shared/pipe/trans.pipe";
+
+// COMPONENTS
+import { SharedEditLessonNameComponent } from "@shared/components/edit-lesson-name/edit-lesson-name.component";
+import { SharedEditLessonScoreComponent } from "@shared/components/edit-lesson-score/edit-lesson-score.component";
+import { SharedAddLessonBukeComponent } from "@shared/components/add-lesson-buke/add-lesson-buke.component";
+import { SharedEditCourseComponent } from "@shared/components/edit-course/edit-course.component";
+import { SharedEditLessonComponent } from "@shared/components/edit-lesson/edit-lesson.component";
+import { SharedCopyLessonComponent } from "@shared/components/copy-lesson/copy-lesson.component";
+
+// Services
+import { LessonOperateService } from "@shared/services/lesson-operate.service";
+import { DictionaryService } from "@shared/services/dictionary.service";
+import { CourseOperateService } from "@shared/services/course-operate.service";
+
 const THIRDMODULES = [
   NgZorroAntdModule,
   CountdownModule
@@ -18,9 +36,28 @@ const THIRDMODULES = [
 // #endregion
 
 // #region your componets & directives
-const COMPONENTS = [];
+const COMPONENTS = [
+  SharedEditLessonNameComponent,
+  SharedEditLessonScoreComponent,
+  SharedAddLessonBukeComponent,
+  SharedEditCourseComponent,
+  SharedEditLessonComponent,
+  SharedCopyLessonComponent,
+];
+
 const DIRECTIVES = [];
 // #endregion
+
+const PIPES = [
+  FilterPipe,
+  TransPipe,
+];
+
+const MYSERVICES = [
+  DictionaryService,
+  LessonOperateService,
+  CourseOperateService,
+];
 
 @NgModule({
   imports: [
@@ -38,7 +75,8 @@ const DIRECTIVES = [];
   declarations: [
     // your components
     ...COMPONENTS,
-    ...DIRECTIVES
+    ...DIRECTIVES,
+    ...PIPES
   ],
   exports: [
     CommonModule,
@@ -53,7 +91,19 @@ const DIRECTIVES = [];
     ...THIRDMODULES,
     // your components
     ...COMPONENTS,
-    ...DIRECTIVES
+    ...DIRECTIVES,
+    ...PIPES
+  ],
+  providers:[
+    ...MYSERVICES,
+  ],
+  entryComponents:[
+    ...COMPONENTS,
   ]
 })
 export class SharedModule { }
+
+export class JsonData {
+  data: any;
+  count: any;
+}

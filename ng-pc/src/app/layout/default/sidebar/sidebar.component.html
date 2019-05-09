@@ -1,15 +1,18 @@
 <div class="alain-default__aside-inner">
   <nz-dropdown nzTrigger="click" class="alain-default__aside-user">
     <div nz-dropdown class="user-block-dropdown">
-      <nz-avatar class="alain-default__aside-user-avatar" [nzSrc]="settings.user.avatar"></nz-avatar>
+      <!--<nz-avatar class="alain-default__aside-user-avatar" [nzSrc]="settings.user.avatar"></nz-avatar>-->
+      <nz-avatar nzIcon="user" class="alain-default__aside-user-avatar" style="background-color:#87d068;"></nz-avatar>
       <div class="alain-default__aside-user-info">
         <strong>{{settings.user.name}}</strong>
         <p class="text-truncate mb0">{{settings.user.email}}</p>
       </div>
     </div>
     <ul nz-menu>
-      <li nz-menu-item routerLink="/pro/account/center">个人中心</li>
-      <li nz-menu-item routerLink="/pro/account/settings">个人设置</li>
+      <li nz-menu-item (click)="msgSrv.success('profile')">个人资料</li>
+      <li nz-menu-item (click)="msgSrv.success('settings')">设置</li>
+      <li nz-menu-item (click)="dic.clear()">清理缓存</li>
+      <li nz-menu-item (click)="logout()">登出</li>
     </ul>
   </nz-dropdown>
   <sidebar-nav class="d-block py-lg"></sidebar-nav>

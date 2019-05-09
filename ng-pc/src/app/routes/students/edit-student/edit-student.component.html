@@ -1,0 +1,99 @@
+<!--<div class="modal-header">-->
+  <!--<div class="modal-title">添加学生</div>-->
+<!--</div>-->
+<!--<nz-spin *ngIf="!i" class="modal-spin"></nz-spin>-->
+<form nz-form [formGroup]="formModel">
+  <nz-form-item>
+    <nz-form-label [nzSpan]="7" nzRequired>学生姓名</nz-form-label>
+    <nz-form-control [nzSpan]="12" nzHasFeedback>
+      <input nz-input formControlName="name" placeholder="请输入学生姓名">
+      <nz-form-explain *ngIf="formModel.get('name').dirty && formModel.get('name').errors">
+        <ng-container *ngIf="formModel.get('name').hasError('required')">
+          请输入学生姓名
+        </ng-container>
+      </nz-form-explain>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label [nzSpan]="7">英文名</nz-form-label>
+    <nz-form-control [nzSpan]="12">
+      <input nz-input formControlName="ename" placeholder="Enter english name">
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label [nzSpan]="7" nzRequired>性别</nz-form-label>
+    <nz-form-control [nzSpan]="12" nzHasFeedback>
+      <nz-select formControlName="sex" nzPlaceHolder="Choose">
+        <nz-option *ngFor="let option of sexList" [nzValue]="option.value" [nzLabel]="option.label"></nz-option>
+      </nz-select>
+      <nz-form-explain *ngIf="formModel.get('sex').dirty && formModel.get('sex').errors">
+        <ng-container *ngIf="formModel.get('sex').hasError('required')">
+          请选择学生性别
+        </ng-container>
+      </nz-form-explain>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label [nzSpan]="7">生日</nz-form-label>
+    <nz-form-control [nzSpan]="12">
+      <nz-date-picker formControlName="birthday" nzFormat="yyyy-MM-dd" [nzShowToday]="false"></nz-date-picker>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label [nzSpan]="7" nzRequired>年级</nz-form-label>
+    <nz-form-control [nzSpan]="12" nzHasFeedback>
+      <nz-select formControlName="grade" nzPlaceHolder="Choose">
+        <nz-option *ngFor="let option of gradeList" [nzValue]="option.value" [nzLabel]="option.label"></nz-option>
+      </nz-select>
+      <nz-form-explain *ngIf="formModel.get('grade').dirty && formModel.get('grade').errors">
+        <ng-container *ngIf="formModel.get('grade').hasError('required')">
+          请选择学生年级
+        </ng-container>
+      </nz-form-explain>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label [nzSpan]="7">销售顾问</nz-form-label>
+    <nz-form-control [nzSpan]="12">
+      <nz-select formControlName="agent_user_id" nzShowSearch nzAllowClear nzPlaceHolder="Choose">
+        <nz-option *ngFor="let option of agentList" [nzValue]="option.id" [nzLabel]="option.name"></nz-option>
+      </nz-select>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label [nzSpan]="7">中教老师</nz-form-label>
+    <nz-form-control [nzSpan]="12">
+      <nz-select formControlName="cteacher_user_id" nzShowSearch nzAllowClear nzPlaceHolder="Choose">
+        <nz-option *ngFor="let option of cteacherList" [nzValue]="option.id" [nzLabel]="option.name"></nz-option>
+      </nz-select>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label [nzSpan]="7">E-mail</nz-form-label>
+    <nz-form-control [nzSpan]="12">
+      <input nz-input formControlName="email" placeholder="email" type="email">
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label [nzSpan]="7">家庭住址</nz-form-label>
+    <nz-form-control [nzSpan]="12">
+      <input nz-input formControlName="address">
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label [nzSpan]="7">备注</nz-form-label>
+    <nz-form-control [nzSpan]="12" >
+      <textarea formControlName="desc" nz-input rows="2" placeholder="write any thing"></textarea>
+    </nz-form-control>
+  </nz-form-item>
+  <div class="modal-footer">
+    <button nz-button type="button" (click)="close()">关闭</button>
+    <button nz-button type="submit" (click)="save()" [disabled]="!formModel.valid" [nzLoading]="loading">保存</button>
+  </div>
+</form>
+<!--<sf *ngIf="i" #sf mode="edit" [schema]="schema" [formData]="i" button="none">-->
+  <!--<div class="modal-footer">-->
+    <!--<button nz-button type="button" (click)="close()">关闭</button>-->
+    <!--<button nz-button type="submit" [nzType]="'primary'" (click)="save(sf.value)" [disabled]="!sf.valid" [nzLoading]="http.loading">保存</button>-->
+  <!--</div>-->
+<!--</sf>-->

@@ -1,0 +1,12 @@
+<form nz-form [formGroup]="formModel">
+  <nz-form-item>
+    <nz-form-label [nzSpan]="7" nzRequired>课程得分</nz-form-label>
+    <nz-form-control [nzSpan]="12" nzHasFeedback>
+      <nz-input-number formControlName="score"></nz-input-number>
+    </nz-form-control>
+  </nz-form-item>
+  <div class="modal-footer">
+    <button nz-button type="button" (click)="close()">关闭</button>
+    <button nz-button type="submit" (click)="save()" [disabled]="!formModel.valid" [nzLoading]="loading">保存</button>
+  </div>
+</form>

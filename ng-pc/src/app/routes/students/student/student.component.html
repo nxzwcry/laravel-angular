@@ -1,0 +1,200 @@
+<!--<page-header [title]="'查看 ' + id + ' 信息'"></page-header>-->
+<div nz-row nzGutter="16">
+  <div nz-col [nzSpan]="5">
+      <nz-card nzTitle="{{ student.name }} {{ student.ename }}" [nzExtra]="changeStudentInfoTemplate">
+            <sv-container size="small" [col]="1" [gutter]="40">
+              <sv label="性别" align="right">{{student.sex}}</sv>
+              <sv label="年龄/年级" align="right">{{student.age}}岁/{{student.grade}}</sv>
+              <sv label="课程顾问" align="right">{{student.agent}}</sv>
+              <sv label="中教老师" align="right">{{student.cteacher}}</sv>
+              <sv label="所在班级" *ngIf="student.team" align="right"><a [routerLink]="['/teams/team', student.team_id]">{{student.team}}</a></sv>
+              <sv label="课堂积分" align="right">{{student.score}}</sv>
+            </sv-container>
+            <nz-divider></nz-divider>
+            <sv-container size="small" [col]="1" [gutter]="40">
+              <sv label="外教课时" align="right">剩:{{student.waijiao}}/总:{{student.waijiaototal}}节</sv>
+              <sv label="中教课时" align="right">剩:{{student.zhongjiao}}/总:{{student.zhongjiaototal}}节</sv>
+            </sv-container>
+            <nz-divider></nz-divider>
+            <sv-container size="small" layout="vertical" [gutter]="40" [col]="1" >
+              <sv label="email">{{student.email}}</sv>
+              <sv label="住址">{{student.address}}</sv>
+              <sv *ngFor="let phone of student.phones" label="电话({{phone.name}})"><p align="right">{{phone.phone_number}}</p></sv>
+            </sv-container>
+            <nz-divider></nz-divider>
+            <sv-container size="small" layout="vertical" [gutter]="40">
+              <sv label="备注"><p align="right">{{student.desc}}</p></sv>
+            </sv-container>
+      </nz-card>
+  </div>
+
+  <div nz-col [nzSpan]="19">
+    <!--已排课程-->
+    <nz-collapse [nzBordered]="false">
+      <nz-collapse-panel [nzHeader]="lessonTemplate" [nzActive]="true">
+        <nz-table #newLessonsTable [nzData]="student.newlessons" nzSize="small" [nzShowPagination]="false" [nzFrontPagination]="false">
+          <thead>
+          <tr>
+            <th>课程名称</th>
+            <th>课程类型</th>
+            <th>上课日期</th>
+            <th>上课时间</th>
+            <th>中教老师</th>
+            <th>外教老师</th>
+            <th>上课地点</th>
+            <th></th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let lesson of newLessonsTable.data">
+            <td><a [routerLink]="['/lessons/lesson',lesson.id]">{{lesson.name}}</a></td>
+            <td>{{lesson.lesson_type}}</td>
+            <td>{{lesson.date*1000 | _date: 'YYYY/MM/DD'}}</td>
+            <td>{{lesson.stime*1000 | _date: 'HH:mm'}}~{{lesson.etime*1000 | _date: 'HH:mm'}}</td>
+            <td>{{lesson.cteacher}}</td>
+            <td>{{lesson.fteacher}}</td>
+            <td>{{lesson.place}}</td>
+            <td>
+              <span *ngIf="lesson.lesson_type_id == 'j'">
+                <a (click)="lessonOp.copy(lesson.id)">复制</a>
+                <nz-divider nzType="vertical"></nz-divider>
+              </span>
+              <a (click)="lessonOp.deleteLesson(lesson.id)" [acl]="'lesson-delete'">删除</a>
+            </td>
+          </tr>
+          </tbody>
+        </nz-table>
+      </nz-collapse-panel>
+
+      <!--固定课程-->
+      <nz-collapse-panel [nzHeader]="courseTemplate" [nzActive]="true">
+        <nz-table #coursesTable [nzData]="student.courses" nzSize="small" [nzShowPagination]="false" [nzFrontPagination]="false">
+          <thead>
+          <tr>
+            <th>课程名称</th>
+            <th>课程类型</th>
+            <th>上课日期</th>
+            <th>上课时间</th>
+            <th>中教老师</th>
+            <th>外教老师</th>
+            <th>上课地点</th>
+            <th></th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let course of coursesTable.data">
+            <td><a [routerLink]="['/lessons/course',course.id]">{{course.name}}</a></td>
+            <td>{{course.lesson_type}}</td>
+            <td>每{{course.dow | trans:dowList:'value':'label'}}</td>
+            <td>{{course.stime*1000 | _date: 'HH:mm'}}~{{course.etime*1000 | _date: 'HH:mm'}}</td>
+            <td>{{course.cteacher}}</td>
+            <td>{{course.fteacher}}</td>
+            <td>{{course.place}}</td>
+            <td>
+              <a (click)="courseOp.deleteCourse(course.id)" [acl]="'course-delete'">删除</a>
+            </td>
+          </tr>
+          </tbody>
+        </nz-table>
+      </nz-collapse-panel>
+
+      <!--已上课程-->
+      <nz-collapse-panel [nzHeader]="oldTemplate" [nzActive]="false">
+        <nz-table #oldLessonsTable [nzData]="student.oldlessons" nzSize="small" [nzScroll]="{ y: '240px' }" [nzShowPagination]="student.oldlessons && (student.oldlessons.length > 10)">
+          <thead>
+          <tr>
+            <th nzWidth="200px">课程名称</th>
+            <th nzWidth="150px">课程类型</th>
+            <th nzWidth="150px">上课日期</th>
+            <th nzWidth="150px">上课时间</th>
+            <th nzWidth="150px">中教老师</th>
+            <th nzWidth="150px">课程状态</th>
+            <th nzWidth="150px">秏课</th>
+            <th nzWidth="100px"></th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let lesson of oldLessonsTable.data">
+            <td><a [routerLink]="['/lessons/lesson',lesson.id]">{{lesson.name}}</a></td>
+            <td>{{lesson.lesson_type}}</td>
+            <td>{{lesson.date*1000 | _date: 'YYYY/MM/DD'}}</td>
+            <td>{{lesson.stime*1000 | _date: 'HH:mm'}}~{{lesson.etime*1000 | _date: 'HH:mm'}}</td>
+            <td>{{lesson.cteacher}}</td>
+            <td><nz-badge [nzStatus]="'success'" [nzText]="lesson.status | trans:lessonStatusList:'value':'label'"></nz-badge></td>
+            <td>外{{lesson.waijiao_cost}}/中{{lesson.zhongjiao_cost}}/精{{lesson.jingpin_cost}}</td>
+            <td>
+              <a (click)="lessonOp.deleteLesson(lesson.id)" [acl]="'lesson-delete'">删除</a>
+            </td>
+          </tr>
+          </tbody>
+        </nz-table>
+      </nz-collapse-panel>
+
+      <!--充值记录-->
+      <nz-collapse-panel [nzHeader]="rechargeTemplate" [nzActive]="false">
+        <nz-table #rechargesTable [nzData]="student.recharges" nzSize="small" [nzShowPagination]="false" [nzFrontPagination]="false">
+          <thead>
+          <tr>
+            <th>外教课时</th>
+            <th>中教课时</th>
+            <th>精品课时</th>
+            <th>金额</th>
+            <th>顾问</th>
+            <th>时间</th>
+            <th>备注</th>
+            <th></th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let recharge of rechargesTable.data">
+            <td>{{recharge.waijiao}}课时</td>
+            <td>{{recharge.zhongjiao}}课时</td>
+            <td>{{recharge.jingpin}}课时</td>
+            <td>{{recharge.money | _currency}}</td>
+            <td>{{recharge.user}}</td>
+            <td>{{recharge.time*1000 | _date: 'YYYY/MM/DD'}}</td>
+            <td>{{recharge.note}}</td>
+            <td><a (click)="deleteRecharge(recharge.id)" [acl]="'recharge-create'">删除</a></td>
+          </tr>
+          </tbody>
+        </nz-table>
+      </nz-collapse-panel>
+    </nz-collapse>
+  </div>
+</div>
+
+<ng-template #changeStudentInfoTemplate>
+  <nz-row>
+    <a (click)="change()" [acl]="'student-create'">修改信息</a>
+  </nz-row>
+</ng-template>
+<ng-template #studentInfoTemplate>
+  <nz-row>
+    <nz-col [nzSpan]="15"><b>{{ student.name }} {{ student.ename }}</b></nz-col>
+    <nz-col [nzSpan]="8" ><p align="right" style="margin: 0"><a (click)="change()" [acl]="'student-create'">修改信息</a></p></nz-col>
+  </nz-row>
+</ng-template>
+<ng-template #lessonTemplate>
+  <nz-row>
+    <nz-col [nzSpan]="12"><b>已排课程</b></nz-col>
+    <nz-col [nzSpan]="11" ><p align="right" style="margin: 0"><a (click)="createLesson()" [acl]="'lesson-create'">安排单节课程</a></p></nz-col>
+  </nz-row>
+</ng-template>
+<ng-template #courseTemplate>
+  <nz-row>
+    <nz-col [nzSpan]="12"><b>固定课程</b></nz-col>
+    <nz-col [nzSpan]="11" ><p align="right" style="margin: 0"><a (click)="createCourse()" [acl]="'course-create'">安排固定课程</a></p></nz-col>
+  </nz-row>
+</ng-template>
+<ng-template #oldTemplate>
+  <nz-row>
+    <nz-col [nzSpan]="12"><b>已上课程</b></nz-col>
+    <nz-col [nzSpan]="11" ><p align="right" style="margin: 0"><a></a></p></nz-col>
+  </nz-row>
+</ng-template>
+<ng-template #rechargeTemplate>
+  <nz-row>
+    <nz-col [nzSpan]="12"><b>充值记录</b></nz-col>
+    <nz-col [nzSpan]="11" ><p align="right" style="margin: 0"><a (click)="createRecharge()" [acl]="'recharge-create'">购课充值</a></p></nz-col>
+  </nz-row>
+</ng-template>

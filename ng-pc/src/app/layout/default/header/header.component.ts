@@ -7,7 +7,7 @@ import { SettingsService } from '@delon/theme';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HeaderComponent {
-  searchToggleStatus: boolean;
+  // searchToggleStatus: boolean;
 
   constructor(public settings: SettingsService) { }
 
@@ -15,7 +15,7 @@ export class HeaderComponent {
     this.settings.setLayout('collapsed', !this.settings.layout.collapsed);
   }
 
-  searchToggleChange() {
-    this.searchToggleStatus = !this.searchToggleStatus;
-  }
+  // searchToggleChange() {
+  //   this.searchToggleStatus = !this.searchToggleStatus;
+  // }
 }

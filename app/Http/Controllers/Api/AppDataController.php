@@ -23,17 +23,26 @@ class AppdataController extends ApiController
             [
                 'text' => '首页',
                 'link' => '/dashboard',
-                'icon' => 'anticon anticon-appstore-o',
-                ],
+                'icon' => [
+                    'type' => 'icon',
+                    'value' => 'appstore',
+                    ],
+            ],
             [
                 'text' => '用户管理',
                 'link' => '/users/list',
-                'icon' => 'anticon anticon-user',
+                'icon' => [
+                    'type' => 'icon',
+                    'value' => 'user',
+                    ],
                 'acl' => 'user-view',
                 ],
             [
                 'text' => '权限管理',
-                'icon' => 'anticon anticon-unlock',
+                'icon' => [
+                    'type' => 'icon',
+                    'value' => 'key',
+                    ],
                 'acl' => 'permission-all',
                 'children' => [
                     [
@@ -48,7 +57,10 @@ class AppdataController extends ApiController
             ],
             [
                 'text' => '学生/班级列表',
-                'icon' => 'anticon anticon-team',
+                'icon' => [
+                    'type' => 'icon',
+                    'value' => 'team',
+                    ],
                 'children' => [
                     [
                         'text' => '未排课学生',
@@ -78,7 +90,10 @@ class AppdataController extends ApiController
             ],
             [
                 'text' => '课程安排',
-                'icon' => 'anticon anticon-schedule',
+                'icon' => [
+                    'type' => 'icon',
+                    'value' => 'calendar',
+                    ],
                 'children' => [
                     [
                         'text' => '待上课表',
@@ -114,7 +129,10 @@ class AppdataController extends ApiController
             ],
             [
                 'text' => '统计',
-                'icon' => 'anticon anticon anticon-bars',
+                'icon' => [
+                    'type' => 'icon',
+                    'value' => 'bars',
+                    ],
                 'acl' => ['teacher-count', 'month-count'],
                 'children' => [
                     [
