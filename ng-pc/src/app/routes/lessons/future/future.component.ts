@@ -11,6 +11,7 @@ import {ACLService} from "@delon/acl";
 @Component({
   selector: 'app-lessons-future',
   templateUrl: './future.component.html',
+  styleUrls: ['./future.component.css']
 })
 export class LessonsFutureComponent implements OnInit {
   displayList: Array<any>;
@@ -20,7 +21,7 @@ export class LessonsFutureComponent implements OnInit {
   userid: number;
   isVisible = false;
   index: number;
-
+  loading = true;
 
   constructor(private http: _HttpClient,
               public msgSrv: NzMessageService,
@@ -45,9 +46,11 @@ export class LessonsFutureComponent implements OnInit {
   }
 
   load() {
+    this.loading = true;
     this.http.get<JsonData>('/lessons/index/7').subscribe(
       (data) =>{
         this.displayList = data.data;
+        this.loading = false;
       }
     );
   }

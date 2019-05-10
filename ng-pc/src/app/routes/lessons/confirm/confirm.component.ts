@@ -19,6 +19,7 @@ export class LessonsConfirmComponent implements OnInit {
   wordFilter:FormControl = new FormControl();
   searchWord: string;
   userid: number;
+  loading = true;
 
   constructor(private http: _HttpClient,
               public msgSrv: NzMessageService,
@@ -44,9 +45,11 @@ export class LessonsConfirmComponent implements OnInit {
   }
 
   load() {
+    this.loading = true;
     this.http.get<JsonData>('/lessons/confirm').subscribe(
       (data) =>{
         this.displayList = data.data;
+        this.loading = false;
       }
     );
   }

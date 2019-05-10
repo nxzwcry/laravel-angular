@@ -11,6 +11,7 @@ import {ACLService} from "@delon/acl";
 @Component({
   selector: 'app-lessons-passed',
   templateUrl: './passed.component.html',
+  styleUrls: ['./passed.component.css']
 })
 export class LessonsPassedComponent implements OnInit {
   displayList: Array<any>;
@@ -20,6 +21,7 @@ export class LessonsPassedComponent implements OnInit {
   userid: number;
   isVisible = false;
   index: number;
+  loading = true;
 
   constructor(private http: _HttpClient,
               public msgSrv: NzMessageService,
@@ -44,9 +46,11 @@ export class LessonsPassedComponent implements OnInit {
   }
 
   load() {
+    this.loading = true;
     this.http.get<JsonData>('/lessons/index/-7').subscribe(
       (data) =>{
         this.displayList = data.data;
+        this.loading = false;
       }
     );
   }

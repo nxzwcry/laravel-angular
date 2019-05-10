@@ -25,6 +25,7 @@ export class CountTeacherComponent implements OnInit {
   visible = false;
   type: string;
   index: number;
+  loading = false;
 
   constructor(private http: _HttpClient,
               public msgSrv: NzMessageService,
@@ -44,10 +45,12 @@ export class CountTeacherComponent implements OnInit {
   load() {
     if (this.stime && this.etime)
     {
+      this.loading = true;
       this.http.post<JsonData>('/count/getCount', {'stime': this.stime, 'etime': this.etime, 'cteacher_id': this.settingService.user.id}).subscribe(
         (data) =>{
           this.hidden = false;
           this.displayList = data.data;
+          this.loading = false;
         }
       );
     }

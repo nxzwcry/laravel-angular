@@ -1,11 +1,12 @@
-<nz-row>
-  <nz-col [nzSpan]="20">
-    <nz-date-picker [formControl]="day" (ngModelChange)="change($event)"></nz-date-picker>
-  </nz-col>
-  <nz-col [nzSpan]="4" style="text-align:right">
-    <button nz-button nzType="default" (click)="load()">刷新列表</button>
-  </nz-col>
-</nz-row>
+<nz-spin nzTip="Loading..." [nzSpinning]="loading">
+  <nz-row>
+    <nz-col [nzSpan]="20">
+      <nz-date-picker [formControl]="day" (ngModelChange)="change($event)"></nz-date-picker>
+    </nz-col>
+    <nz-col [nzSpan]="4" style="text-align:right">
+      <button nz-button nzType="default" (click)="load()">刷新列表</button>
+    </nz-col>
+  </nz-row>
   <nz-card *ngIf="displayList" [nzTitle]="displayList[0].date | _date: 'MM月DD日 dddd'" [hidden]="hidden" [nzExtra]="extraTemplate">
     <nz-table #newLessonsTable [nzData]="displayList[0].lessons" nzSize="middle" [nzShowPagination]="false" [nzFrontPagination]="false">
       <thead>
@@ -71,6 +72,7 @@
     </tbody>
     </nz-table>
   </nz-card>
+</nz-spin>
 <ng-template #extraTemplate>
   <a (click)="showModal()">课程核对</a>
 </ng-template>

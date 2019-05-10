@@ -19,6 +19,7 @@ export class LessonsLeaveComponent implements OnInit {
   wordFilter:FormControl = new FormControl();
   searchWord: string;
   userid: number;
+  loading = true;
 
   constructor(private http: _HttpClient,
               public msgSrv: NzMessageService,
@@ -44,9 +45,11 @@ export class LessonsLeaveComponent implements OnInit {
   }
 
   load() {
+    this.loading = true;
     this.http.get<JsonData>('/lessons/leave').subscribe(
       (data) =>{
         this.displayList = data.data;
+        this.loading = false;
       }
     );
   }

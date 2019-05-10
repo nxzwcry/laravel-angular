@@ -1,6 +1,6 @@
 <!--<page-header [title]="'查看 ' + id + ' 信息'"></page-header>-->
 <div nz-row [nzGutter]="16">
-  <div nz-col [nzSpan]="5">
+  <div nz-col [nzSpan]="6">
     <nz-card nzTitle="{{ student.name }} {{ student.ename }}" [nzExtra]="changeStudentInfoTemplate">
           <sv-container size="small" [col]="1">
             <sv label="性别" align="right">{{student.sex}}</sv>
@@ -28,7 +28,7 @@
     </nz-card>
   </div>
 
-  <div nz-col [nzSpan]="19">
+  <div nz-col [nzSpan]="18">
     <nz-card nzTitle="固定课程" [nzExtra]="courseTemplate">
       <nz-table #coursesTable [nzData]="student.courses" nzSize="small" [nzShowPagination]="false" [nzFrontPagination]="false">
         <thead>

@@ -10,6 +10,7 @@ import {CourseOperateService} from "@shared/services/course-operate.service";
 @Component({
   selector: 'app-lessons-course-list',
   templateUrl: './course-list.component.html',
+  styleUrls: ['./course-list.component.css']
 })
 export class LessonsCourseListComponent implements OnInit {
   displayList: Array<any>;
@@ -17,6 +18,7 @@ export class LessonsCourseListComponent implements OnInit {
   lessonStatusList: Array<any>;
   wordFilter:FormControl = new FormControl();
   searchWord: string;
+  loading = true;
 
   constructor(private http: _HttpClient,
               public msgSrv: NzMessageService,
@@ -39,9 +41,11 @@ export class LessonsCourseListComponent implements OnInit {
   }
 
   load() {
+    this.loading = true;
     this.http.get<JsonData>('/courses').subscribe(
       (data) =>{
         this.displayList = data.data;
+        this.loading = false;
       }
     );
   }

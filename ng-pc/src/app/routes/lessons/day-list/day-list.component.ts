@@ -11,6 +11,7 @@ import {ACLService} from "@delon/acl";
 @Component({
   selector: 'app-lessons-day-list',
   templateUrl: './day-list.component.html',
+  styleUrls: ['./day-list.component.css']
 })
 export class LessonsDayListComponent implements OnInit {
   displayList: Array<any>;
@@ -22,6 +23,7 @@ export class LessonsDayListComponent implements OnInit {
   etime: any;
   userid: number;
   isVisible = false;
+  loading = false;
 
   constructor(private http: _HttpClient,
               public msgSrv: NzMessageService,
@@ -43,6 +45,7 @@ export class LessonsDayListComponent implements OnInit {
   load() {
     if (this.stime && this.etime)
     {
+      this.loading = true;
       this.http.post<JsonData>('/lessons/time-list', {'stime': this.stime, 'etime': this.etime}).subscribe(
         (data) =>{
           if (data.data[0])
@@ -54,6 +57,7 @@ export class LessonsDayListComponent implements OnInit {
           {
             this.hidden = true;
           }
+          this.loading = false;
         }
       );
     }

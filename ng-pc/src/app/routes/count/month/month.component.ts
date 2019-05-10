@@ -22,6 +22,7 @@ export class CountMonthComponent implements OnInit {
   type: string;
   index: number;
   count: any;
+  loading = false;
 
   constructor(private http: _HttpClient,
               public msgSrv: NzMessageService,
@@ -38,11 +39,13 @@ export class CountMonthComponent implements OnInit {
   load() {
     if (this.stime && this.etime)
     {
+      this.loading = true;
       this.http.post<JsonData>('/count/getCount', {'stime': this.stime, 'etime': this.etime}).subscribe(
         (data) =>{
           this.hidden = false;
           this.displayList = data.data;
           this.count = data.count;
+          this.loading = false;
         }
       );
     }
