@@ -13,7 +13,7 @@
   <!--</div>-->
   <!--<simple-table #st [data]="studentList | filter:['name','ename','id','cteacher','fteacher','agent']:searchWord" [columns]="columns" frontPagination="false" showPagination="false" [scroll]="{ y: '440px' }"></simple-table>-->
   <div nz-row style="margin-top: 8px">
-    <nz-table #filterTable [nzData]="displayList | filter:['name','ename','id','cteacher','fteacher']:searchWord" nzSize="Middle" [nzScroll]="{ y: '435px' }" [nzShowPagination]="false" [nzFrontPagination]="false">
+    <nz-table #filterTable [nzData]="displayList | filter:['name','ename','id','cteacher','fteacher']:searchWord" nzSize="middle" [nzPageSize]="8" [nzShowPagination]="true" [nzLoading]="loading">
       <thead (nzSortChange)="sort($event)" nzSingleSort>
       <tr>
         <th nzShowSort nzSortKey="id" nzWidth="150px" nzSort="descend">学生编号</th>

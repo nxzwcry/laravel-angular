@@ -17,6 +17,7 @@ export class TeamsListComponent implements OnInit {
   dowList: Array<any>;
   sortName = 'name';
   sortValue = 'ascend';
+  loading = true;
 
   constructor(private http: _HttpClient,
               private modal: ModalHelper,
@@ -47,10 +48,12 @@ export class TeamsListComponent implements OnInit {
   }
 
   load() {
+    this.loading = true;
     this.http.get<JsonData>('/teams').subscribe(
       (data) =>{
         this.displayList = data.data;
         this.search();
+        this.loading = false;
       }
     );
   }

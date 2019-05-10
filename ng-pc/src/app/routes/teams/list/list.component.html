@@ -11,7 +11,7 @@
     </div>
   </div>
   <div nz-row style="margin-top: 8px">
-    <nz-table #filterTable [nzData]="displayList | filter:['name', 'id', 'cteacher']:searchWord" nzSize="Middle" [nzScroll]="{ y: '435px' }" [nzShowPagination]="false" [nzFrontPagination]="false">
+    <nz-table #filterTable [nzData]="displayList | filter:['name', 'id', 'cteacher']:searchWord" nzSize="middle" [nzPageSize]="8" [nzShowPagination]="true" [nzLoading]="loading">
       <thead (nzSortChange)="sort($event)" nzSingleSort>
       <tr>
         <th nzWidth="200px" nzShowSort nzSortKey="id">班级编号</th>

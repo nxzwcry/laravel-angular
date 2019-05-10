@@ -25,23 +25,8 @@ export class StudentsOneToOneComponent implements OnInit {
   sortName = 'id';
   sortValue = 'descend';
   userid: number;
-  // agentList = [
-  //   // { text: 'Emmanuelle Graham', value: 'Emmanuelle Graham', byDefault: true },
-  //   { text: 'Emmanuelle Graham', value: 'Emmanuelle Graham' },
-  //   { text: '祁琪', value: '祁琪' }
-  // ];
   agentList = [];
-  // @ViewChild('st') st: SimpleTableComponent;
-  // columns: SimpleTableColumn[] = [
-  //   { title: '编号', index: 'id', width: "2em", sorter: (a, b) => a.id - b.id },
-  //   // { title: '姓名', index: 'name', width: "4em" },
-  //   { title: '姓名', type: 'link', index: 'name', click: (item: any) => ['/students/student', item.id], width: "4em" },
-  //   { title: '英文名', index: 'ename', width: "4em" },
-  //   { title: '剩余外教', type: 'number', index: 'waijiao', width: "4em", sorter: (a, b) => a.waijiao - b.waijiao},
-  //   { title: '中教老师', index: 'cteacher', width: "4em" },
-  //   { title: '外教老师', index: 'fteacher', width: "4em" },
-  //   { title: '课程顾问', index: 'agent', width: "4em" },
-  // ];
+  loading = true;
 
   constructor(private http: _HttpClient,
               private modal: ModalHelper,
@@ -80,15 +65,12 @@ export class StudentsOneToOneComponent implements OnInit {
   }
 
   load() {
+    this.loading = true;
     this.http.get<JsonData>('/students/type/one-to-one').subscribe(
       (data) =>{
         this.studentList = data.data;
-        // for (let s of this.studentList)
-        // {
-        //   s.add = s.waijiao + s.zhongjiao;
-        // }
         this.search();
-        // this.displayList = this.studentList;
+        this.loading = false;
       }
     );
   }
@@ -101,7 +83,6 @@ export class StudentsOneToOneComponent implements OnInit {
 
   filter(listOfSearchAgent: string[]): void {
     this.listOfSearchAgent = listOfSearchAgent;
-    // console.log('filterevent', listOfSearchAgent);
     this.search();
   }
 

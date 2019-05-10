@@ -10,6 +10,7 @@ import {NzMessageService} from "ng-zorro-antd";
 @Component({
   selector: 'app-students-no-lessons-students',
   templateUrl: './no-lessons-students.component.html',
+  styleUrls: ['./no-lessons-students.component.css']
 })
 export class StudentsNoLessonsStudentsComponent implements OnInit {
   displayList: Array<any>;
@@ -21,6 +22,7 @@ export class StudentsNoLessonsStudentsComponent implements OnInit {
   sortValue = 'descend';
   userid: number;
   agentList = [];
+  loading = true;
 
   constructor(private http: _HttpClient,
               private modal: ModalHelper,
@@ -80,9 +82,12 @@ export class StudentsNoLessonsStudentsComponent implements OnInit {
   }
 
   load() {
+    this.loading = true;
     this.http.get<JsonData>('/students/type/no-lessons').subscribe(
-      (data) =>{ this.studentList = data.data;
+      (data) =>{
+        this.studentList = data.data;
         this.search();
+        this.loading = false;
       }
     );
   }

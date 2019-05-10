@@ -13,13 +13,13 @@
   <!--</div>-->
   <!--<simple-table #st [data]="studentList | filter:['name','ename','id','cteacher','fteacher','agent']:searchWord" [columns]="columns" frontPagination="false" showPagination="false" [scroll]="{ y: '440px' }"></simple-table>-->
   <div nz-row style="margin-top: 8px">
-    <nz-table #filterTable [nzData]="displayList | filter:['name','ename','id','cteacher','fteacher']:searchWord" nzSize="Middle" [nzScroll]="{ y: '435px' }" [nzShowPagination]="false" [nzFrontPagination]="false">
+    <nz-table #filterTable [nzData]="displayList | filter:['name','ename','id','cteacher','fteacher']:searchWord" nzSize="middle" [nzPageSize]="8" [nzShowPagination]="true" [nzLoading]="loading">
       <thead (nzSortChange)="sort($event)" nzSingleSort>
       <tr>
         <th nzShowSort nzSortKey="id" nzWidth="170px" nzSort="descend">学生编号</th>
         <th nzWidth="200px">姓名</th>
         <th nzWidth="200px">英文名</th>
-        <th nzShowSort nzSortKey="add" nzWidth="200px">剩余课时</th>
+        <th nzShowSort nzSortKey="total" nzWidth="200px">剩余课时</th>
         <th nzShowSort nzSortKey="waijiao" nzWidth="150px">外教</th>
         <th nzShowSort nzSortKey="zhongjiao" nzWidth="150px">中教</th>
         <th nzWidth="200px">中教老师</th>

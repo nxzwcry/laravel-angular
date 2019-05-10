@@ -1,3 +1,4 @@
+// 不续费学生
 import { Component, OnInit, ViewChild } from '@angular/core';
 import {_HttpClient, ModalHelper, SettingsService} from '@delon/theme';
 import {FormControl} from "@angular/forms";
@@ -19,6 +20,7 @@ export class StudentsStopedStudentsComponent implements OnInit {
   sortValue = 'descend';
   userid: number;
   agentList = [];
+  loading = true;
 
   constructor(private http: _HttpClient,
               private modal: ModalHelper,
@@ -57,9 +59,11 @@ export class StudentsStopedStudentsComponent implements OnInit {
   }
 
   load() {
+    this.loading = true;
     this.http.get<JsonData>('/students/type/stoped').subscribe(
       (data) =>{ this.studentList = data.data;
         this.search();
+        this.loading = false;
       }
     );
   }

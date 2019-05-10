@@ -14,7 +14,7 @@
   <!--</div>-->
   <!--<simple-table #st [data]="studentList | filter:['name','ename','id','cteacher','fteacher','agent']:searchWord" [columns]="columns" frontPagination="false" showPagination="false" [scroll]="{ y: '440px' }"></simple-table>-->
   <div nz-row style="margin-top: 8px">
-    <nz-table #filterTable [nzData]="displayList | filter:['name','ename','id','cteacher','fteacher']:searchWord" nzSize="Middle" [nzScroll]="{ y: '435px' }" [nzShowPagination]="false" [nzFrontPagination]="false">
+    <nz-table #filterTable [nzData]="displayList | filter:['name','ename','id','cteacher','fteacher']:searchWord" nzSize="middle" [nzPageSize]="8" [nzShowPagination]="true" [nzLoading]="loading">
       <thead (nzSortChange)="sort($event)" nzSingleSort>
       <tr>
         <th nzShowSort nzSortKey="id" nzWidth="150px" nzSort="descend">学生编号</th>
@@ -23,8 +23,8 @@
         <th nzShowSort nzSortKey="total" nzWidth="150px">剩余课时</th>
         <th nzShowSort nzSortKey="waijiao" nzWidth="100px">外教</th>
         <th nzShowSort nzSortKey="zhongjiao" nzWidth="100px">中教</th>
-        <th nzWidth="200px">中教老师</th>
-        <th nzShowFilter [nzFilterMultiple]="true" [nzFilters]="agentList" (nzFilterChange)="filter($event)" nzWidth="250px">课程顾问</th>
+        <th nzWidth="180px">中教老师</th>
+        <th nzShowFilter [nzFilterMultiple]="true" [nzFilters]="agentList" (nzFilterChange)="filter($event)" nzWidth="180px">课程顾问</th>
         <th nzWidth="100px"></th>
       </tr>
       </thead>

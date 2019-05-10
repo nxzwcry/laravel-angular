@@ -19,6 +19,7 @@ export class StudentsTeamStudentsComponent implements OnInit {
   sortValue = 'descend';
   userid: number;
   agentList = [];
+  loading = true;
 
   constructor(private http: _HttpClient,
               private modal: ModalHelper,
@@ -57,14 +58,12 @@ export class StudentsTeamStudentsComponent implements OnInit {
   }
 
   load() {
+    this.loading = true;
     this.http.get<JsonData>('/students/type/team').subscribe(
       (data) =>{
         this.studentList = data.data;
-        // for (let s of this.studentList)
-        // {
-        //   s.times = (s.waijiao + s.zhongjiao)/2;
-        // }
         this.search();
+        this.loading = false;
       }
     );
   }
