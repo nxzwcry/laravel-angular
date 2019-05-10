@@ -1,4 +1,3 @@
-<!--<page-header [title]="'查看 ' + id + ' 信息'"></page-header>-->
 <div nz-row [nzGutter]="16">
   <div nz-col [nzSpan]="6">
     <nz-card nzTitle="{{ student.name }} {{ student.ename }}" [nzExtra]="changeStudentInfoTemplate">
@@ -121,14 +120,14 @@
             <nz-table #oldLessonsTable [nzData]="student.oldlessons" nzSize="small" [nzPageSize]="6" [nzHideOnSinglePage]="true">
               <thead>
               <tr>
-                <th nzWidth="200px">课程名称</th>
-                <th nzWidth="150px">课程类型</th>
-                <th nzWidth="150px">上课日期</th>
-                <th nzWidth="150px">上课时间</th>
-                <th nzWidth="150px">中教老师</th>
-                <th nzWidth="150px">课程状态</th>
-                <th nzWidth="150px">秏课</th>
-                <th nzWidth="100px"></th>
+                <th>课程名称</th>
+                <th>课程类型</th>
+                <th>上课日期</th>
+                <th>上课时间</th>
+                <th>中教老师</th>
+                <th>课程状态</th>
+                <th>秏课</th>
+                <th></th>
               </tr>
               </thead>
               <tbody>
@@ -191,36 +190,6 @@
   <a (click)="change()" [acl]="'student-create'">修改信息</a>
 </ng-template>
 
-<!--<ng-template #lessonInfoTemplate>-->
-    <!--<a (click)="createLesson()" [acl]="'lesson-create'">安排单节课程</a>-->
-    <!--<nz-divider nzType="vertical" [acl]="{ role: ['lesson-create', 'recharge-create'], mode: 'allOf' }" ></nz-divider>-->
-    <!--<a (click)="createRecharge()" [acl]="'recharge-create'">购课充值</a>-->
-<!--</ng-template>-->
-
-<!--<ng-template #studentInfoTemplate>-->
-  <!--<nz-row>-->
-    <!--<nz-col [nzSpan]="15"><b>{{ student.name }} {{ student.ename }}</b></nz-col>-->
-    <!--<nz-col [nzSpan]="8" ><p align="right" style="margin: 0"><a (click)="change()" [acl]="'student-create'">修改信息</a></p></nz-col>-->
-  <!--</nz-row>-->
-<!--</ng-template>-->
-<!--<ng-template #lessonTemplate>-->
-  <!--<nz-row>-->
-    <!--<nz-col [nzSpan]="12"><b>已排课程</b></nz-col>-->
-    <!--<nz-col [nzSpan]="11" ><p align="right" style="margin: 0"><a (click)="createLesson()" [acl]="'lesson-create'">安排单节课程</a></p></nz-col>-->
-  <!--</nz-row>-->
-<!--</ng-template>-->
 <ng-template #courseTemplate>
   <a (click)="createCourse()" [acl]="'course-create'">安排固定课程</a>
 </ng-template>
-<!--<ng-template #oldTemplate>-->
-  <!--<nz-row>-->
-    <!--<nz-col [nzSpan]="12"><b>已上课程</b></nz-col>-->
-    <!--<nz-col [nzSpan]="11" ><p align="right" style="margin: 0"><a></a></p></nz-col>-->
-  <!--</nz-row>-->
-<!--</ng-template>-->
-<!--<ng-template #rechargeTemplate>-->
-  <!--<nz-row>-->
-    <!--<nz-col [nzSpan]="12"><b>充值记录</b></nz-col>-->
-    <!--<nz-col [nzSpan]="11" ><p align="right" style="margin: 0"><a (click)="createRecharge()" [acl]="'recharge-create'">购课充值</a></p></nz-col>-->
-  <!--</nz-row>-->
-<!--</ng-template>-->

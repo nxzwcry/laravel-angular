@@ -15,6 +15,7 @@ import {SharedEditCourseComponent} from "@shared/components/edit-course/edit-cou
 @Component({
   selector: 'app-teams-team',
   templateUrl: './team.component.html',
+  styleUrls: ['./team.component.css']
 })
 export class TeamsTeamComponent implements OnInit {
   id = this.route.snapshot.params.id;

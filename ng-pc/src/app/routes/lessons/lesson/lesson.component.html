@@ -101,10 +101,8 @@
             </nz-table>
         </nz-card>
         <ng-template #buttonTemplate>
-            <span [acl]="'lesson-create'">
-                <a *ngIf="lesson.lesson_type != 'b'" (click)="change()">修改信息</a>
-                <nz-divider nzType="vertical"></nz-divider>
-            </span>
+            <a *ngIf="lesson.lesson_type != 'b'" (click)="change()" [acl]="'lesson-create'">修改信息</a>
+            <nz-divider nzType="vertical" [acl]="{ role: ['lesson-create', 'lesson-name-change'], mode: 'allOf' }"></nz-divider>
             <a (click)="op.changeName(lesson)" [acl]="'lesson-name-change'">改名</a>
         </ng-template>
     </div>

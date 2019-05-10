@@ -8,6 +8,7 @@ import { VERSION as VERSION_ZORRO, NzModalService } from 'ng-zorro-antd';
 @Component({
   selector: 'app-root',
   template: `<router-outlet></router-outlet>`,
+  styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
   constructor(
