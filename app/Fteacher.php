@@ -42,4 +42,11 @@ class Fteacher extends Model
         return $this->hasMany('App\Lesson' , 'fteacher_id');
     }
 
+    // 外教老师离职，不在列表中显示
+    public function deactive()
+    {
+        $this->active = false;
+        $this->save();
+    }
+
 }

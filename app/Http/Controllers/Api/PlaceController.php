@@ -10,6 +10,7 @@ class PlaceController extends ApiController
 {
     public function index()
     {
-        return PlaceResource::collection(Place::all());
+        return PlaceResource::collection(Place::where('active', true)->get());
     }
+
 }

@@ -88,4 +88,16 @@ class User extends Authenticatable
             $this->syncRoles($roles);
         }
     }
+
+    // 员工离职，不在列表中显示，进行此操作前徐手动将与该员工相关学生更改后再办理离职
+    public function deactive()
+    {
+        $this->active = false;
+        $this->save();
+    }
+
+    public function  isActive()
+    {
+        return $this->active;
+    }
 }

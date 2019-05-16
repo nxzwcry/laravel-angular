@@ -18,7 +18,7 @@ class UserController extends ApiController
 
     public function index()
     {
-        return new UserCollection(User::all());
+        return new UserCollection(User::where('active', true)->get());
     }
 
     public function show(User $user)
@@ -59,7 +59,7 @@ class UserController extends ApiController
 
     public function delete(User $user)
     {
-        $user->delete();
+        $user->deactive();
 
         return response()->json(null, 204);
     }

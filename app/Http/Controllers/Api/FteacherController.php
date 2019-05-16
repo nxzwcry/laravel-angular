@@ -10,6 +10,7 @@ class FteacherController extends ApiController
 {
     public function index()
     {
-        return FteacherResource::collection(Fteacher::all());
+        return FteacherResource::collection(Fteacher::where('active', true)->get());
     }
+
 }

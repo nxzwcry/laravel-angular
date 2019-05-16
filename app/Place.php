@@ -42,4 +42,12 @@ class Place extends Model
         return $this->hasMany('App\Lesson' , 'place_id');
     }
 
+
+    // 删除上课地点，不在列表中显示
+    public function deactive()
+    {
+        $this->active = false;
+        $this->save();
+    }
+
 }

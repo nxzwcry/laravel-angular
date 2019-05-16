@@ -31,8 +31,8 @@ class User extends Resource
             'email' => $this->email,
             'role' => $names,
             'role_id' => $ids,
-            'agentCount' => count($this->agentStudents),
-            'teacheCount' => count($this->teacherStudents),
+            'agentCount' => count($this->agentStudents->where('status', '>=', 0)->where('status', '<', 2)), // 只有一对一和班课的正常学生才计算人数
+            'teacheCount' => count($this->teacherStudents->where('status', '>=', 0)->where('status', '<', 2)), // 只有一对一和班课的正常学生才计算人数
             'permissions' => PermissionResource::collection($this->getAllPermissions()),
         ];
     }

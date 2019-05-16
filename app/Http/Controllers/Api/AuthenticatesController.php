@@ -47,14 +47,15 @@ class AuthenticateController extends ApiController
             return $this->sendFailedLoginResponse($request);
         }
 
-        if(Auth::attempt(['email' => request('email'), 'password' => request('password')])){
+        if(Auth::attempt(['email' => request('email'), 'password' => request('password')])) {
             $user = Auth::user();
-            $token =  $user->createToken('MyApp')->accessToken;
-            return $this->success(compact('token'));
+            if ($user->isActive()) { // 如果用户被删除则登录不成功
+                $token = $user->createToken('MyApp')->accessToken;
+                return $this->success(compact('token'));
+            }
         }
-        else{
-            return $this->setStatusCode(401)->failed('登录失败');
-        }
+
+        return $this->setStatusCode(401)->failed('登录失败');
 
     }
 
@@ -71,85 +72,6 @@ class AuthenticateController extends ApiController
         return $this->message('退出登录成功');
 
     }
-
-//    // 第三方登录
-//    public function redirectToProvider($driver) {
-//
-//        if (!in_array($driver,['qq','wechat'])){
-//
-//            throw new NotFoundHttpException;
-//        }
-//
-//        return Socialite::driver($driver)->redirect();
-//    }
-//
-//    // 第三方登录回调
-//    public function handleProviderCallback($driver) {
-//
-//        $user = Socialite::driver($driver)->user();
-//
-//        $openId = $user->id;
-//
-//        // 第三方认证
-//        $db_user = User::where('xxx',$openId)->first();
-//
-//        if (empty($db_user)){
-//
-//            $db_user = User::forceCreate([
-//                'phone' => '',
-//                'xxUnionId' => $openId,
-//                'nickname' => $user->nickname,
-//                'head' => $user->avatar,
-//            ]);
-//
-//        }
-//
-//        // 直接创建token
-//
-//        $token = $db_user->createToken($openId)->accessToken;
-//
-//        return $this->success(compact('token'));
-//
-//    }
-//
-//    //调用认证接口获取授权码
-//    protected function authenticateClient(Request $request)
-//    {
-//        $credentials = $this->credentials($request);
-//
-//        // 个人感觉通过.env配置太复杂，直接从数据库查更方便
-//        $password_client = Client::query()->where('password_client',1)->latest()->first();
-//
-//        $request->request->add([
-//            'grant_type' => 'password',
-//            'client_id' => $password_client->id,
-//            'client_secret' => $password_client->secret,
-//            'username' => $credentials['email'],
-//            'password' => $credentials['password'],
-//            'scope' => ''
-//        ]);
-//
-//        $proxy = Request::create(
-//            'oauth/token',
-//            'POST'
-//        );
-//
-//        $response = \Route::dispatch($proxy);
-//
-//        return $response;
-//    }
-//
-//    protected function authenticated(Request $request)
-//    {
-//        return $this->authenticateClient($request);
-//    }
-//
-//    protected function sendLoginResponse(Request $request)
-//    {
-//        $this->clearLoginAttempts($request);
-//
-//        return $this->authenticated($request);
-//    }
 
     protected function sendFailedLoginResponse(Request $request)
     {
