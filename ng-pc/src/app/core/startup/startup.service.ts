@@ -55,7 +55,8 @@ export class StartupService {
         this.settingService.setUser(res.user);
         // ACL：设置权限为全量
         //   console.log('setAcl', res.user.acl);
-        this.aclService.setRole(res.user.acl);
+        this.aclService.setRole(res.user.roles);
+        this.aclService.setAbility(res.user.permissions);
       }
       // 设置页面标题的后缀
       this.titleService.suffix = res.app.name;

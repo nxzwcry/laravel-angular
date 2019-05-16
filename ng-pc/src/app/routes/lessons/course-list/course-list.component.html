@@ -50,7 +50,7 @@
             </td>
             <td><a [routerLink]="['/lessons/course',lesson.id]">{{lesson.name}}</a></td>
             <td>
-              <a (click)="op.deleteCourse(lesson.id)" [acl]="'course-delete'">删除</a>
+              <a (click)="op.deleteCourse(lesson.id)" acl [acl-ability]="'course-delete'">删除</a>
             </td>
            </tr>
           </ng-template>

@@ -43,7 +43,7 @@
           <td>{{lesson.place}}</td>
           <td><a [routerLink]="['/lessons/lesson',lesson.id]">{{lesson.name}}</a></td>
           <td>
-            <a (click)="op.deleteLesson(lesson.id)" [acl]="'lesson-delete'">删除</a>
+            <a (click)="op.deleteLesson(lesson.id)" acl [acl-ability]="'lesson-delete'">删除</a>
           </td>
         </tr>
         <tr [nzExpand]="lesson.expand">
@@ -57,11 +57,11 @@
                 <td><nz-badge [nzStatus]="'success'" [nzText]="item.status | trans:lessonStatusList:'value':'label'"></nz-badge></td>
                 <td>外{{item.waijiao_cost}}/中{{item.zhongjiao_cost}}/精{{item.jingpin_cost}}</td>
                 <td>
-                  <span *ngIf="item.status < 3 && userid == item.cteacher_id" [acl]="'lesson-status-change'">
+                  <span *ngIf="item.status < 3 && userid == item.cteacher_id" acl [acl-ability]="'lesson-status-change'">
                     <a (click)="op.leave(item)">请假</a>
                     <nz-divider nzType="vertical"></nz-divider>
                   </span>
-                  <a (click)="op.deleteLesson(item.id)" [acl]="'lesson-delete'">删除</a>
+                  <a (click)="op.deleteLesson(item.id)" acl [acl-ability]="'lesson-delete'">删除</a>
                 </td>
               </tr>
               </tbody>

@@ -5,7 +5,7 @@
     </div>
     <div nz-col nzSpan="16">
       <div nz-row nzType="flex" nzJustify="end">
-        <button (click)="add()" nz-button nzType="primary" [acl]="'team-create'">添加班级</button>
+        <button (click)="add()" nz-button nzType="primary" acl acl [acl-ability]="'team-create'">添加班级</button>
         <button nz-button nzType="default" (click)="load()">刷新列表</button>
       </div>
     </div>

@@ -17,7 +17,7 @@
           <tbody>
             <tr *ngFor="let item of middleTable.data">
               <td><a [routerLink]="['/students/student',item.id]">{{item.name}}{{item.ename}}</a></td>
-              <td><a (click)="deleteStudent(item.id)" [acl]="'team-change'">删除</a></td>
+              <td><a (click)="deleteStudent(item.id)" acl [acl-ability]="'team-change'">删除</a></td>
             </tr>
           </tbody>
         </nz-table>
@@ -48,7 +48,7 @@
           <td>{{course.fteacher}}</td>
           <td>{{course.place}}</td>
           <td>
-            <a (click)="courseOp.deleteCourse(course.id)" [acl]="'course-delete'">删除</a>
+            <a (click)="courseOp.deleteCourse(course.id)" acl [acl-ability]="'course-delete'">删除</a>
           </td>
         </tr>
         </tbody>
@@ -70,7 +70,7 @@
                 <th>外教老师</th>
                 <th>外教时间</th>
                 <th>上课地点</th>
-                <th><a (click)="createLesson()" [acl]="'lesson-create'">安排课程</a></th>
+                <th><a (click)="createLesson()" acl [acl-ability]="'lesson-create'">安排课程</a></th>
               </tr>
               </thead>
               <tbody>
@@ -95,7 +95,7 @@
                       </ellipsis>
                     </td>
                     <td>
-                      <a (click)="lessonOp.deleteLesson(lesson.id)" [acl]="'lesson-delete'">删除</a>
+                      <a (click)="lessonOp.deleteLesson(lesson.id)" acl [acl-ability]="'lesson-delete'">删除</a>
                     </td>
                   </tr>
                   <tr [nzExpand]="lesson.expand">
@@ -109,7 +109,7 @@
                           <td><nz-badge [nzStatus]="'success'" [nzText]="item.status | trans:lessonStatusList:'value':'label'"></nz-badge></td>
                           <td>{{item.waijiao_cost}}外/{{item.zhongjiao_cost}}中</td>
                           <td>
-                            <a (click)="lessonOp.deleteLesson(item.id)" [acl]="'lesson-delete'">删除</a>
+                            <a (click)="lessonOp.deleteLesson(item.id)" acl [acl-ability]="'lesson-delete'">删除</a>
                           </td>
                         </tr>
                         </tbody>
@@ -151,7 +151,7 @@
                     <td>{{lesson.fteacher ? lesson.fteacher : '无'}}</td>
                     <td>{{lesson.waijiao_cost}}外/{{lesson.zhongjiao_cost}}中</td>
                     <td>
-                      <a (click)="lessonOp.deleteLesson(lesson.id)" [acl]="'lesson-delete'">删除</a>
+                      <a (click)="lessonOp.deleteLesson(lesson.id)" acl [acl-ability]="'lesson-delete'">删除</a>
                     </td>
                   </tr>
                   <tr [nzExpand]="lesson.expand">
@@ -165,9 +165,9 @@
                           <td><nz-badge [nzStatus]="'success'" [nzText]="item.status | trans:lessonStatusList:'value':'label'"></nz-badge></td>
                           <td>{{item.waijiao_cost}}外/{{item.zhongjiao_cost}}中</td>
                           <td>
-                            <a (click)="lessonOp.copy(item.id)" [acl]="'lesson-create'">复制</a>
-                            <span [acl]="{ role: ['lesson-create', 'lesson-delete'], mode: 'allOf' }"> | </span>
-                            <a (click)="lessonOp.deleteLesson(item.id)" [acl]="'lesson-delete'">删除</a>
+                            <a (click)="lessonOp.copy(item.id)" acl [acl-ability]="'lesson-create'">复制</a>
+                            <span acl [acl-ability]="{ role: ['lesson-create', 'lesson-delete'], mode: 'allOf' }"> | </span>
+                            <a (click)="lessonOp.deleteLesson(item.id)" acl [acl-ability]="'lesson-delete'">删除</a>
                           </td>
                         </tr>
                         </tbody>
@@ -185,11 +185,11 @@
 </div>
 
 <ng-template #editTeamTemplate>
-  <a (click)="change()" [acl]="'team-change'">修改信息</a>
+  <a (click)="change()" acl [acl-ability]="'team-change'">修改信息</a>
 </ng-template>
 <ng-template #addStudentTemplate>
-  <a (click)="addStudent()" [acl]="'team-change'">增加学生</a>
+  <a (click)="addStudent()" acl [acl-ability]="'team-change'">增加学生</a>
 </ng-template>
 <ng-template #courseTemplate>
-  <a (click)="createCourse()" [acl]="'course-create'">安排固定课程</a>
+  <a (click)="createCourse()" acl [acl-ability]="'course-create'">安排固定课程</a>
 </ng-template>

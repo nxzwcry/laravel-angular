@@ -6,7 +6,7 @@
     </div>
     <div nz-col nzSpan="16">
       <div nz-row nzType="flex" nzJustify="end">
-        <button (click)="add()" nz-button nzType="primary" [acl]="'student-create'">添加学生</button>
+        <button (click)="add()" nz-button nzType="primary" acl [acl-ability]="'student-create'">添加学生</button>
         <button nz-button nzType="default" (click)="load()">刷新列表</button>
       </div>
     </div>
@@ -38,7 +38,7 @@
         <td>{{student.zhongjiao}}</td>
         <td>{{student.cteacher}}</td>
         <td>{{student.agent}}</td>
-        <td nzWidth="100px"><a (click)="stop(student.id)" [acl]="'student-status-change'">不续费</a></td>
+        <td nzWidth="100px"><a (click)="stop(student.id)" acl [acl-ability]="'student-status-change'">不续费</a></td>
       </tr>
       </tbody>
     </nz-table>

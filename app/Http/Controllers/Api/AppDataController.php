@@ -35,7 +35,9 @@ class AppdataController extends ApiController
                     'type' => 'icon',
                     'value' => 'user',
                     ],
-                'acl' => 'user-view',
+                'acl' => [
+                    'ability' => ['user-view'],
+                    ],
                 ],
             [
                 'text' => '权限管理',
@@ -43,7 +45,9 @@ class AppdataController extends ApiController
                     'type' => 'icon',
                     'value' => 'key',
                     ],
-                'acl' => 'permission-all',
+                'acl' => [
+                    'ability' => ['permission-all'],
+                    ],
                 'children' => [
                     [
                         'text' => '角色管理',
@@ -133,17 +137,24 @@ class AppdataController extends ApiController
                     'type' => 'icon',
                     'value' => 'bars',
                     ],
-                'acl' => ['teacher-count', 'month-count'],
+                'acl' => [
+                    'ability' => ['teacher-count', 'month-count'],
+                    'mode' => 'oneOf',
+                    ],
                 'children' => [
                     [
                         'text' => '个人统计',
                         'link' => '/count/user',
-                        'acl' => 'teacher-count',
+                        'acl' =>  [
+                            'ability' => ['teacher-count'],
+                            ],
                     ],
                     [
                         'text' => '月度统计',
                         'link' => '/count/month',
-                        'acl' => 'month-count',
+                        'acl' => [
+                            'ability' => ['month-count'],
+                            ],
                     ],
                 ],
             ],
@@ -165,16 +176,24 @@ class AppdataController extends ApiController
         ];
         $user = auth('api')->user();
         if ($user) {
+
             $permissions = [];
             foreach($user->getAllPermissions() as $item){
                 $permissions[] = $item->name;
             }
+
+            $roles = [];
+            foreach($user->getRoleNames() as $item){
+                $roles[] = $item;
+            }
+
             $this->userInfo = [
                 "id" => $user->id,
                 "name" => $user->name,
                 "avatar" => "./assets/logo.jpg",
                 "email" => $user->email,
-                "acl" =>$permissions,
+                "roles" =>$roles,
+                "permissions" =>$permissions,
             ];
         }
         $info['user'] = $this->userInfo;

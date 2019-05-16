@@ -60,7 +60,7 @@
           <td>{{course.fteacher_time ? (course.fteacher_time*1000 | _date: 'HH:mm') : '无'}}</td>
           <td>{{course.place}}</td>
           <td>
-            <a (click)="courseOp.deleteCourse(course.id)" [acl]="'course-delete'">删除</a>
+            <a (click)="courseOp.deleteCourse(course.id)" acl [acl-ability]="'course-delete'">删除</a>
           </td>
         </tr>
         </tbody>
@@ -82,7 +82,7 @@
                 <th>外教老师</th>
                 <th>外教时间</th>
                 <th>上课地点</th>
-                <th><a (click)="createLesson()" [acl]="'lesson-create'">安排课程</a></th>
+                <th><a (click)="createLesson()" acl [acl-ability]="'lesson-create'">安排课程</a></th>
               </tr>
               </thead>
               <tbody>
@@ -110,7 +110,7 @@
                   <a (click)="lessonOp.copy(lesson.id)">复制</a>
                   <nz-divider nzType="vertical"></nz-divider>
                 </span>
-                  <a (click)="lessonOp.deleteLesson(lesson.id)" [acl]="'lesson-delete'">删除</a>
+                  <a (click)="lessonOp.deleteLesson(lesson.id)" acl [acl-ability]="'lesson-delete'">删除</a>
                 </td>
               </tr>
               </tbody>
@@ -146,7 +146,7 @@
                 <td><nz-badge [nzStatus]="'success'" [nzText]="lesson.status | trans:lessonStatusList:'value':'label'"></nz-badge></td>
                 <td>{{lesson.waijiao_cost}}外/{{lesson.zhongjiao_cost}}中</td>
                 <td>
-                  <a (click)="lessonOp.deleteLesson(lesson.id)" [acl]="'lesson-delete'">删除</a>
+                  <a (click)="lessonOp.deleteLesson(lesson.id)" acl [acl-ability]="'lesson-delete'">删除</a>
                 </td>
               </tr>
               </tbody>
@@ -163,7 +163,7 @@
                 <th>顾问</th>
                 <th>时间</th>
                 <th>备注</th>
-                <th><a (click)="createRecharge()" [acl]="'recharge-create'">购课充值</a></th>
+                <th><a (click)="createRecharge()" acl [acl-ability]="'recharge-create'">购课充值</a></th>
               </tr>
               </thead>
               <tbody>
@@ -175,7 +175,7 @@
                 <td>{{recharge.user}}</td>
                 <td>{{recharge.time*1000 | _date: 'YYYY/MM/DD'}}</td>
                 <td>{{recharge.note}}</td>
-                <td><a (click)="deleteRecharge(recharge.id)" [acl]="'recharge-create'">删除</a></td>
+                <td><a (click)="deleteRecharge(recharge.id)" acl [acl-ability]="'recharge-create'">删除</a></td>
               </tr>
               </tbody>
             </nz-table>
@@ -187,9 +187,9 @@
 </div>
 
 <ng-template #changeStudentInfoTemplate>
-  <a (click)="change()" [acl]="'student-create'">修改信息</a>
+  <a (click)="change()" acl [acl-ability]="'student-create'">修改信息</a>
 </ng-template>
 
 <ng-template #courseTemplate>
-  <a (click)="createCourse()" [acl]="'course-create'">安排固定课程</a>
+  <a (click)="createCourse()" acl [acl-ability]="'course-create'">安排固定课程</a>
 </ng-template>
