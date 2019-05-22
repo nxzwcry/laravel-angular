@@ -68,6 +68,31 @@
       </nz-select>
     </nz-form-control>
   </nz-form-item>
+  <div formGroupName="phones">
+    <nz-form-item *ngFor="let control of controlArray; let i = index">
+      <nz-form-label [nzSpan]="7" *ngIf="i == 0">联系电话</nz-form-label>
+      <nz-form-control [nzSpan]="12" [nzOffset]="i == 0 ? 0 : 7">
+        <input nz-input style="width: 30%; margin-right:8px;" [formControlName]="control.controlInstance+'name'" placeholder="爸爸/妈妈/..."/>
+        <input nz-input style="width: 60%; margin-right:8px;" [attr.id]="control.id" [formControlName]="control.controlInstance"  placeholder="电话号码"/>
+        <i nz-icon type="minus-circle-o" class="dynamic-delete-button" (click)="removeField(control, $event)"></i>
+        <nz-form-explain
+                *ngIf="
+                getFormControl(control.controlInstance)?.dirty &&
+                getFormControl(control.controlInstance)?.hasError('required')
+              "
+        >
+          Please input passenger's name or delete this field.
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-control [nzOffset]="7" [nzSpan]="12">
+        <button nz-button nzType="dashed" style="width:100%" (click)="addField($event)">
+          <i nz-icon type="plus"></i> Add field
+        </button>
+      </nz-form-control>
+    </nz-form-item>
+  </div>
   <nz-form-item>
     <nz-form-label [nzSpan]="7">E-mail</nz-form-label>
     <nz-form-control [nzSpan]="12">

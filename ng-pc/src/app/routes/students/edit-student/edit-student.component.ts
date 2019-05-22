@@ -4,7 +4,7 @@ import { _HttpClient } from '@delon/theme';
 import { SFSchema, SFUISchema } from '@delon/form';
 import {DictionaryService} from "@shared/services/dictionary.service";
 import { Observable, of } from 'rxjs';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {AbstractControl, FormBuilder, FormGroup, Validators, FormControl} from "@angular/forms";
 import {Student} from "@shared/modules/student";
 import {JsonData} from "@shared/shared.module";
 
@@ -20,6 +20,7 @@ export class StudentsEditStudentComponent implements OnInit {
   agentList: Array<any> = [];
   formModel: FormGroup;
   req: any = {};
+  controlArray: Array<{id: number; controlInstance: string}> = [];
   @Input() id: string;
 
   constructor(
@@ -39,9 +40,11 @@ export class StudentsEditStudentComponent implements OnInit {
         agent_user_id:['0'],
         email: [null],
         address: [null],
-        desc: ['']
+        desc: [''],
+        phones:this.fb.group({}),
       }
     );
+    this.addField();
   }
 
   ngOnInit(): void {
@@ -68,6 +71,42 @@ export class StudentsEditStudentComponent implements OnInit {
         }
       );
     }
+  }
+
+  addField(e?: MouseEvent): void {
+    if (e) {
+      e.preventDefault();
+    }
+    const id = this.controlArray.length > 0 ? this.controlArray[this.controlArray.length - 1].id + 1 : 0;
+
+    const control = {
+      id,
+      controlInstance: `passenger${id}`
+    };
+    const index = this.controlArray.push(control);
+    // console.log(this.controlArray[this.controlArray.length - 1]);
+    this.phones.addControl(
+      this.controlArray[index - 1].controlInstance,
+      new FormControl(null, Validators.required)
+    );
+  }
+
+  removeField(i: { id: number; controlInstance: string }, e: MouseEvent): void {
+    e.preventDefault();
+    if (this.controlArray.length > 1) {
+      const index = this.controlArray.indexOf(i);
+      this.controlArray.splice(index, 1);
+      // console.log(this.controlArray);
+      this.phones.removeControl(i.controlInstance);
+    }
+  }
+
+  get phones() {
+    return this.formModel.get('phones') as FormGroup;
+  }
+
+  getFormControl(name: string): AbstractControl {
+    return this.phones.controls[name];
   }
 
   save() {
