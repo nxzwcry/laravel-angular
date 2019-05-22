@@ -66,12 +66,13 @@ export class TeamsListComponent implements OnInit {
 
   search(): void {
     /** filter data **/
-    // const filterFunc = item => (this.listOfSearchAgent.length ? this.listOfSearchAgent.some(name => item.agent.indexOf(name) !== -1) : true);
-    // const data = this.studentList.filter(item => filterFunc(item));
+    const filterFunc = item => true;
+    const data = this.displayList.filter(item => filterFunc(item));
     /** sort data **/
     if (this.sortName && this.sortValue) {
-      this.displayList = this.displayList.sort((a, b) => (this.sortValue === 'ascend') ? (a[ this.sortName ] > b[ this.sortName ] ? 1 : -1) : (b[ this.sortName ] > a[ this.sortName ] ? 1 : -1));
+      this.displayList = data.sort((a, b) => (this.sortValue === 'ascend') ? (a[ this.sortName ] > b[ this.sortName ] ? 1 : -1) : (b[ this.sortName ] > a[ this.sortName ] ? 1 : -1));
     }
+    // this.displayList= Object.assign({},this.displayList);
   }
 
 }
