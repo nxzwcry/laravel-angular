@@ -30,6 +30,7 @@ export class TeamsEditTeamComponent implements OnInit {
         name: [null, Validators.required],
         cteacher_user_id: [],
         place_id: [],
+        num: [],
       }
     );
   }
@@ -45,6 +46,7 @@ export class TeamsEditTeamComponent implements OnInit {
             name: item.name,
             cteacher_user_id: item.cteacher_user_id,
             place_id: item.place_id,
+            num: item.num,
           });
         }
       );

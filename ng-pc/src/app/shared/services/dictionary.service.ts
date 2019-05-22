@@ -36,6 +36,7 @@ export class DictionaryService {
     {label: "外教课", value: 'w'},
     {label: "中教课", value: 'f'},
     {label: "精品课", value: 'j'},
+    {label: "补课", value: 'bu'},
   ];
   private dowList = [
     {label: "周一", value: 'MONDAY'},

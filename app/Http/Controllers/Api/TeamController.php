@@ -12,7 +12,7 @@ class TeamController extends ApiController
 {
     public function index()
     {
-        return new TeamCollection(Team::all());
+        return new TeamCollection(Team::where('active', 1)->get());
     }
 
     public function show(Team $team)

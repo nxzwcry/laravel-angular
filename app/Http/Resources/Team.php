@@ -24,7 +24,8 @@ class Team extends Resource
             'place_id' => $this->place ? $this->place->id : null,
             'student_count' => $this->students->count(),
             'courses' => Course::collection($this->courses),
-            'next_lesson' => $this->getNextLessons()->first()->name,
+            'next_lesson' => $this->getNextLessons()->first() ? $this->getNextLessons()->first()->name : null,
+            'num' => $this->num,
         ];
     }
 

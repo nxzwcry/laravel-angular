@@ -15,7 +15,7 @@ export class TeamsListComponent implements OnInit {
   wordFilter:FormControl = new FormControl();
   searchWord: string;
   dowList: Array<any>;
-  sortName = 'name';
+  sortName = 'num';
   sortValue = 'ascend';
   loading = true;
 

@@ -14,8 +14,8 @@
     <nz-table #filterTable [nzData]="displayList | filter:['name', 'id', 'cteacher']:searchWord" nzSize="middle" [nzPageSize]="8" [nzShowPagination]="true" [nzLoading]="loading">
       <thead (nzSortChange)="sort($event)" nzSingleSort>
       <tr>
-        <th nzWidth="200px" nzShowSort nzSortKey="id">班级编号</th>
-        <th nzWidth="300px" nzShowSort nzSortKey="name" nzSort="ascend">班名</th>
+        <th nzWidth="150px" nzShowSort nzSortKey="num" nzSort="ascend">班号</th>
+        <th nzWidth="300px" nzShowSort nzSortKey="name">班名</th>
         <th nzWidth="200px" nzShowSort nzSortKey="student_count">班级人数</th>
         <th nzWidth="200px" nzShowSort nzSortKey="cteacher">中教老师</th>
         <th nzWidth="300px" nzShowSort nzSortKey="place_id">上课地点</th>
@@ -25,7 +25,7 @@
       </thead>
       <tbody>
       <tr *ngFor="let item of filterTable.data">
-        <td>{{item.id}}</td>
+        <td>{{item.num}}</td>
         <td><a [routerLink]="['/teams/team',item.id]">{{item.name}}</a></td>
         <td>{{item.student_count}}</td>
         <td>{{item.cteacher}}</td>
@@ -42,7 +42,12 @@
               无
             </span>
         </td>
-        <td>{{item.next_lesson}}</td>
+        <td>
+          {{item.next_lesson}}
+          <span *ngIf="!item.next_lesson">
+              无
+          </span>
+        </td>
       </tr>
       </tbody>
     </nz-table>

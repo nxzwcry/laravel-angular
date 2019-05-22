@@ -135,6 +135,14 @@ export class SharedEditLessonComponent implements OnInit {
       this.listDisable.status = true;
       return;
     }
+    else if($event == 'bu'){
+      this.listDisable.always = false;
+      this.listDisable.fteacher_id = true;
+      this.listDisable.jingpin_cost = true;
+      this.listDisable.waijiao_cost = true;
+      this.listDisable.status = true;
+      return;
+    }
     else if($event == 'b' || $event == 'bt'){
       this.listDisable.type = true;
       this.listDisable.always = false;

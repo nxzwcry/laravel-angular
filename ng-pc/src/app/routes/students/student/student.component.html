@@ -89,7 +89,7 @@
               <tr *ngFor="let lesson of newLessonsTable.data">
                 <td>
                   <a [routerLink]="['/lessons/lesson',lesson.id]">
-                    <ellipsis lines="1" style="width: 100px;">
+                    <ellipsis lines="1" style="width: 80px;">
                       {{lesson.name}}
                     </ellipsis>
                   </a>

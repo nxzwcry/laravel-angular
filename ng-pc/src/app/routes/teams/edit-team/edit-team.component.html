@@ -11,6 +11,10 @@
     </nz-form-control>
   </nz-form-item>
   <nz-form-item>
+    <nz-form-label [nzSpan]="7">班号</nz-form-label>
+    <nz-input-number formControlName="num"></nz-input-number>
+  </nz-form-item>
+  <nz-form-item>
     <nz-form-label [nzSpan]="7">中教老师</nz-form-label>
     <nz-form-control [nzSpan]="12">
       <nz-select formControlName="cteacher_user_id" nzShowSearch nzAllowClear nzPlaceHolder="Choose">
