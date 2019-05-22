@@ -164,72 +164,108 @@ class Student extends Model
     }
 
     // 获取外教课消耗节数
-    public function getWaijiaoCost()
+    public function getWaijiaoCost(Carbon $etime = null)
     {
+        if (!$etime)
+        {
+            $etime = Carbon::now();
+        }
         $lessons = $this->getNotNewLessons();
         if ($lessons)
         {
-            return $lessons->sum('waijiao_cost');
+            return $lessons->where('start_datetime', '<=', $etime)->sum('waijiao_cost');
         }
         return 0;
     }
 
     // 获取中教课消耗节数
-    public function getZhongjiaoCost()
+    public function getZhongjiaoCost(Carbon $etime = null)
     {
+        if (!$etime)
+        {
+            $etime = Carbon::now();
+        }
         $lessons = $this->getNotNewLessons();
         if ($lessons)
         {
-            return $lessons->sum('zhongjiao_cost');
+            return $lessons->where('start_datetime', '<=', $etime)->sum('zhongjiao_cost');
         }
         return 0;
     }
 
     // 获取精品课消耗节数
-    public function getJingpinCost()
+    public function getJingpinCost(Carbon $etime = null)
     {
+        if (!$etime)
+        {
+            $etime = Carbon::now();
+        }
         $lessons = $this->getNotNewLessons();
         if ($lessons)
         {
-            return $lessons->sum('jingpin_cost');
+            return $lessons->where('start_datetime', '<=', $etime)->sum('jingpin_cost');
         }
         return 0;
     }
 
     // 获取外教课充值数
-    public function getWaijiao()
+    public function getWaijiao(Carbon $etime = null)
     {
-        return $this->recharges()->sum('waijiao');
+        if (!$etime)
+        {
+            $etime = Carbon::now();
+        }
+        return $this->recharges()->where('created_at', '<=', $etime)->sum('waijiao');
     }
 
     // 获取中教课充值数
-    public function getZhongjiao()
+    public function getZhongjiao(Carbon $etime = null)
     {
-        return $this->recharges()->sum('zhongjiao');
+        if (!$etime)
+        {
+            $etime = Carbon::now();
+        }
+        return $this->recharges()->where('created_at', '<=', $etime)->sum('zhongjiao');
     }
 
     // 获取精品课充值数
-    public function getJingpin()
+    public function getJingpin(Carbon $etime = null)
     {
-        return $this->recharges()->sum('jingpin');
+        if (!$etime)
+        {
+            $etime = Carbon::now();
+        }
+        return $this->recharges()->where('created_at', '<=', $etime)->sum('jingpin');
     }
 
     // 获取剩余外教课数
-    public function getLeftWaijiao()
+    public function getLeftWaijiao(Carbon $etime = null)
     {
-        return $this->getWaijiao()-$this->getWaijiaoCost();
+        if (!$etime)
+        {
+            $etime = Carbon::now();
+        }
+        return $this->getWaijiao($etime)-$this->getWaijiaoCost($etime);
     }
 
     // 获取剩余中教课数
-    public function getLeftZhongjiao()
+    public function getLeftZhongjiao(Carbon $etime = null)
     {
-        return $this->getZhongjiao()-$this->getZhongjiaoCost();
+        if (!$etime)
+        {
+            $etime = Carbon::now();
+        }
+        return $this->getZhongjiao($etime)-$this->getZhongjiaoCost($etime);
     }
 
     // 获取剩余精品课数
-    public function getLeftJingpin()
+    public function getLeftJingpin(Carbon $etime = null)
     {
-        return $this->getJingpin()-$this->getJingpinCost();
+        if (!$etime)
+        {
+            $etime = Carbon::now();
+        }
+        return $this->getJingpin($etime)-$this->getJingpinCost($etime);
     }
 
 }

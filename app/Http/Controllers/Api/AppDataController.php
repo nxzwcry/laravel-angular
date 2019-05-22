@@ -67,10 +67,6 @@ class AppdataController extends ApiController
                     ],
                 'children' => [
                     [
-                        'text' => '未排课学生',
-                        'link' => '/students/no-lessons',
-                    ],
-                    [
                         'text' => '班级列表',
                         'link' => '/teams/list',
                     ],
@@ -86,6 +82,10 @@ class AppdataController extends ApiController
 //                        'text' => '试听学生',
 //                        'link' => '/students/demo',
 //                    ],
+                    [
+                        'text' => '停课学生',
+                        'link' => '/students/no-lessons',
+                    ],
                     [
                         'text' => '不续费学生',
                         'link' => '/students/stoped',
@@ -155,6 +155,13 @@ class AppdataController extends ApiController
                         'acl' => [
                             'ability' => ['month-count'],
                             ],
+                    ],
+                    [
+                        'text' => '年度统计',
+                        'link' => '/count/year',
+                        'acl' => [
+                            'ability' => ['month-count'],
+                        ],
                     ],
                 ],
             ],

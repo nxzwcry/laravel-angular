@@ -19,7 +19,7 @@ class TeacherLessonsCount extends ResourceCollection
         $group = $this->collection->groupBy('cteacher_id');
         foreach ($group as $item)
         {
-            // 筛选正产完成的课程进行统计
+            // 筛选正常完成的课程进行统计
             $data = collect($item)->where('status', 1);
             if ($data->first())
             {

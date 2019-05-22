@@ -1,0 +1,75 @@
+<nz-spin nzTip="Loading..." [nzSpinning]="loading">
+  <nz-row>
+    <nz-col [nzSpan]="20">
+      <nz-year-picker [nzDisabledDate]="disabledDate" ngModel (ngModelChange)="change($event)"></nz-year-picker>
+    </nz-col>
+    <nz-col [nzSpan]="4" style="text-align:right">
+      <button nz-button nzType="default" (click)="load()">刷新列表</button>
+    </nz-col>
+  </nz-row>
+  <nz-card nzTitle="年度统计">
+    <nz-table #countTable [nzData]="displayList" nzSize="middle" [nzShowPagination]="false" [nzFrontPagination]="false" [hidden]="hidden" nzBordered>
+      <thead>
+      <tr>
+        <th colspan="2" rowspan="2">上年结余课时</th>
+        <th colspan="3" rowspan="2">本年度新增课时</th>
+        <th colspan="4">本年度消耗课时</th>
+        <th colspan="10">剩余课时</th>
+      </tr>
+      <tr>
+        <th colspan="2">一对一</th>
+        <th colspan="2">班课</th>
+        <th colspan="2">一对一</th>
+        <th colspan="2">班课</th>
+        <th colspan="2">停课学生</th>
+        <th colspan="2">不续费学生</th>
+        <th colspan="2">总计</th>
+      </tr>
+      <tr>
+        <th>中教</th>
+        <th>外教</th>
+        <th>中教</th>
+        <th>外教</th>
+        <th>总营收</th>
+        <th>中教</th>
+        <th>外教</th>
+        <th>中教</th>
+        <th>外教</th>
+        <th>中教</th>
+        <th>外教</th>
+        <th>中教</th>
+        <th>外教</th>
+        <th>中教</th>
+        <th>外教</th>
+        <th>中教</th>
+        <th>外教</th>
+        <th>中教</th>
+        <th>外教</th>
+      </tr>
+      </thead>
+
+      <tbody>
+      <tr *ngFor="let item of countTable.data; index as i">
+        <td>{{item.old.zhongjiao}}</td>
+        <td>{{item.old.waijiao}}</td>
+        <td>{{item.new.zhongjiao}}</td>
+        <td>{{item.new.waijiao}}</td>
+        <td>{{item.new.money | _currency}}</td>
+        <td>{{item.newCost.one_to_one.zhongjiao}}</td>
+        <td>{{item.newCost.one_to_one.waijiao}}</td>
+        <td>{{item.newCost.banke.zhongjiao}}</td>
+        <td>{{item.newCost.banke.waijiao}}</td>
+        <td>{{item.left.one_to_one.zhongjiao}}</td>
+        <td>{{item.left.one_to_one.waijiao}}</td>
+        <td>{{item.left.banke.zhongjiao}}</td>
+        <td>{{item.left.banke.waijiao}}</td>
+        <td>{{item.left.tingke.zhongjiao}}</td>
+        <td>{{item.left.tingke.waijiao}}</td>
+        <td>{{item.left.stoped.zhongjiao}}</td>
+        <td>{{item.left.stoped.waijiao}}</td>
+        <td>{{item.left.total.zhongjiao}}</td>
+        <td>{{item.left.total.waijiao}}</td>
+      </tr>
+      </tbody>
+    </nz-table>
+  </nz-card>

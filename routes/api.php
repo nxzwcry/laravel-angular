@@ -118,6 +118,7 @@ Route::middleware('auth:api')->group(function () {
 
     Route::prefix('count')->group(function () {
         Route::post('/getCount', 'Api\CountController@getCount');
+        Route::post('/getYearCount', 'Api\CountController@getYearCount');
     });
 
     Route::get('places', 'Api\PlaceController@index');

@@ -332,4 +332,77 @@ class Lesson extends Model
         return [];
     }
 
+    // 统计stime到etime之间的所有秏课数据
+    public static function getCount($stime, Carbon $etime)
+    {
+        $banke =[];
+        $one_to_one =[];
+
+        // 使用clone的写法
+        if ($etime)
+        {
+            $data = Lesson::where('start_datetime', '<=', $etime)->where('status', '>' , 0);
+            if ($stime)
+            {
+                $data = $data->where('start_datetime', '>=', $stime);
+            }
+
+            $banke_data = clone $data;
+            $bk_data = $banke_data->whereIn('lesson_type', ['b', 'bu']);
+            $banke['zhongjiao'] = $bk_data-> sum('zhongjiao_cost');
+            $banke['waijiao'] = $bk_data-> sum('waijiao_cost');
+
+            $one_data = $data->whereIn('lesson_type', ['w', 'f', 'j']);
+            $one_to_one['zhongjiao'] = $one_data -> sum('zhongjiao_cost');
+            $one_to_one['waijiao'] = $one_data -> sum('waijiao_cost');
+        }
+
+        // 不使用clone的写法
+//        if ($etime)
+//        {
+//            if ($stime)
+//            {
+//                $bk_data = Lesson::where('start_datetime', '<=', $etime)
+//                    ->where('start_datetime', '>=', $stime)
+//                    ->whereIn('lesson_type', ['b', 'bu'])
+//                    ->where('status', '>' , 0);
+//
+//                $banke['zhongjiao'] = $bk_data-> sum('zhongjiao_cost');
+//                $banke['waijiao'] = $bk_data-> sum('waijiao_cost');
+//
+//
+//                $one_data = Lesson::where('start_datetime', '<=', $etime)
+//                    ->where('start_datetime', '>=', $stime)
+//                    ->whereIn('lesson_type', ['w', 'f', 'j'])
+//                    ->where('status', '>' , 0);
+//
+//                $one_to_one['zhongjiao'] = $one_data -> sum('zhongjiao_cost');
+//                $one_to_one['waijiao'] = $one_data -> sum('waijiao_cost');
+//            }
+//            else
+//            {
+//                $bk_data = Lesson::where('start_datetime', '<=', $etime)
+//                    ->whereIn('lesson_type', ['b', 'bu'])
+//                    ->where('status', '>' , 0);
+//
+//                $banke['zhongjiao'] = $bk_data-> sum('zhongjiao_cost');
+//                $banke['waijiao'] = $bk_data-> sum('waijiao_cost');
+//
+//
+//                $one_data = Lesson::where('start_datetime', '<=', $etime)
+//                    ->whereIn('lesson_type', ['w', 'f', 'j'])
+//                    ->where('status', '>' , 0);
+//
+//                $one_to_one['zhongjiao'] = $one_data -> sum('zhongjiao_cost');
+//                $one_to_one['waijiao'] = $one_data -> sum('waijiao_cost');
+//
+//            }
+//        }
+
+        return [
+            'banke' => $banke,
+            'one_to_one' => $one_to_one,
+        ];
+    }
+
 }
