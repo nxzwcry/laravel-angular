@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Resources\Recharge as RechargeResource;
+use App\Phone;
 use Illuminate\Http\Request;
 use App\Student;
 use App\Http\Resources\Student as StudentResource;
@@ -56,14 +57,24 @@ class StudentController extends ApiController
 
     public function store(Request $request)
     {
+        $phones = $request->phones;
+        $request->offsetUnset('phones');
+
         $student = Student::create($request->all());
+
+        // 处理电话信息
+        Phone::deal($phones, $student->id);
 
         return new StudentResource($student);
     }
 
     public function update(Request $request, Student $student)
     {
+        $phones = $request->phones;
+        $request->offsetUnset('phones');
         $student->update($request->all());
+        // 处理电话信息
+        Phone::deal($phones, $student->id);
 
         return new StudentResource($student);
     }

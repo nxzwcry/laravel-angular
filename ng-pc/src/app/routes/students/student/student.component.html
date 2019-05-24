@@ -15,15 +15,19 @@
             <sv label="中教课时" align="right">剩:{{student.zhongjiao}}/总:{{student.zhongjiaototal}}节</sv>
           </sv-container>
           <nz-divider></nz-divider>
-          <sv-container size="small" layout="vertical" [gutter]="40" [col]="1" >
-            <sv label="email">{{student.email}}</sv>
-            <sv label="住址">{{student.address}}</sv>
-            <sv *ngFor="let phone of student.phones" label="电话({{phone.name}})"><p align="right">{{phone.phone_number}}</p></sv>
-          </sv-container>
-          <nz-divider></nz-divider>
-          <sv-container size="small" layout="vertical">
-            <sv label="备注"><p align="right">{{student.desc}}</p></sv>
-          </sv-container>
+          <div *ngIf="student.phones">
+            <sv-container size="small" [col]="1" style="margin-bottom: 10px">
+              <sv *ngFor="let phone of student.phones" label="电话({{phone.name}})" align="right">{{phone.phone_number}}</sv>
+            </sv-container>
+            <sv-container size="small" layout="vertical" [gutter]="40" [col]="1" >
+              <sv label="email">{{student.email}}</sv>
+              <sv label="住址">{{student.address}}</sv>
+            </sv-container>
+            <nz-divider></nz-divider>
+            <sv-container size="small" layout="vertical">
+              <sv label="备注"><p align="right">{{student.desc}}</p></sv>
+            </sv-container>
+          </div>
     </nz-card>
   </div>
 

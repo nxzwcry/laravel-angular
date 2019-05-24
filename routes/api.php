@@ -49,9 +49,9 @@ Route::middleware('auth:api')->group(function () {
     Route::prefix('users')->group(function () {
         Route::get('', 'Api\UserController@index');
         Route::get('{user}', 'Api\UserController@show');
-        Route::post('', 'Api\UserController@store');
-        Route::put('{user}', 'Api\UserController@update');
-        Route::delete('{user}', 'Api\UserController@delete');
+        Route::middleware('user-create')->post('', 'Api\UserController@store');
+        Route::middleware('user-create')->put('{user}', 'Api\UserController@update');
+//        Route::delete('{user}', 'Api\UserController@delete');
     });
 
     Route::prefix('teams')->group(function () {
@@ -118,7 +118,11 @@ Route::middleware('auth:api')->group(function () {
 
     Route::prefix('count')->group(function () {
         Route::post('/getCount', 'Api\CountController@getCount');
-        Route::post('/getYearCount', 'Api\CountController@getYearCount');
+        Route::middleware('permission:month-count')->post('/getYearCount', 'Api\CountController@getYearCount');
+    });
+
+    Route::prefix('phone')->group(function () {
+        Route::middleware('permission:student-create')->delete('{phone}', 'Api\PhoneController@delete');
     });
 
     Route::get('places', 'Api\PlaceController@index');

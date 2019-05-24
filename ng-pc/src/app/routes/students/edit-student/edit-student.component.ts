@@ -4,9 +4,10 @@ import { _HttpClient } from '@delon/theme';
 import { SFSchema, SFUISchema } from '@delon/form';
 import {DictionaryService} from "@shared/services/dictionary.service";
 import { Observable, of } from 'rxjs';
-import {AbstractControl, FormBuilder, FormGroup, Validators, FormControl} from "@angular/forms";
+import {AbstractControl, FormBuilder, FormGroup, Validators, FormControl, FormArray} from "@angular/forms";
 import {Student} from "@shared/modules/student";
 import {JsonData} from "@shared/shared.module";
+import {forEach} from "@angular/router/src/utils/collection";
 
 @Component({
   selector: 'app-students-edit-student',
@@ -20,7 +21,6 @@ export class StudentsEditStudentComponent implements OnInit {
   agentList: Array<any> = [];
   formModel: FormGroup;
   req: any = {};
-  controlArray: Array<{id: number; controlInstance: string}> = [];
   @Input() id: string;
 
   constructor(
@@ -41,10 +41,20 @@ export class StudentsEditStudentComponent implements OnInit {
         email: [null],
         address: [null],
         desc: [''],
-        phones:this.fb.group({}),
+        phones:this.fb.array([
+          this.createForm()
+        ]),
       }
     );
-    this.addField();
+  }
+
+  private createForm(id:number = 0, name: string = null, phone_number: string = null){
+    return this.fb.group({
+        id: [id],
+        name: [name, [Validators.required]],
+        phone_number: [phone_number, [Validators.required]],
+      }
+    );
   }
 
   ngOnInit(): void {
@@ -56,6 +66,7 @@ export class StudentsEditStudentComponent implements OnInit {
       this.http.get<JsonData>(`/students/${this.id}`).subscribe(
         (data) => {
           let item = data.data;
+
           this.formModel.setValue({
             name: item.name,
             ename: item.ename,
@@ -67,46 +78,51 @@ export class StudentsEditStudentComponent implements OnInit {
             email: item.email,
             address: item.address,
             desc: item.desc,
+            phones: [
+              {id: 0, name: '', phone_number: '' },
+            ],
           });
+          if (item.phones[0])
+          {
+            // console.log(this.phonesFromArray);
+            this.phonesFromArray.removeAt(0);
+            for (let phone of item.phones)
+            {
+              this.phonesFromArray.push(this.createForm(phone.id, phone.name, phone.phone_number));
+            }
+          }
         }
       );
     }
   }
 
-  addField(e?: MouseEvent): void {
-    if (e) {
-      e.preventDefault();
-    }
-    const id = this.controlArray.length > 0 ? this.controlArray[this.controlArray.length - 1].id + 1 : 0;
-
-    const control = {
-      id,
-      controlInstance: `passenger${id}`
-    };
-    const index = this.controlArray.push(control);
-    // console.log(this.controlArray[this.controlArray.length - 1]);
-    this.phones.addControl(
-      this.controlArray[index - 1].controlInstance,
-      new FormControl(null, Validators.required)
-    );
+  addField(): void {
+    this.phonesFromArray.push(this.createForm());
   }
 
-  removeField(i: { id: number; controlInstance: string }, e: MouseEvent): void {
-    e.preventDefault();
-    if (this.controlArray.length > 1) {
-      const index = this.controlArray.indexOf(i);
-      this.controlArray.splice(index, 1);
-      // console.log(this.controlArray);
-      this.phones.removeControl(i.controlInstance);
+  removeField(i: number): void {
+    if (this.phonesFromArray.length > 1) {
+      // 检测是否含有id信息，如果有需要从后台删除
+      let phoneId = this.phonesFromArray.at(i).value.id;
+      if(phoneId)
+      {
+        this.http.delete(`/phone/${phoneId}`)
+          .subscribe(res => {
+              this.phonesFromArray.removeAt(i);
+            },
+            error => {
+              console.log('电话删除失败', error);
+            }
+          );
+      }
+      else {
+        this.phonesFromArray.removeAt(i);
+      }
     }
   }
 
-  get phones() {
-    return this.formModel.get('phones') as FormGroup;
-  }
-
-  getFormControl(name: string): AbstractControl {
-    return this.phones.controls[name];
+  get phonesFromArray() {
+    return this.formModel.get('phones') as FormArray;
   }
 
   save() {
@@ -151,6 +167,6 @@ export class StudentsEditStudentComponent implements OnInit {
   }
 
   close() {
-    this.modal.destroy(false);
+    this.modal.destroy(true);
   }
 }
