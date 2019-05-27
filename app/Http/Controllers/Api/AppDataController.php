@@ -132,6 +132,14 @@ class AppdataController extends ApiController
                 ],
             ],
             [
+                'text' => '外教查询',
+                'link' => '/fteachers/list',
+                'icon' => [
+                    'type' => 'icon',
+                    'value' => 'search',
+                ],
+            ],
+            [
                 'text' => '统计',
                 'icon' => [
                     'type' => 'icon',

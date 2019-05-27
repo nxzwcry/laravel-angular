@@ -4,14 +4,11 @@ import { SimpleGuard } from '@delon/auth';
 import { environment } from '@env/environment';
 // layout
 import { LayoutDefaultComponent } from '../layout/default/default.component';
-import { LayoutFullScreenComponent } from '../layout/fullscreen/fullscreen.component';
 import { LayoutPassportComponent } from '../layout/passport/passport.component';
 // dashboard pages
 import { DashboardComponent } from './dashboard/dashboard.component';
 // passport pages
 import { UserLoginComponent } from './passport/login/login.component';
-// import { UserRegisterComponent } from './passport/register/register.component';
-// import { UserRegisterResultComponent } from './passport/register-result/register-result.component';
 import { ResetPasswordComponent } from "./passport/reset-password/reset-password.component";
 // single pages
 import { CallbackComponent } from './callback/callback.component';
@@ -33,6 +30,7 @@ const routes: Routes = [
       { path: 'lessons', loadChildren: './lessons/lessons.module#LessonsModule', },
       { path: 'teams', loadChildren: './teams/teams.module#TeamsModule', },
       { path: 'count', loadChildren: './count/count.module#CountModule', },
+      { path: 'fteachers', loadChildren: './fteachers/fteachers.module#FteachersModule', },
     ],
   },
   // 全屏布局

@@ -1,0 +1,43 @@
+<nz-card>
+    <!--<div class="mb-md">-->
+    <div nz-row>
+        <div nz-col nzSpan="16">
+            <form nz-form >
+                <nz-input-group nzSearch nzSize="large" [nzAddOnAfter]="suffixButton" style="width: 50%">
+                    <input nz-input class="form-control input-sm" type="text" placeholder="输入外教老师姓名进行搜索" [formControl]="wordFilter"/>
+                </nz-input-group>
+                <ng-template #suffixButton>
+                    <button nz-button type="submit" nzType="primary" nzSize="large" nzSearch (click)="load()">搜索</button>
+                </ng-template>
+            </form>
+            <!--<input nz-input type="search" class="form-control input-sm" placeholder="输入外教老师姓名进行搜索" [formControl]="wordFilter" >-->
+        </div>
+        <div nz-col nzSpan="8">
+            <div nz-row nzType="flex" nzJustify="end">
+                <button (click)="add()" nz-button nzType="primary" acl [acl-ability]="'fteacher-create'">添加外教</button>
+            </div>
+        </div>
+    </div>
+    <div nz-row style="margin-top: 8px">
+        <nz-table #filterTable [nzData]="displayList" nzSize="Middle" [nzShowPagination]="false" [nzFrontPagination]="false">
+            <thead (nzSortChange)="sort($event)" nzSingleSort>
+            <tr>
+                <th>ID</th>
+                <th>姓名</th>
+                <th>会议ID</th>
+                <th></th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let item of filterTable.data">
+                <td>{{item.id}}</td>
+                <td>{{item.name}}</td>
+                <td>{{item.mid}}</td>
+                <td><a acl [acl-ability]="'fteacher-create'" (click)="change(item.id)">修改信息</a></td>
+                <td><a acl [acl-ability]="'fteacher-create'" (click)="delete(item.id)">删除</a></td>
+            </tr>
+            </tbody>
+        </nz-table>
+    </div>
+</nz-card>

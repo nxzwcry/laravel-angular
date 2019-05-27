@@ -17,6 +17,7 @@ class Fteacher extends Resource
         return [
             'id' => $this->id,
             'name' => $this->name,
+            'mid' => $this->mid,
         ];
     }
 

@@ -125,8 +125,16 @@ Route::middleware('auth:api')->group(function () {
         Route::middleware('permission:student-create')->delete('{phone}', 'Api\PhoneController@delete');
     });
 
+    Route::prefix('fteachers')->group(function () {
+        Route::get('', 'Api\FteacherController@index');
+        Route::get('/search/{searchWord}', 'Api\FteacherController@search');
+        Route::get('{fteacher}', 'Api\FteacherController@show');
+        Route::middleware('permission:fteacher-create')->post('', 'Api\FteacherController@store');
+        Route::middleware('permission:fteacher-create')->put('{fteacher}', 'Api\FteacherController@update');
+        Route::middleware('permission:fteacher-create')->delete('{fteacher}', 'Api\FteacherController@delete');
+    });
+
     Route::get('places', 'Api\PlaceController@index');
-    Route::get('fteachers', 'Api\FteacherController@index');
     Route::get('agents', 'Api\UserController@getAgents');
     Route::get('cteachers', 'Api\UserController@getCteachers');
     Route::get('logout', 'Api\AuthenticateController@logout');

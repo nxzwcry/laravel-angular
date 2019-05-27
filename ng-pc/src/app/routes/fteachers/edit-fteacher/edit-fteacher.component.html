@@ -1,0 +1,28 @@
+<form nz-form [formGroup]="formModel">
+  <nz-form-item>
+    <nz-form-label [nzSpan]="7" nzRequired>姓名</nz-form-label>
+    <nz-form-control [nzSpan]="12" nzHasFeedback>
+      <input nz-input formControlName="name" placeholder="请输入用户姓名">
+      <nz-form-explain *ngIf="formModel.get('name').dirty && formModel.get('name').errors">
+        <ng-container *ngIf="formModel.get('name').hasError('required')">
+          请输入老师姓名
+        </ng-container>
+      </nz-form-explain>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label [nzSpan]="7" nzRequired>会议ID</nz-form-label>
+    <nz-form-control [nzSpan]="12" nzHasFeedback>
+      <input nz-input formControlName="mid" placeholder="Enter english name">
+      <nz-form-explain *ngIf="formModel.get('mid').dirty && formModel.get('mid').errors">
+        <ng-container *ngIf="formModel.get('mid').hasError('required')">
+          请输入老师会议ID
+        </ng-container>
+      </nz-form-explain>
+    </nz-form-control>
+  </nz-form-item>
+  <div class="modal-footer">
+    <button nz-button type="button" (click)="close()">关闭</button>
+    <button nz-button type="submit" (click)="save()" [disabled]="!formModel.valid" [nzLoading]="loading">保存</button>
+  </div>
+</form>
