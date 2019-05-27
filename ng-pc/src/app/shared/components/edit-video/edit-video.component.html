@@ -1,0 +1,25 @@
+<form nz-form [formGroup]="formModel">
+  <nz-form-item>
+    <nz-form-label [nzSpan]="7" nzRequired>视频类型</nz-form-label>
+    <nz-form-control [nzSpan]="12" nzHasFeedback>
+      <nz-select formControlName="url_type" nzShowSearch nzAllowClear nzPlaceHolder="Choose">
+        <nz-option nzValue="1" nzLabel="播放链接"></nz-option>
+      </nz-select>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label [nzSpan]="7" nzRequired>视频链接</nz-form-label>
+    <nz-form-control [nzSpan]="12" nzHasFeedback>
+      <input nz-input formControlName="url" placeholder="请输入视频链接">
+      <nz-form-explain *ngIf="formModel.get('url').dirty && formModel.get('url').errors">
+        <ng-container *ngIf="formModel.get('url').hasError('required')">
+          请输入视频链接
+        </ng-container>
+      </nz-form-explain>
+    </nz-form-control>
+  </nz-form-item>
+  <div class="modal-footer">
+    <button nz-button type="button" (click)="close()">关闭</button>
+    <button nz-button type="submit" (click)="save()" [disabled]="!formModel.valid" [nzLoading]="loading">保存</button>
+  </div>
+</form>

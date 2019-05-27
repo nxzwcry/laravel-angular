@@ -68,6 +68,15 @@
                         </td>
                     </tr>
                     <tr>
+                        <td>播放视频</td>
+                        <td>
+                            <a *ngIf="lesson.video" [href]="lesson.video.url" target="_blank">回放视频</a>
+                            <nz-divider nzType="vertical" acl [acl-ability]="'video-input'"></nz-divider>
+                            <a *ngIf="!lesson.video" (click)="op.createVideo(lesson)" acl [acl-ability]="'video-input'">上传视频</a>
+                            <a *ngIf="lesson.video" (click)="op.changeVideo(lesson)" acl [acl-ability]="'video-input'">修改视频</a>
+                        </td>
+                    </tr>
+                    <tr>
                         <td>备注</td>
                         <td>
                             {{lesson.note}}
@@ -102,7 +111,7 @@
         </nz-card>
         <ng-template #buttonTemplate>
             <a *ngIf="lesson.lesson_type != 'b'" (click)="change()" acl [acl-ability]="'lesson-create'">修改信息</a>
-            <nz-divider nzType="vertical" acl [acl-ability]="{ role: ['lesson-create', 'lesson-name-change'], mode: 'allOf' }"></nz-divider>
+            <nz-divider nzType="vertical" acl [acl-ability]="{ ability: ['lesson-create', 'lesson-name-change'], mode: 'allOf' }"></nz-divider>
             <a (click)="op.changeName(lesson)" acl [acl-ability]="'lesson-name-change'">改名</a>
         </ng-template>
     </div>

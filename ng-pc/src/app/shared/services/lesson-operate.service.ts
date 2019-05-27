@@ -6,6 +6,7 @@ import {SharedEditLessonScoreComponent} from "@shared/components/edit-lesson-sco
 import {SharedAddLessonBukeComponent} from "@shared/components/add-lesson-buke/add-lesson-buke.component";
 import {SharedCopyLessonComponent} from "@shared/components/copy-lesson/copy-lesson.component";
 import {JsonData} from "@shared/shared.module";
+import {SharedEditVideoComponent} from "@shared/components/edit-video/edit-video.component";
 
 @Injectable()
 export class LessonOperateService {
@@ -48,6 +49,36 @@ export class LessonOperateService {
           console.log('post请求失败', error);
         }
       );
+  }
+
+  createVideo(lesson){
+    this.modal.create(
+      SharedEditVideoComponent,
+      {size: 'sm'},
+      {modalOptions:
+          {
+            nzTitle: '上传视频',
+            nzComponentParams: {lessonId: lesson.id},
+            nzMaskClosable: false,
+          }
+      }).subscribe(res => {
+        if (res) {lesson.video = res;}
+      } );
+  }
+
+  changeVideo(lesson){
+    this.modal.create(
+      SharedEditVideoComponent,
+      {size: 'sm'},
+      {modalOptions:
+          {
+            nzTitle: '修改视频',
+            nzComponentParams: {videoId: lesson.video.id},
+            nzMaskClosable: false,
+          }
+      }).subscribe(res => {
+        if (res) {lesson.video = res;}
+      } );
   }
 
   changeName(lesson){

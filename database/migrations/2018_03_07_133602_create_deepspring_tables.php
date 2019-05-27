@@ -153,7 +153,7 @@ class CreateDeepspringTables extends Migration
 
         Schema::create('videos', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('url_type');
+            $table->string('url_type'); // 1：直接链接播放
             $table->string('url');
             $table->timestamps();
             $table->softDeletes();

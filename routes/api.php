@@ -49,8 +49,8 @@ Route::middleware('auth:api')->group(function () {
     Route::prefix('users')->group(function () {
         Route::get('', 'Api\UserController@index');
         Route::get('{user}', 'Api\UserController@show');
-        Route::middleware('user-create')->post('', 'Api\UserController@store');
-        Route::middleware('user-create')->put('{user}', 'Api\UserController@update');
+        Route::middleware('permission:user-create')->post('', 'Api\UserController@store');
+        Route::middleware('permission:user-create')->put('{user}', 'Api\UserController@update');
 //        Route::delete('{user}', 'Api\UserController@delete');
     });
 
@@ -132,6 +132,13 @@ Route::middleware('auth:api')->group(function () {
         Route::middleware('permission:fteacher-create')->post('', 'Api\FteacherController@store');
         Route::middleware('permission:fteacher-create')->put('{fteacher}', 'Api\FteacherController@update');
         Route::middleware('permission:fteacher-create')->delete('{fteacher}', 'Api\FteacherController@delete');
+    });
+
+    Route::prefix('video')->group(function () {
+        Route::get('{video}', 'Api\VideoController@show');
+        Route::middleware('permission:video-input')->post('{lesson}', 'Api\VideoController@store');
+        Route::middleware('permission:video-input')->put('{video}', 'Api\VideoController@update');
+        Route::middleware('permission:video-input')->delete('{lesson}', 'Api\VideoController@delete');
     });
 
     Route::get('places', 'Api\PlaceController@index');

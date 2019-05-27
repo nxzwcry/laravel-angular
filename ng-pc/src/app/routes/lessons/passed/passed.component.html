@@ -52,12 +52,18 @@
               <td>
                 <nz-dropdown [nzTrigger]="'click'" *ngIf="acl.canAbility('lesson-delete') || userid == lesson.cteacher_id">
                   <a nz-dropdown>
-                    课程操作 <i class="anticon anticon-down"></i>
+                    <nz-badge [nzDot]="acl.canAbility('video-input') && !lesson.video">
+                      课程操作 <i class="anticon anticon-down"></i>
+                    </nz-badge>
                   </a>
                   <ul nz-menu>
                     <li nz-menu-item [hidden]="lesson.status != 2" (click)="op.confirm(lesson)" acl [acl-ability]="'lesson-status-change'">确认已上</li>
                     <li nz-menu-item (click)="op.changeName(lesson)" acl [acl-ability]="'lesson-name-change'">修改名称</li>
                     <li nz-menu-item [hidden]="lesson.lesson_type_id == 'bt'" (click)="op.changeScore(lesson)" acl [acl-ability]="'lesson-score-change'">打分({{lesson.score}})</li>
+                    <li nz-menu-item *ngIf="!lesson.video" (click)="op.createVideo(lesson)" acl [acl-ability]="'video-input'">
+                      <nz-badge nzDot>上传视频</nz-badge>
+                    </li>
+                    <li nz-menu-item *ngIf="lesson.video" (click)="op.changeVideo(lesson)" acl [acl-ability]="'video-input'">修改视频</li>
                     <li nz-menu-item (click)="op.deleteLesson(lesson.id)" acl [acl-ability]="'lesson-delete'">删除</li>
                   </ul>
                 </nz-dropdown>
