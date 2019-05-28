@@ -38,6 +38,8 @@ class Course extends Model
     // 固定课程首次创建时，创建lessons
     protected $dispatchesEvents = [
         'created' => CourseSaved::class,
+        // 学生状态由1对1转换为未排课
+        'deleted' => CourseSaved::class,
     ];
 
     /**

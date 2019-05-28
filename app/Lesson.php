@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Events\LessonCreating;
+use App\Events\LessonDeleted;
 use App\Events\LessonSaved;
 use App\Events\LessonSaving;
 use Illuminate\Database\Eloquent\Model;
@@ -56,6 +57,8 @@ class Lesson extends Model
         'creating' => LessonCreating::class,
         // 保存后更新学生状态
         'saved' => LessonSaved::class,
+        // 删除课程后更新学生状态（1对1学生向未排课学生转移）
+        'deleted' => LessonDeleted::class,
     ];
 
     public function student()

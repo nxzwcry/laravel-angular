@@ -2,12 +2,12 @@
 
 namespace App\Listeners;
 
-use App\Events\LessonSaved;
+use App\Events\CourseDeleted;
+use Carbon\Carbon;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Log;
 
-class LessonSavedListener
+class CourseDeletedListener
 {
     /**
      * Create the event listener.
@@ -22,16 +22,17 @@ class LessonSavedListener
     /**
      * Handle the event.
      *
-     * @param  LessonSaved  $event
+     * @param  CourseDeleted  $event
      * @return void
      */
-    public function handle(LessonSaved $lessonSaved)
+    public function handle(CourseDeleted $courseSaved)
     {
+        $course = $courseSaved->course;
+
         // 检查改变学生状态
-        $lesson = $lessonSaved->lesson;
-        if ($lesson)
+        if ($course)
         {
-            $student = $lesson->student;
+            $student = $course->student;
             if ($student)
             {
                 if ($student->status == 1) // 学生状态为1对1
@@ -43,15 +44,6 @@ class LessonSavedListener
                             $student->status = 2;
                             $student->save();
                         }
-                    }
-                }
-                elseif ($student->status == 2) // 学生状态为未排课
-                {
-                    Log::info($student->getNewLessons());
-                    if ($student->getNewLessons())
-                    {
-                        $student->status = 1;
-                        $student->save();
                     }
                 }
             }
