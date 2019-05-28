@@ -9,10 +9,14 @@ use Log;
 use Spatie\Permission\Traits\HasRoles;
 use App\Notifications\ResetEmail as RestPasswordNotification;
 use Spatie\Permission\Models\Role;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class User extends Authenticatable
 {
     use HasRoles, HasApiTokens, Notifiable;
+    use LogsActivity;
+    protected static $logUnguarded = true;
+    protected static $logOnlyDirty = true;
 
     /**
      * The attributes that are mass assignable.

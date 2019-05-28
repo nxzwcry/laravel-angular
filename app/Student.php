@@ -7,10 +7,14 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Carbon\Carbon;
 use PhpParser\ErrorHandler\Collecting;
 use App\Course;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Student extends Model
 {
     use SoftDeletes;
+    use LogsActivity;
+    protected static $logUnguarded = true;
+    protected static $logOnlyDirty = true;
     /**
      * 与模型关联的数据表。
      *
@@ -26,7 +30,7 @@ class Student extends Model
     protected $dates = ['birthday', 'created_at', 'updated_at', 'deleted_at'];
 
     //不允许批量赋值的字段
-    protected $guarded = ['id', 'created_at', 'updated_at'];
+    protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 
      /**
      * 模型日期列的存储格式

@@ -10,10 +10,16 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Log;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Lesson extends Model
 {
     use SoftDeletes;
+    use LogsActivity;
+    protected static $logAttributes = ['cteacher_id', 'fteacher_id', 'waijiao_cost', 'zhongjiao_cost', 'status'];
+    protected static $logOnlyDirty = true;
+    protected static $recordEvents = ['deleted', 'updated'];
+
     /**
      * 与模型关联的数据表。
      *

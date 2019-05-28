@@ -5,10 +5,14 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Carbon\Carbon;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Team extends Model
 {
     use SoftDeletes;
+    use LogsActivity;
+    protected static $logUnguarded = true;
+    protected static $logOnlyDirty = true;
     /**
      * 与模型关联的数据表。
      *

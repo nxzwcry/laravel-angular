@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Carbon\Carbon;
 use Log;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 // 固定课程类，每月根据学生、班级的固定课程来创建lessons（单节课程）
 // 固定课程的定义为每周周期性固定上课的课程，为创建lesson的模板
@@ -14,6 +15,9 @@ use Log;
 class Course extends Model
 {
     use SoftDeletes;
+    use LogsActivity;
+    protected static $logUnguarded = true;
+    protected static $logOnlyDirty = true;
     /**
      * 与模型关联的数据表。
      *
