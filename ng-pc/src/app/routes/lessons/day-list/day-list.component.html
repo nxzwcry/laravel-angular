@@ -80,7 +80,7 @@
   <p>
     班课：<br/>
     <span *ngFor="let item of displayList[0].lessons">
-      <span *ngIf="(item.lesson_type_id == 'bt') && item.fteacher">
+      <span *ngIf="(item.lesson_type_id == 'bt') && item.fteacher && item.mid != '网页'">
         {{item.fteacher_time*1000 | _date: 'HH:mm'}} &emsp;
         {{item.fteacher}} &emsp;
         {{item.team}} <br/>
@@ -90,7 +90,7 @@
   <p>
     一对一：<br/>
     <span *ngFor="let item of displayList[0].lessons">
-      <span *ngIf="(item.lesson_type_id == 'w') && item.fteacher">
+      <span *ngIf="(item.lesson_type_id == 'w') && item.fteacher && item.mid != '网页'">
         {{item.fteacher_time*1000 | _date: 'HH:mm'}} &emsp;
         {{item.student}}{{item.student_ename}} <br/>
       </span>

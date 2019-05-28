@@ -53,14 +53,11 @@ class TeacherLessonsCount extends ResourceCollection
                 // 班课人次
                 $b_count = $data->where('lesson_type', 'b')->count();
 
-                // 补课人次
-                $bu_count = $data->where('lesson_type', 'bu')->count();
+                // 补课人次，按照课时数计算人次，因为有些情况下一次补课会补n次的课，此时计n人次
+                $bu_count = $data->where('lesson_type', 'bu')->sum('zhongjiao_cost');
 
-                // 中教课时数
-                $zhongjiao_count = $data->where('lesson_type', '<>', 'b')
-                    ->where('lesson_type', '<>', 'bt')
-                    ->where('lesson_type', '<>', 'bu')
-                    ->sum('zhongjiao_cost');
+                // 中教课时数=复习课中教课时+外教课中教课时+精品课中教课时
+                $zhongjiao_count = $data->whereIn('lesson_type', ['f', 'w', 'j'])->sum('zhongjiao_cost');
 
                 // 生成数据
                 $res->push( [
@@ -79,9 +76,7 @@ class TeacherLessonsCount extends ResourceCollection
                     // 中教课时
                     'zhongjiao_count' => $zhongjiao_count,
                     // 中教课列表
-                    'zhongjiao' => Lesson::collection($data->where('lesson_type', '<>', 'b')
-                        ->where('lesson_type', '<>', 'bt')
-                        ->where('lesson_type', '<>', 'bu')->sortBy('start_datetime'))->flatten(),
+                    'zhongjiao' => Lesson::collection($data->whereIn('lesson_type', ['f', 'w', 'j'])->sortBy('start_datetime'))->flatten(),
                     // 其他课程（未上课程+待确认课程）
                     'others_count' => collect($item)
                             ->where('status', '=', 0)
