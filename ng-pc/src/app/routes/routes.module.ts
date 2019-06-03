@@ -12,9 +12,13 @@ import { ResetPasswordComponent } from "./passport/reset-password/reset-password
 // single pages
 import { CallbackComponent } from './callback/callback.component';
 import { UserLockComponent } from './passport/lock/lock.component';
+import {DashboardAgentComponent} from "./dashboard-agent/dashboard-agent.component";
+import {DashboardTeacherComponent} from "./dashboard-teacher/dashboard-teacher.component";
 
 const COMPONENTS = [
   DashboardComponent,
+  DashboardAgentComponent,
+  DashboardTeacherComponent,
   // passport pages
   UserLoginComponent,
   UserRegisterComponent,

@@ -21,12 +21,26 @@ class AppdataController extends ApiController
         'group' => 'true',
         'children' => [
             [
-                'text' => '首页',
-                'link' => '/dashboard',
+                'text' => '顾问控制面板',
+                'link' => '/dashboard-agent',
                 'icon' => [
                     'type' => 'icon',
                     'value' => 'appstore',
                     ],
+                'acl' => [
+                    'ability' => ['show-agent-home'],
+                ],
+            ],
+            [
+                'text' => '教师控制面板',
+                'link' => '/dashboard-teacher',
+                'icon' => [
+                    'type' => 'icon',
+                    'value' => 'appstore',
+                ],
+                'acl' => [
+                    'ability' => ['show-teacher-home'],
+                ],
             ],
             [
                 'text' => '用户管理',
