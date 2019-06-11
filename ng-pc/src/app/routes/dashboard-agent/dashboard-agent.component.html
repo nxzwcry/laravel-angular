@@ -1,6 +1,102 @@
-<div class="alain-default__content-title">
-  <h1>
-    顾问控制面板
-    <small>Welcome !</small>
-  </h1>
+<div style="padding:30px;">
+  <div nz-row [nzGutter]="16" nzType="flex" nzJustify="end" style="margin-bottom: 16px">
+    <button nz-button nzType="default" (click)="load()">刷新列表</button>
+  </div>
+  <div nz-row [nzGutter]="16">
+    <div nz-col [nzSpan]="8">
+      <nz-card nzTitle="新报名学员(60天内)" [nzExtra]="">
+        <nz-table #newTable [nzData]="newList" nzSize="middle" [nzShowPagination]="false" [nzFrontPagination]="false" [nzLoading]="newLoading">
+          <thead (nzSortChange)="newSort($event)" nzSingleSort>
+          <tr>
+            <th>姓名</th>
+            <th nzShowSort nzSortKey="created_at" nzSort="descend">录入时间</th>
+            <th [acl]="['admin']" nzShowSort nzSortKey="agent">顾问</th>
+            <th [acl]="['admin', 'agent']" nzShowSort nzSortKey="cteacher">老师</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let item of newTable.data">
+            <td><a [routerLink]="['/students/student',item.id]">{{item.name}}</a>
+              <span [acl]="['agent', 'cteacher']">
+                {{item.ename}}
+              </span>
+            </td>
+            <td>{{item.created_at*1000 | _date: 'MM/DD'}}</td>
+            <td [acl]="['admin']">{{item.agent}}</td>
+            <td [acl]="['admin', 'agent']">{{item.cteacher}}</td>
+          </tr>
+          </tbody>
+        </nz-table>
+      </nz-card>
+    </div>
+    <div nz-col [nzSpan]="8">
+      <nz-card nzTitle="续费周期学员">
+        <nz-table #xufeiTable [nzData]="xufeiList" nzSize="middle" [nzShowPagination]="false" [nzFrontPagination]="false" [nzLoading]="xufeiLoading">
+          <thead (nzSortChange)="xufeiSort($event)" nzSingleSort>
+          <tr>
+            <th>姓名</th>
+            <th nzShowSort nzSortKey="times" nzSort="ascend">剩课</th>
+            <th [acl]="['admin']" nzShowSort nzSortKey="agent">顾问</th>
+            <th [acl]="['admin', 'agent']" nzShowSort nzSortKey="cteacher">老师</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let item of xufeiTable.data">
+            <td><a [routerLink]="['/students/student',item.id]">{{item.name}}</a>
+              <span [acl]="['agent', 'cteacher']">
+                {{item.ename}}
+              </span>
+            </td>
+            <td>{{item.times}}次</td>
+            <td [acl]="['admin']">{{item.agent}}</td>
+            <td [acl]="['admin', 'agent']">{{item.cteacher}}</td>
+          </tr>
+          </tbody>
+        </nz-table>
+      </nz-card>
+    </div>
+    <div nz-col [nzSpan]="8">
+      <nz-card nzTitle="停课学员" [acl]="['agent']">
+        <nz-table #stopTable [nzData]="stopList" nzSize="middle" [nzShowPagination]="false" [nzFrontPagination]="false" [nzLoading]="stopLoading">
+          <thead (nzSortChange)="stopSort($event)" nzSingleSort>
+          <tr>
+            <th>姓名</th>
+            <th nzShowSort nzSortKey="stopTime" nzSort="descend">停课时间</th>
+            <th nzShowSort nzSortKey="cteacher">老师</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let item of stopTable.data">
+            <td><a [routerLink]="['/students/student',item.id]">{{item.name}}</a>{{item.ename}}</td>
+            <td>{{item.stopTime*1000 | _date: 'YYYY/MM/DD'}}</td>
+            <td>{{item.cteacher}}</td>
+          </tr>
+          </tbody>
+        </nz-table>
+      </nz-card>
+    </div>
+    <div nz-col [nzSpan]="8">
+      <nz-card nzTitle="最新不续费(60天内)" [acl]="['admin']">
+        <nz-table #newStopTable [nzData]="newStopList" nzSize="middle" [nzShowPagination]="false" [nzFrontPagination]="false" [nzLoading]="newStopLoading">
+          <thead (nzSortChange)="newStopSort($event)" nzSingleSort>
+          <tr>
+            <th>姓名</th>
+            <th nzShowSort nzSortKey="buxuTime" nzSort="descend">时间</th>
+            <th [acl]="['admin']" nzShowSort nzSortKey="agent">顾问</th>
+            <th [acl]="['admin', 'agent']" nzShowSort nzSortKey="cteacher">老师</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let item of newStopTable.data">
+            <td><a [routerLink]="['/students/student',item.id]">{{item.name}}</a></td>
+            <td>{{item.buxuTime*1000 | _date: 'MM/DD'}}</td>
+            <td>{{item.agent}}</td>
+            <td>{{item.cteacher}}</td>
+          </tr>
+          </tbody>
+        </nz-table>
+      </nz-card>
+    </div>
+  </div>
 </div>
+

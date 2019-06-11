@@ -39,7 +39,7 @@
       <!--<nz-select formControlName="role" nzPlaceHolder="Choose">-->
         <!--<nz-option *ngFor="let option of roleList" [nzValue]="option.id" [nzLabel]="option.cn_name"></nz-option>-->
       <!--</nz-select>-->
-      <nz-select [nzMaxMultipleCount]="3" nzMode="multiple" nzPlaceHolder="选择角色" formControlName="role">
+      <nz-select [nzMaxMultipleCount]="5" nzMode="multiple" nzPlaceHolder="选择角色" formControlName="role">
         <nz-option *ngFor="let option of roleList" [nzLabel]="option.cn_name" [nzValue]="option.id"></nz-option>
       </nz-select>
     </nz-form-control>

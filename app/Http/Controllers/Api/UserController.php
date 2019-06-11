@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Student;
 use Illuminate\Http\Request;
 use App\User;
 use App\Http\Resources\User as UserResource;
@@ -11,6 +12,9 @@ use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 use Illuminate\Foundation\Auth\ResetsPasswords;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Resources\StudentCollection;
+use Carbon\Carbon;
 
 class UserController extends ApiController
 {
@@ -91,6 +95,136 @@ class UserController extends ApiController
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
         ]);
+    }
+
+    // 60天内加入的新学生（顾问视图）
+    public function newStudentsA()
+    {
+        $students = null;
+        $user = Auth::user();
+        $time = Carbon::now('Asia/Shanghai')->subDays(60);
+        if ( $user->hasRole('admin') )
+        {
+            $students = Student::where('created_at', '>=', $time)->get();
+        }
+        else
+        {
+            $students = $user->agentStudents()->where('created_at', '>=', $time)->get();
+        }
+        if ($students)
+        {
+            $students = $students->sortByDesc(function ($student, $key) {
+                return $student->created_at;
+            })->flatten();
+            return new StudentCollection($students);
+        }
+        else
+        {
+            return response()->json();
+        }
+    }
+
+    // 60天内加入的新学生（老师视图）
+    public function newStudentsT()
+    {
+        $students = null;
+        $user = Auth::user();
+        $time = Carbon::now('Asia/Shanghai')->subDays(60);
+        if ( $user->hasRole('admin') )
+        {
+            $students = Student::where('created_at', '>=', $time)->get();
+        }
+        else
+        {
+            $students = $user->teacherStudents()->where('created_at', '>=', $time)->get();
+        }
+        if ($students)
+        {
+            $students = $students->sortByDesc(function ($student, $key) {
+                return $student->created_at;
+            })->flatten();
+            return new StudentCollection($students);
+        }
+        else
+        {
+            return response()->json();
+        }
+    }
+
+    // 续费周期学生（顾问视图）
+    public function xufeiStudentsA()
+    {
+        $students = null;
+        $user = Auth::user();
+        if ( $user->hasRole('admin') )
+        {
+            $students = Student::whereIn('status', [0, 1])->get();
+        }
+        else
+        {
+            $students = $user->agentStudents()->whereIn('status', [0, 1])->get();
+        }
+        if ($students)
+        {
+            $res =  $students->filter(function ($value, $key){
+                $times = $value->getTimes();
+                return $times <= 10;
+            });
+            if ($res->isNotEmpty())
+            {
+                $res = $res->sortBy(function ($student, $key) {
+                    return $student->getTimes();
+                })->flatten();
+                return new StudentCollection($res);
+            }
+        }
+        return response()->json();
+    }
+
+//    // 60天内加入的新学生（老师视图）
+//    public function newStudentsT()
+//    {
+//        $students = null;
+//        $user = Auth::user();
+//        $time = Carbon::now('Asia/Shanghai')->subDays(60);
+//        if ( $user->hasRole('admin') )
+//        {
+//            $students = Student::where('created_at', '>=', $time)->get();
+//        }
+//        else
+//        {
+//            $students = $this->teacherStudents()->where('created_at', '>=', $time)->get();
+//        }
+//        if ($students)
+//        {
+//            return new StudentCollection($students);
+//        }
+//        else
+//        {
+//            return response()->json();
+//        }
+//    }
+
+    // 未排课学员list
+    public function noLessons()
+    {
+        $students = null;
+        $user = Auth::user();
+        if ( !$user->hasRole('admin') )
+        {
+            $students = $user->agentStudents()->where('status', 2)->get();
+        }
+        if ($students)
+        {
+            $students = $students->sortByDesc(function ($student, $key) {
+                return $student->getStopTime();
+            })->flatten();
+            return new StudentCollection($students);
+        }
+        else
+        {
+            return response()->json();
+        }
     }
 
 }

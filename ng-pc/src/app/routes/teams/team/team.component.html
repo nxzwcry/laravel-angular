@@ -166,7 +166,7 @@
                           <td>{{item.waijiao_cost}}外/{{item.zhongjiao_cost}}中</td>
                           <td>
                             <a (click)="lessonOp.copy(item.id)" acl [acl-ability]="'lesson-create'">复制</a>
-                            <span acl [acl-ability]="{ role: ['lesson-create', 'lesson-delete'], mode: 'allOf' }"> | </span>
+                            <span acl [acl-ability]="{ ability: ['lesson-create', 'lesson-delete'], mode: 'allOf' }"> | </span>
                             <a (click)="lessonOp.deleteLesson(item.id)" acl [acl-ability]="'lesson-delete'">删除</a>
                           </td>
                         </tr>

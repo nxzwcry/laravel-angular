@@ -67,6 +67,7 @@ import { SharedModule } from './shared/shared.module';
 import { AppComponent } from './app.component';
 import { RoutesModule } from './routes/routes.module';
 import { LayoutModule } from './layout/layout.module';
+import { DelonACLModule } from "@delon/acl";
 
 @NgModule({
   declarations: [
@@ -81,6 +82,7 @@ import { LayoutModule } from './layout/layout.module';
     SharedModule,
     LayoutModule,
     RoutesModule,
+    DelonACLModule,
     ...FORM_MODULES,
     ...GLOBAL_THIRD_MODULES
   ],

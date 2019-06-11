@@ -100,8 +100,20 @@ class User extends Authenticatable
         $this->save();
     }
 
-    public function  isActive()
+    public function isActive()
     {
         return $this->active;
+    }
+
+    public function getAgentCount()
+    {
+        // 只有一对一和班课的正常学生才计算人数
+        return $this->agentStudents->where('status', '>=', 0)->where('status', '<', 2)->count();
+    }
+
+    public function getTeacheCount()
+    {
+        // 只有一对一和班课的正常学生才计算人数
+        return $this->teacherStudents->where('status', '>=', 0)->where('status', '<', 2)->count();
     }
 }

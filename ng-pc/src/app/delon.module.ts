@@ -5,7 +5,7 @@
 import { NgModule, Optional, SkipSelf, ModuleWithProviders } from '@angular/core';
 import { throwIfAlreadyLoaded } from '@core';
 
-import { AlainThemeModule } from '@delon/theme';
+import { AlainThemeModule, AlainThemeConfig } from '@delon/theme';
 
 // #region mock
 import { DelonMockModule } from '@delon/mock';
@@ -80,6 +80,14 @@ const GLOBAL_CONFIG_PROVIDES = [
 
 // #endregion
 
+export function fnAlainThemeConfig(): AlainThemeConfig {
+  return Object.assign(new AlainThemeConfig(), <AlainThemeConfig>{
+    http: {
+      nullValueHandling: 'ignore',
+    },
+  });
+}
+
 @NgModule({
   imports: [
     AlainThemeModule.forRoot(),
@@ -94,7 +102,11 @@ export class DelonModule {
   static forRoot(): ModuleWithProviders {
     return {
       ngModule: DelonModule,
-      providers: [...REUSETAB_PROVIDES, ...GLOBAL_CONFIG_PROVIDES],
+      providers: [
+        { provide: AlainThemeConfig, useFactory: fnAlainThemeConfig },
+        ...REUSETAB_PROVIDES,
+        ...GLOBAL_CONFIG_PROVIDES
+      ],
     };
   }
 }

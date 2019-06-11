@@ -16,6 +16,7 @@ class StudentCollection extends ResourceCollection
     {
         return [
             'data' => $this->collection,
+            'count' => $this->collection->count(),
             'links' => [
                 'self' => 'link-value',
             ],

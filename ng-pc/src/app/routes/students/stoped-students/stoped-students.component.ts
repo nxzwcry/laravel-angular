@@ -16,7 +16,7 @@ export class StudentsStopedStudentsComponent implements OnInit {
   wordFilter:FormControl = new FormControl();
   searchWord: string;
   listOfSearchAgent = [ ];
-  sortName = 'id';
+  sortName = 'buxuTime';
   sortValue = 'descend';
   userid: number;
   agentList = [];
@@ -39,13 +39,13 @@ export class StudentsStopedStudentsComponent implements OnInit {
       let temp = [];
       let searchTemp = [];
       for(let item of res.data){
-        if (item.id == this.userid){
-          temp.push({ text: item.name, value: item.name, byDefault: true });
-          searchTemp.push(item.name);
-        }
-        else{
+        // if (item.id == this.userid){
+        //   temp.push({ text: item.name, value: item.name, byDefault: true });
+        //   searchTemp.push(item.name);
+        // }
+        // else{
           temp.push({ text: item.name, value: item.name });
-        }
+        // }
       }
       this.listOfSearchAgent = searchTemp;
       this.agentList = temp;

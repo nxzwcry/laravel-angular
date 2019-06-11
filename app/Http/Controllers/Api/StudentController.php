@@ -40,6 +40,11 @@ class StudentController extends ApiController
         {
             $students = Student::where('status', -1)->get();
         }
+        elseif ($type == 'new-stoped')
+        {
+            $time = Carbon::now('Asia/Shanghai')->subDays(60);
+            $students = Student::where('status', -2)->where('stop_time', '>=', $time)->get();
+        }
         if ($students)
         {
             return new StudentCollection($students);
@@ -90,4 +95,5 @@ class StudentController extends ApiController
 
         return response()->json(null, 204);
     }
+
 }

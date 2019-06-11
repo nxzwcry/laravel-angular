@@ -35,7 +35,7 @@
               "node_modules/@antv/data-set/dist/data-set.min.js",
               "node_modules/@antv/g2-plugin-slider/dist/g2-plugin-slider.min.js"
             ],
-            "es5BrowserSupport": true
+            "es5BrowserSupport": true,
           },
           "configurations": {
             "production": {
@@ -75,7 +75,8 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "ng-pc:build"
+            "browserTarget": "ng-pc:build",
+            "disableHostCheck": true
           },
           "configurations": {
             "production": {

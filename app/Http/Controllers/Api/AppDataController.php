@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Student;
 use Illuminate\Http\Request;
 use App\User;
 use Illuminate\Support\Facades\Auth;
@@ -223,6 +224,11 @@ class AppdataController extends ApiController
                 "email" => $user->email,
                 "roles" =>$roles,
                 "permissions" =>$permissions,
+                'agentCount' => $user->getAgentCount(),
+                'teacherCount' => $user->getTeacheCount(),
+                "one_to_one" => Student::where('status', 1)->count(),
+                "no_lessons" => Student::where('status', 2)->count(),
+                "team_students" => Student::where('status', 0)->count(),
             ];
         }
         $info['user'] = $this->userInfo;

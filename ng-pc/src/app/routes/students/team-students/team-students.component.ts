@@ -4,6 +4,7 @@ import {FormControl} from "@angular/forms";
 import { debounceTime, map } from 'rxjs/operators';
 import {JsonData} from "@shared/shared.module";
 import {DictionaryService} from "@shared/services/dictionary.service";
+import {ACLService} from "@delon/acl";
 
 @Component({
   selector: 'app-students-team-students',
@@ -25,6 +26,7 @@ export class StudentsTeamStudentsComponent implements OnInit {
               private modal: ModalHelper,
               private dic: DictionaryService,
               private settingService: SettingsService,
+              private acl: ACLService,
   ) { }
 
   ngOnInit() {
@@ -37,8 +39,9 @@ export class StudentsTeamStudentsComponent implements OnInit {
     this.dic.getAgentList().subscribe(res =>{
       let temp = [];
       let searchTemp = [];
+      let search = this.acl.can("agent") && !this.acl.can("cteacher");
       for(let item of res.data){
-        if (item.id == this.userid){
+        if ( item.id == this.userid && search ){
           temp.push({ text: item.name, value: item.name, byDefault: true });
           searchTemp.push(item.name);
         }

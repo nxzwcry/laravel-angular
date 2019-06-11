@@ -16,7 +16,8 @@
     <nz-table #filterTable [nzData]="displayList | filter:['name','ename','id','cteacher','fteacher']:searchWord" nzSize="middle" [nzPageSize]="8" [nzShowPagination]="true" [nzLoading]="loading">
       <thead (nzSortChange)="sort($event)" nzSingleSort>
       <tr>
-        <th nzShowSort nzSortKey="id" nzWidth="150px" nzSort="descend">学生编号</th>
+        <th nzShowSort nzSortKey="buxuTime" nzWidth="150px" nzSort="descend">不续费时间</th>
+        <th nzShowSort nzSortKey="id" nzWidth="150px">学生编号</th>
         <th nzWidth="200px">姓名</th>
         <th nzWidth="250px">英文名</th>
         <th nzShowSort nzSortKey="waijiao" nzWidth="150px">剩余外教</th>
@@ -27,6 +28,7 @@
       </thead>
       <tbody>
       <tr *ngFor="let student of filterTable.data">
+        <td>{{student.buxuTime*1000 | _date: 'YYYY/MM/DD'}}</td>
         <td>{{student.id}}</td>
         <td><a [routerLink]="['/students/student',student.id]">{{student.name}}</a></td>
         <td>{{student.ename}}</td>

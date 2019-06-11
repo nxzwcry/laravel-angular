@@ -48,6 +48,11 @@ Route::middleware('auth:api')->group(function () {
 
     Route::prefix('users')->group(function () {
         Route::get('', 'Api\UserController@index');
+        Route::get('newStudentsA', 'Api\UserController@newStudentsA');
+        Route::get('newStudentsT', 'Api\UserController@newStudentsT');
+        Route::get('xufeiStudentsA', 'Api\UserController@xufeiStudentsA');
+        Route::get('xufeiStudentsT', 'Api\UserController@xufeiStudentsT');
+        Route::get('noLessons', 'Api\UserController@noLessons');
         Route::get('{user}', 'Api\UserController@show');
         Route::middleware('permission:user-create')->post('', 'Api\UserController@store');
         Route::middleware('permission:user-create')->put('{user}', 'Api\UserController@update');

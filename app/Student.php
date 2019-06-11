@@ -27,7 +27,7 @@ class Student extends Model
     //自动维护时间戳
     public $timestamps = true;
 
-    protected $dates = ['birthday', 'created_at', 'updated_at', 'deleted_at'];
+    protected $dates = ['birthday', 'created_at', 'updated_at', 'deleted_at', 'stop_time'];
 
     //不允许批量赋值的字段
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
@@ -57,6 +57,18 @@ class Student extends Model
                 return $lessons;
         }
         return null;
+    }
+
+    // 获取暂时停课时间
+    public function getStopTime()
+    {
+        if ($this->getNotNewLessons())
+        {
+            return $this->getNotNewLessons()->first()->end_datetime;
+        }
+        else{
+            return $this->created_at;
+        }
     }
 
     // 获取未上课程
@@ -134,6 +146,8 @@ class Student extends Model
     public function stop()
     {
         $this->status = -2;
+        // 设置学生的不续费时间为操作时间
+        $this->stop_time = Carbon::now();
         $this->save();
         return $this;
     }
@@ -270,6 +284,12 @@ class Student extends Model
             $etime = Carbon::now();
         }
         return $this->getJingpin($etime)-$this->getJingpinCost($etime);
+    }
+
+    public function getTimes()
+    {
+        $times = $this->team ? ($this->getLeftWaijiao() + $this->getLeftZhongjiao())/2 : ($this->getLeftWaijiao() + $this->getLeftZhongjiao());
+        return $times;
     }
 
 }

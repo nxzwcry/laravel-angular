@@ -6,6 +6,7 @@ import {JsonData} from "@shared/shared.module";
 import {DictionaryService} from "@shared/services/dictionary.service";
 import {StudentsEditStudentComponent} from "../edit-student/edit-student.component";
 import {NzMessageService} from "ng-zorro-antd";
+import {ACLService} from "@delon/acl";
 
 @Component({
   selector: 'app-students-no-lessons-students',
@@ -29,6 +30,7 @@ export class StudentsNoLessonsStudentsComponent implements OnInit {
               public msgSrv: NzMessageService,
               private dic: DictionaryService,
               private settingService: SettingsService,
+              private acl: ACLService,
   ) { }
 
   ngOnInit() {
@@ -41,8 +43,9 @@ export class StudentsNoLessonsStudentsComponent implements OnInit {
     this.dic.getAgentList().subscribe(res =>{
       let temp = [];
       let searchTemp = [];
+      let search = this.acl.can("agent") && !this.acl.can("cteacher");
       for(let item of res.data){
-        if (item.id == this.userid){
+        if ( item.id == this.userid && search ){
           temp.push({ text: item.name, value: item.name, byDefault: true });
           searchTemp.push(item.name);
         }

@@ -11,6 +11,7 @@ import {StudentsEditStudentComponent} from "../edit-student/edit-student.compone
 import {NzModalRef} from "ng-zorro-antd";
 import {DictionaryService} from "@shared/services/dictionary.service";
 import {forEach} from "@angular/router/src/utils/collection";
+import {ACLService} from "@delon/acl";
 
 @Component({
   selector: 'app-students-one-to-one',
@@ -32,6 +33,7 @@ export class StudentsOneToOneComponent implements OnInit {
               private modal: ModalHelper,
               private dic: DictionaryService,
               private settingService: SettingsService,
+              private acl: ACLService,
               ) { }
 
   ngOnInit() {
@@ -44,8 +46,9 @@ export class StudentsOneToOneComponent implements OnInit {
     this.dic.getAgentList().subscribe(res =>{
       let temp = [];
       let searchTemp = [];
+      let search = this.acl.can("agent") && !this.acl.can("cteacher");
       for(let item of res.data){
-        if (item.id == this.userid){
+        if ( item.id == this.userid && search ){
           temp.push({ text: item.name, value: item.name, byDefault: true });
           searchTemp.push(item.name);
         }

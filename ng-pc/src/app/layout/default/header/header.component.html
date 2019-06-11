@@ -12,6 +12,40 @@
         <i nz-icon type="menu-{{settings.layout.collapsed ? 'unfold' : 'fold'}}"></i>
       </div>
     </li>
+    <!--顾问学生数-->
+    <li [acl]="['agent']">
+      <div class="alain-default__nav-item" style="padding-right: 20px">
+        学生数
+        <span [acl]="{ role: ['cteacher', 'agent'], mode: 'allOf' }">(顾问)</span>
+        ：{{settings.user.agentCount}}
+      </div>
+    </li>
+    <!--教师学生数-->
+    <li [acl]="['cteacher']">
+      <div class="alain-default__nav-item" style="padding-right: 20px">
+        学生数
+        <span [acl]="{ role: ['cteacher', 'agent'], mode: 'allOf' }">(教师)</span>
+        ：{{settings.user.teacherCount}}
+      </div>
+    </li>
+    <!--1对1学生数-->
+    <li [acl]="['admin']">
+      <div class="alain-default__nav-item" style="padding-right: 20px">
+        1对1：{{settings.user.one_to_one}}
+      </div>
+    </li>
+    <!--班课学生数-->
+    <li [acl]="['admin']">
+      <div class="alain-default__nav-item" style="padding-right: 20px">
+        班课：{{settings.user.team_students}}
+      </div>
+    </li>
+    <!--停课学生数-->
+    <li [acl]="['admin']">
+      <div class="alain-default__nav-item" style="padding-right: 20px">
+        停课：{{settings.user.no_lessons}}
+      </div>
+    </li>
     <!--&lt;!&ndash; Github Page &ndash;&gt;-->
     <!--<li>-->
       <!--<a class="alain-default__nav-item" href="//github.com/ng-alain/ng-alain" target="_blank">-->

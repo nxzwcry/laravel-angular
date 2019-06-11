@@ -13,7 +13,7 @@ class UpdateTeamsTable extends Migration
      */
     public function up()
     {
-        // 员增加班号列
+        // 增加班号列
 
         if (!Schema::hasColumn('teams', 'num')) {
             Schema::table('teams', function (Blueprint $table) {
