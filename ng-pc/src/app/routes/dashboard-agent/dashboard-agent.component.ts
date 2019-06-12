@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { _HttpClient } from '@delon/theme';
+import {_HttpClient, ModalHelper, SettingsService} from '@delon/theme';
 import {JsonData} from "@shared/shared.module";
 import {debounceTime} from "rxjs/operators";
 import {ACLService} from "@delon/acl";
+import {UserDataService} from "@shared/services/user-data.service";
+import {SharedEditStudentComponent} from "@shared/components/edit-student/edit-student.component";
 
 @Component({
   selector: 'app-dashboard-agent',
@@ -21,6 +23,9 @@ export class DashboardAgentComponent implements OnInit {
   constructor(
     private http: _HttpClient,
     private acl: ACLService,
+    public settings: SettingsService,
+    private userData: UserDataService,
+    private modal: ModalHelper,
   ) { }
 
   ngOnInit() {
@@ -79,6 +84,8 @@ export class DashboardAgentComponent implements OnInit {
     else {
       this.newStopLoading = false;
     }
+
+    this.userData.reloadUserData();
   }
 
   newSort(sort: { key: string, value: string }): void {
@@ -116,4 +123,13 @@ export class DashboardAgentComponent implements OnInit {
       this.newStopList = data.sort((a, b) => (sortValue === 'ascend') ? (a[ sortName ] > b[ sortName ] ? 1 : -1) : (b[ sortName ] > a[ sortName ] ? 1 : -1));
     }
   }
+
+  add() {
+    this.modal.create(SharedEditStudentComponent, {size: 'sm'}, {
+      modalOptions: {
+        nzTitle: '添加学生',
+        nzMaskClosable: false,
+      }}).subscribe(res => this.load() );
+  }
+
 }

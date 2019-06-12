@@ -29,6 +29,8 @@ import { LessonOperateService } from "@shared/services/lesson-operate.service";
 import { DictionaryService } from "@shared/services/dictionary.service";
 import { CourseOperateService } from "@shared/services/course-operate.service";
 import {SharedEditVideoComponent} from "@shared/components/edit-video/edit-video.component";
+import {UserDataService} from "@shared/services/user-data.service";
+import {SharedEditStudentComponent} from "@shared/components/edit-student/edit-student.component";
 
 const THIRDMODULES = [
   NgZorroAntdModule,
@@ -45,6 +47,7 @@ const COMPONENTS = [
   SharedEditLessonComponent,
   SharedCopyLessonComponent,
   SharedEditVideoComponent,
+  SharedEditStudentComponent,
 ];
 
 const DIRECTIVES = [];
@@ -59,6 +62,7 @@ const MYSERVICES = [
   DictionaryService,
   LessonOperateService,
   CourseOperateService,
+  UserDataService,
 ];
 
 @NgModule({

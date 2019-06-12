@@ -43,6 +43,7 @@ Route::middleware('auth:api')->group(function () {
         Route::middleware('permission:student-create')->post('', 'Api\StudentController@store');
         Route::middleware('permission:student-create')->put('{student}', 'Api\StudentController@update');
         Route::middleware('permission:student-status-change')->put('/stop/{student}', 'Api\StudentController@stop');
+        Route::middleware('permission:student-status-change')->put('/stopLessons/{student}', 'Api\StudentController@stopLessons');
         Route::middleware('permission:student-create')->delete('{student}', 'Api\StudentController@delete');
     });
 

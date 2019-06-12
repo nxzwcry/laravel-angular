@@ -7,7 +7,6 @@ import {FormControl} from "@angular/forms";
 import { fromEvent, timer } from 'rxjs';
 import { debounceTime, map } from 'rxjs/operators';
 import {JsonData} from "@shared/shared.module";
-import {StudentsEditStudentComponent} from "../edit-student/edit-student.component";
 import {NzModalRef} from "ng-zorro-antd";
 import {DictionaryService} from "@shared/services/dictionary.service";
 import {forEach} from "@angular/router/src/utils/collection";

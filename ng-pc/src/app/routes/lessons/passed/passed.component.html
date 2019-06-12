@@ -17,10 +17,10 @@
           <th>课程类型</th>
           <th>中教老师</th>
           <th>上课时间</th>
-          <!--<th>外教时间</th>-->
+          <th>外教时间</th>
           <th>外教会议ID</th>
           <th>课程状态</th>
-          <th>上课地点</th>
+          <th nzWidth="120px">上课地点</th>
           <th>课程名称</th>
           <th></th>
         </tr>
@@ -40,11 +40,11 @@
               <td>{{lesson.lesson_type}}</td>
               <td>{{lesson.cteacher ? lesson.cteacher : '无'}}</td>
               <td>{{lesson.stime*1000 | _date: 'HH:mm'}}~{{lesson.etime*1000 | _date: 'HH:mm'}}</td>
-              <!--<td>{{lesson.fteacher_time ? (lesson.fteacher_time*1000 | _date: 'HH:mm') : '无'}}</td>-->
+              <td>{{lesson.fteacher_time ? (lesson.fteacher_time*1000 | _date: 'HH:mm') : '无'}}</td>
               <td>{{lesson.mid ? lesson.mid : '无'}}</td>
               <td><nz-badge [nzStatus]="'success'" [nzText]="lesson.status | trans:lessonStatusList:'value':'label'"></nz-badge></td>
               <td>
-                <ellipsis lines="1" style="width: 100px;">
+                <ellipsis lines="1">
                   {{lesson.place}}
                 </ellipsis>
               </td>

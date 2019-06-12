@@ -20,7 +20,7 @@
           <th>外教老师</th>
           <th>外教时间</th>
           <th>外教会议ID</th>
-          <th>上课地点</th>
+          <th nzWidth="120px">上课地点</th>
           <th>课程名称</th>
           <th></th>
         </tr>
@@ -44,7 +44,7 @@
             <td>{{lesson.fteacher_time ? (lesson.fteacher_time*1000 | _date: 'HH:mm') : '无'}}</td>
             <td>{{lesson.mid ? lesson.mid : '无'}}</td>
             <td>
-              <ellipsis lines="1" style="width: 100px;">
+              <ellipsis lines="1" >
                 {{lesson.place}}
               </ellipsis>
             </td>

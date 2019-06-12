@@ -1,6 +1,6 @@
 <div nz-row [nzGutter]="16">
   <div nz-col [nzSpan]="6">
-    <nz-card nzTitle="{{ student.name }} {{ student.ename }}" [nzExtra]="changeStudentInfoTemplate">
+    <nz-card [nzTitle]="nameTemplate" [nzExtra]="changeStudentInfoTemplate">
           <sv-container size="small" [col]="1">
             <sv label="性别" align="right">{{student.sex}}</sv>
             <sv label="年龄/年级" align="right">{{student.age}}岁/{{student.grade}}</sv>
@@ -27,6 +27,17 @@
             <sv-container size="small" layout="vertical">
               <sv label="备注"><p align="right">{{student.desc}}</p></sv>
             </sv-container>
+            <div acl [acl-ability]="'student-status-change'">
+              <nz-divider></nz-divider>
+              <div nz-row [nzGutter]="16">
+                <div nz-col [nzSpan]="12">
+                  <button nz-button nzType="default" nzBlock [disabled]="student.status != 0 && student.status != 1" (click)="stopLessonsModal()">暂时停课</button>
+                </div>
+                <div nz-col [nzSpan]="12">
+                  <button nz-button nzType="danger" nzBlock [disabled]="student.status < 0" (click)="stopModal()">移至不续费</button>
+                </div>
+              </div>
+            </div>
           </div>
     </nz-card>
   </div>
@@ -85,7 +96,7 @@
                 <th>中教老师</th>
                 <th>外教老师</th>
                 <th>外教时间</th>
-                <th>上课地点</th>
+                <th nzWidth="100px">上课地点</th>
                 <th><a (click)="createLesson()" acl [acl-ability]="'lesson-create'">安排课程</a></th>
               </tr>
               </thead>
@@ -105,7 +116,7 @@
                 <td>{{lesson.fteacher ? lesson.fteacher : '无'}}</td>
                 <td>{{lesson.fteacher_time ? (lesson.fteacher_time*1000 | _date: 'HH:mm') : '无'}}</td>
                 <td>
-                  <ellipsis lines="1" style="width: 80px;">
+                  <ellipsis lines="1">
                     {{lesson.place}}
                   </ellipsis>
                 </td>
@@ -189,6 +200,12 @@
     </nz-card>
   </div>
 </div>
+
+<ng-template #nameTemplate>
+  {{ student.name }} {{ student.ename }}
+  <nz-tag [nzColor]="'orange'" *ngIf="student.status == 2">停课中</nz-tag>
+  <nz-tag [nzColor]="'#f50'" *ngIf="student.status == -2">不续费</nz-tag>
+</ng-template>
 
 <ng-template #changeStudentInfoTemplate>
   <a (click)="change()" acl [acl-ability]="'student-create'">修改信息</a>

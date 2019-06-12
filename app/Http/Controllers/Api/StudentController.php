@@ -89,6 +89,11 @@ class StudentController extends ApiController
         return new StudentResource($student->stop());
     }
 
+    public function stopLessons(Request $request, Student $student)
+    {
+        return new StudentResource($student->stopLessons());
+    }
+
     public function delete(Student $student)
     {
         $student->delete();

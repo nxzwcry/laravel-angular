@@ -10,10 +10,10 @@ import {JsonData} from "@shared/shared.module";
 import {forEach} from "@angular/router/src/utils/collection";
 
 @Component({
-  selector: 'app-students-edit-student',
+  selector: 'app-shared-edit-student',
   templateUrl: './edit-student.component.html',
 })
-export class StudentsEditStudentComponent implements OnInit {
+export class SharedEditStudentComponent implements OnInit {
   loading: Boolean = false;
   sexList: Array<any> = [];
   gradeList: Array<any> = [];

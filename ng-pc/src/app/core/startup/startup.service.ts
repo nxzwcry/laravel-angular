@@ -11,6 +11,7 @@ import { NzIconService } from 'ng-zorro-antd';
 import { ICONS_AUTO } from '../../../style-icons-auto';
 import { ICONS } from '../../../style-icons';
 import { ReuseTabService } from "@delon/abc/reuse-tab";
+import { UserDataService } from "@shared/services/user-data.service";
 
 /**
  * 用于应用启动时
@@ -27,7 +28,8 @@ export class StartupService {
     private titleService: TitleService,
     @Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
     private httpClient: HttpClient,
-    private injector: Injector
+    private injector: Injector,
+    private userData: UserDataService,
   ) {
     iconSrv.addIcon(...ICONS_AUTO, ...ICONS);
     reuseTabService.mode = 0;
@@ -49,15 +51,8 @@ export class StartupService {
       // 应用信息：包括站点名、描述、年份
       this.settingService.setApp(res.app);
 
-      if (res.user)
-      {
-        // 用户信息：包括姓名、头像、邮箱地址
-        this.settingService.setUser(res.user);
-        // ACL：设置权限为全量
-        //   console.log('setAcl', res.user.acl);
-        this.aclService.setRole(res.user.roles);
-        this.aclService.attachAbility(res.user.permissions);
-      }
+      this.userData.setUserData(appData);
+
       // 设置页面标题的后缀
       this.titleService.suffix = res.app.name;
       // 初始化菜单

@@ -145,11 +145,49 @@ class Student extends Model
     // 设置学生状态为停课（不续费）
     public function stop()
     {
+        $this->cleanLessons();
         $this->status = -2;
         // 设置学生的不续费时间为操作时间
         $this->stop_time = Carbon::now();
         $this->save();
         return $this;
+    }
+
+    // 设置学生状态为停课（未排课）
+    public function stopLessons()
+    {
+        $this->cleanLessons();
+        $this->status = 2;
+        $this->save();
+        return $this;
+    }
+
+    // 清除学生所有未上课程和固定课程，并退出班级
+    public function cleanLessons()
+    {
+        // 退出班级
+        $team = $this->team;
+        if ($team)
+        {
+            $team->deleteStudent($this);
+        }
+
+        // 删除固定课程
+        $courses = $this->courses;
+        foreach ($courses as $course)
+        {
+            $course->delete();
+        }
+
+        // 删除单节课程
+        $lessons = $this->getNewLessons();
+        if ($lessons)
+        {
+            foreach ($lessons as $lesson)
+            {
+                $lesson->delete();
+            }
+        }
     }
 
     // 整理学生状态

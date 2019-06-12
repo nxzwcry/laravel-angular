@@ -72,14 +72,14 @@ class UserController extends ApiController
     public function getCteachers()
     {
 //        $roel = Role::where('name', 'cteacher');
-        return new UserCollection(User::role("cteacher")->get());;
+        return new UserCollection(User::role("cteacher")->where('active', true)->get());;
     }
 
     // 获取顾问列表
     public function getAgents()
     {
 //        $roel = Role::where('name', 'agent');
-        return new UserCollection(User::role("agent")->get());;
+        return new UserCollection(User::role("agent")->where('active', true)->get());;
     }
 
 

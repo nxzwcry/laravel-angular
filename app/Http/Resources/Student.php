@@ -32,7 +32,7 @@ class Student extends Resource
             'team_id' => $this->team_id,
             'created_at' => $this->created_at->timestamp,
             'stopTime' => $this->getStopTime()->timestamp,
-            'buxuTime' => $this->stop_time->timestamp,
+            'buxuTime' => $this->stop_time ? $this->stop_time->timestamp : null,
         ];
     }
 

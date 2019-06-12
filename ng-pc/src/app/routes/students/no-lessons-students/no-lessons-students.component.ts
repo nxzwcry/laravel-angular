@@ -4,9 +4,9 @@ import {FormControl} from "@angular/forms";
 import { debounceTime, map } from 'rxjs/operators';
 import {JsonData} from "@shared/shared.module";
 import {DictionaryService} from "@shared/services/dictionary.service";
-import {StudentsEditStudentComponent} from "../edit-student/edit-student.component";
 import {NzMessageService} from "ng-zorro-antd";
 import {ACLService} from "@delon/acl";
+import {UserDataService} from "@shared/services/user-data.service";
 
 @Component({
   selector: 'app-students-no-lessons-students',
@@ -31,6 +31,7 @@ export class StudentsNoLessonsStudentsComponent implements OnInit {
               private dic: DictionaryService,
               private settingService: SettingsService,
               private acl: ACLService,
+              private userData: UserDataService,
   ) { }
 
   ngOnInit() {
@@ -64,19 +65,12 @@ export class StudentsNoLessonsStudentsComponent implements OnInit {
       .subscribe(res => {
           this.msgSrv.success('保存成功');
           this.load();
+          this.userData.reloadUserData();
         },
         error => {
           console.log('post请求失败', error);
         }
       );
-  }
-
-  add() {
-    this.modal.create(StudentsEditStudentComponent, {size: 'sm'}, {
-      modalOptions: {
-        nzTitle: '添加学生',
-        nzMaskClosable: false,
-      }}).subscribe(res => this.reload(res) );
   }
 
   reload(b: Boolean)

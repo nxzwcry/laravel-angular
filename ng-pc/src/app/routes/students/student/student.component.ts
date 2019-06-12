@@ -1,18 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { NzModalRef, NzMessageService } from 'ng-zorro-antd';
-import {_HttpClient, ModalHelper} from '@delon/theme';
+import {NzModalRef, NzMessageService, NzModalService} from 'ng-zorro-antd';
+import {_HttpClient, ModalHelper, SettingsService} from '@delon/theme';
 import {ReuseTabService} from "@delon/abc";
 import {JsonData} from "@shared/shared.module";
 import {Student} from "@shared/modules/student";
 import {DictionaryService} from "@shared/services/dictionary.service";
-import {UsersEditUserComponent} from "../../users/edit-user/edit-user.component";
-import {StudentsEditStudentComponent} from "../edit-student/edit-student.component";
+import {SharedEditStudentComponent} from "@shared/components/edit-student/edit-student.component";
 import {StudentsEditRechargeComponent} from "../edit-recharge/edit-recharge.component";
 import {LessonOperateService} from "@shared/services/lesson-operate.service";
 import {CourseOperateService} from "@shared/services/course-operate.service";
 import {SharedEditLessonComponent} from "@shared/components/edit-lesson/edit-lesson.component";
 import {SharedEditCourseComponent} from "@shared/components/edit-course/edit-course.component";
+import {UserDataService} from "@shared/services/user-data.service";
 
 @Component({
   selector: 'app-students-student',
@@ -25,6 +25,7 @@ export class StudentsStudentComponent implements OnInit {
   dowList: Array<any>;
   lessonStatusList: Array<any>;
   indexTab: number;
+  confirmModal: NzModalRef;
 
   constructor(
     private route: ActivatedRoute,
@@ -33,8 +34,11 @@ export class StudentsStudentComponent implements OnInit {
     private reuseTabService: ReuseTabService,
     private dic: DictionaryService,
     private modal: ModalHelper,
+    private nzmodal: NzModalService,
     private lessonOp: LessonOperateService,
     private courseOp: CourseOperateService,
+    private userData: UserDataService,
+    private settings: SettingsService,
   ) {
     this.lessonOp.setCom(this);
     this.courseOp.setCom(this);
@@ -48,7 +52,7 @@ export class StudentsStudentComponent implements OnInit {
 
   change(){
     this.modal.create(
-      StudentsEditStudentComponent,
+      SharedEditStudentComponent,
       {size: 'sm'},
       {modalOptions:
           {
@@ -123,5 +127,49 @@ export class StudentsStudentComponent implements OnInit {
         this.student.sex = this.dic.getSex(this.student.sex);
         this.student.grade = this.dic.getGrade(this.student.grade);
       });
+  }
+
+  stopModal(){
+    this.confirmModal = this.nzmodal.confirm({
+      nzTitle: '不续费',
+      nzContent: `确定要将${this.student.name}的未上课程全部移除，并将其加入不续费学生名单吗？`,
+      nzOnOk: () => this.stop()
+    });
+
+  }
+
+  stopLessonsModal(){
+    this.confirmModal = this.nzmodal.confirm({
+      nzTitle: '暂时停课',
+      nzContent: `确定要将${this.student.name}的未上课程全部移除，并将其加入停课学生名单吗？`,
+      nzOnOk: () => this.stopLessons()
+    });
+  }
+
+  stop(){
+    this.http.put(`/students/stop/${this.student.id}`)
+      .subscribe(res => {
+          this.msgSrv.success('保存成功');
+          this.load();
+          this.userData.reloadUserData();
+        },
+        error => {
+          console.log('post请求失败', error);
+        }
+      );
+  }
+
+  stopLessons(){
+    this.http.put(`/students/stopLessons/${this.student.id}`)
+      .subscribe(res => {
+          this.msgSrv.success('保存成功');
+          this.load();
+          this.userData.reloadUserData();
+          // console.log(this.settings.user.no_lessons);
+        },
+        error => {
+          console.log('post请求失败', error);
+        }
+      );
   }
 }
