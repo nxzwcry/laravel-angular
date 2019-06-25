@@ -42,6 +42,7 @@ Route::middleware('auth:api')->group(function () {
         Route::get('{student}', 'Api\StudentController@show');
         Route::middleware('permission:student-create')->post('', 'Api\StudentController@store');
         Route::middleware('permission:student-create')->put('{student}', 'Api\StudentController@update');
+        Route::middleware('permission:student-info-change')->put('/changeInfo/{student}', 'Api\StudentController@infoChange');
         Route::middleware('permission:student-status-change')->put('/stop/{student}', 'Api\StudentController@stop');
         Route::middleware('permission:student-status-change')->put('/stopLessons/{student}', 'Api\StudentController@stopLessons');
         Route::middleware('permission:student-create')->delete('{student}', 'Api\StudentController@delete');
@@ -53,6 +54,7 @@ Route::middleware('auth:api')->group(function () {
         Route::get('newStudentsT', 'Api\UserController@newStudentsT');
         Route::get('xufeiStudentsA', 'Api\UserController@xufeiStudentsA');
         Route::get('xufeiStudentsT', 'Api\UserController@xufeiStudentsT');
+        Route::get('today', 'Api\UserController@today');
         Route::get('noLessons', 'Api\UserController@noLessons');
         Route::get('{user}', 'Api\UserController@show');
         Route::middleware('permission:user-create')->post('', 'Api\UserController@store');

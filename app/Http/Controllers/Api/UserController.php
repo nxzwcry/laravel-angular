@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Lesson;
 use App\Student;
 use Illuminate\Http\Request;
 use App\User;
@@ -15,6 +16,7 @@ use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\StudentCollection;
 use Carbon\Carbon;
+use App\Http\Resources\LessonCollection;
 
 class UserController extends ApiController
 {
@@ -116,12 +118,8 @@ class UserController extends ApiController
             $students = $students->sortByDesc(function ($student, $key) {
                 return $student->created_at;
             })->flatten();
-            return new StudentCollection($students);
         }
-        else
-        {
-            return response()->json();
-        }
+        return new StudentCollection($students);
     }
 
     // 60天内加入的新学生（老师视图）
@@ -130,25 +128,14 @@ class UserController extends ApiController
         $students = null;
         $user = Auth::user();
         $time = Carbon::now('Asia/Shanghai')->subDays(60);
-        if ( $user->hasRole('admin') )
-        {
-            $students = Student::where('created_at', '>=', $time)->get();
-        }
-        else
-        {
-            $students = $user->teacherStudents()->where('created_at', '>=', $time)->get();
-        }
+        $students = $user->teacherStudents()->where('created_at', '>=', $time)->get();
         if ($students)
         {
             $students = $students->sortByDesc(function ($student, $key) {
                 return $student->created_at;
             })->flatten();
-            return new StudentCollection($students);
         }
-        else
-        {
-            return response()->json();
-        }
+        return new StudentCollection($students);
     }
 
     // 续费周期学生（顾问视图）
@@ -175,35 +162,32 @@ class UserController extends ApiController
                 $res = $res->sortBy(function ($student, $key) {
                     return $student->getTimes();
                 })->flatten();
-                return new StudentCollection($res);
             }
         }
-        return response()->json();
+        return new StudentCollection($res);
     }
 
-//    // 60天内加入的新学生（老师视图）
-//    public function newStudentsT()
-//    {
-//        $students = null;
-//        $user = Auth::user();
-//        $time = Carbon::now('Asia/Shanghai')->subDays(60);
-//        if ( $user->hasRole('admin') )
-//        {
-//            $students = Student::where('created_at', '>=', $time)->get();
-//        }
-//        else
-//        {
-//            $students = $this->teacherStudents()->where('created_at', '>=', $time)->get();
-//        }
-//        if ($students)
-//        {
-//            return new StudentCollection($students);
-//        }
-//        else
-//        {
-//            return response()->json();
-//        }
-//    }
+    // 续费周期学生（老师视图）
+    public function xufeiStudentsT()
+    {
+        $students = null;
+        $user = Auth::user();
+        $students = $user->teacherStudents()->whereIn('status', [0, 1])->get();
+        if ($students)
+        {
+            $res =  $students->filter(function ($value, $key){
+                $times = $value->getTimes();
+                return $times <= 10;
+            });
+            if ($res->isNotEmpty())
+            {
+                $res = $res->sortBy(function ($student, $key) {
+                    return $student->getTimes();
+                })->flatten();
+            }
+        }
+        return new StudentCollection($res);
+    }
 
     // 未排课学员list
     public function noLessons()
@@ -219,12 +203,15 @@ class UserController extends ApiController
             $students = $students->sortByDesc(function ($student, $key) {
                 return $student->getStopTime();
             })->flatten();
-            return new StudentCollection($students);
         }
-        else
-        {
-            return response()->json();
-        }
+        return new StudentCollection($students);
+    }
+
+    public function today()
+    {
+        $user = Auth::user();
+        $lessons = Lesson::getNewLessons(0)->where('cteacher_id', $user->id);
+        return new LessonCollection($lessons);
     }
 
 }

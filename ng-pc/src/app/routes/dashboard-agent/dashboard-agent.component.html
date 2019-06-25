@@ -1,10 +1,9 @@
 <div style="padding:30px;">
   <div nz-row [nzGutter]="16" style="margin-bottom: 16px">
     <div nz-col [nzSpan]="16">
-      学生数统计：
+      <span [acl]="['admin']">学生数统计：</span>
       <!--顾问学生数-->
-      <nz-tag [nzColor]="'blue'" [acl]="['agent']">学生数
-        <span [acl]="['admin', 'cteacher']">(顾问)</span>
+      <nz-tag [nzColor]="'blue'" [acl]="['agent']">管理学生数
         ：{{settings.user.agentCount}}
       </nz-tag>
       <!--1对1学生数-->

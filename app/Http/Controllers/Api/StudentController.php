@@ -9,6 +9,7 @@ use App\Student;
 use App\Http\Resources\Student as StudentResource;
 use App\Http\Resources\StudentCollection;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class StudentController extends ApiController
 {
@@ -82,6 +83,47 @@ class StudentController extends ApiController
         Phone::deal($phones, $student->id);
 
         return new StudentResource($student);
+    }
+
+    public function infoChange(Request $request, Student $student)
+    {
+        $permission = false;
+        $user = Auth::user();
+        if ($student->cteacher)
+        {
+            if ($student->cteacher->id == $user->id)
+            {
+                $permission = true;
+            }
+        }
+        if ($student->agent)
+        {
+            if ($student->agent->id == $user->id)
+            {
+                $permission = true;
+            }
+        }
+
+        if ($permission)
+        {
+            $phones = $request->phones;
+            $request->offsetUnset('phones');
+            // 去掉不可更改信息
+            $request->offsetUnset('name');
+            $request->offsetUnset('sex');
+            $request->offsetUnset('agent_user_id');
+            $request->offsetUnset('cteacher_user_id');
+
+            $student->update($request->all());
+            // 处理电话信息
+            Phone::deal($phones, $student->id);
+
+            return new StudentResource($student);
+        }
+        else{
+            return $this->message('没有权限更改此学生信息');
+        }
+
     }
 
     public function stop(Request $request, Student $student)

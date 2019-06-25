@@ -41,7 +41,7 @@
             <td>{{lesson.cteacher ? lesson.cteacher : '无'}}</td>
             <td>{{lesson.stime*1000 | _date: 'HH:mm'}}~{{lesson.etime*1000 | _date: 'HH:mm'}}</td>
             <td>{{lesson.fteacher ? lesson.fteacher : '无'}}</td>
-            <td>{{lesson.fteacher_time ? (lesson.fteacher_time*1000 | _date: 'HH:mm') : '无'}}</td>
+            <td>{{lesson.fteacher ? (lesson.fteacher_time*1000 | _date: 'HH:mm') : '无'}}</td>
             <td>{{lesson.mid ? lesson.mid : '无'}}</td>
             <td>
               <ellipsis lines="1" >

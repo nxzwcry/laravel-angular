@@ -208,7 +208,10 @@
 </ng-template>
 
 <ng-template #changeStudentInfoTemplate>
-  <a (click)="change()" acl [acl-ability]="'student-create'">修改信息</a>
+  <a (click)="change()" acl [acl-ability]="['student-create']">修改信息</a>
+  <!--<div [acl]="'student-create'" except>-->
+    <a (click)="change()" acl [acl-ability]="['student-info-change']" *ngIf="student.cteacher_user_id == userid || student.agent_user_id == userid">修改信息</a>
+  <!--</div>-->
 </ng-template>
 
 <ng-template #courseTemplate>

@@ -26,6 +26,7 @@ export class StudentsStudentComponent implements OnInit {
   lessonStatusList: Array<any>;
   indexTab: number;
   confirmModal: NzModalRef;
+  userid: number;
 
   constructor(
     private route: ActivatedRoute,
@@ -42,6 +43,7 @@ export class StudentsStudentComponent implements OnInit {
   ) {
     this.lessonOp.setCom(this);
     this.courseOp.setCom(this);
+    this.userid = this.settings.user.id;
   }
 
   ngOnInit(): void {

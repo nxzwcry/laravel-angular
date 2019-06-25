@@ -1,6 +1,104 @@
-<div class="alain-default__content-title">
-  <h1>
-    教师控制面板
-    <small>Welcome !</small>
-  </h1>
+<div style="padding:30px;">
+  <div nz-row [nzGutter]="16" style="margin-bottom: 16px">
+    <div nz-col [nzSpan]="16">
+      <!--顾问学生数-->
+      <nz-tag [nzColor]="'blue'" [acl]="['cteacher']">教授学生数
+        ：{{settings.user.teacherCount}}
+      </nz-tag>
+    </div>
+    <div nz-col [nzSpan]="8">
+      <div nz-row nzType="flex" nzJustify="end" >
+        <button nz-button nzType="default" (click)="load()">刷新列表</button>
+      </div>
+    </div>
+  </div>
+  <div nz-row [nzGutter]="16">
+    <div nz-col [nzSpan]="8">
+      <nz-card nzTitle="今日课程" [nzExtra]="">
+          <nz-timeline>
+            <div *ngFor="let item of today">
+              <nz-timeline-item nzColor="blue">
+                <p>
+                  <nz-tag [nzColor]="'blue'" [acl]="['cteacher']" *ngIf="item.lesson_type_id=='bt'">班课</nz-tag>
+                  <nz-tag [nzColor]="'green'" [acl]="['cteacher']" *ngIf="item.lesson_type_id=='f' || item.lesson_type_id=='w'">中教</nz-tag>
+                  <nz-tag [nzColor]="'gold'" [acl]="['cteacher']" *ngIf="item.lesson_type_id=='bu'">补课</nz-tag>
+                  {{item.stime*1000 | _date: 'HH:mm'}}~{{item.etime*1000 | _date: 'HH:mm'}}
+                  <span *ngIf="item.student">
+                    <a [routerLink]="['/students/student',item.student_id]">{{item.student}}</a>
+                    {{item.student_ename}}
+                  </span>
+                  <span *ngIf="item.team">
+                    <a [routerLink]="['/teams/team',item.team_id]">{{item.team}}</a>
+                  </span>
+                </p>
+                <p>
+                  课程名称：<a [routerLink]="['/lessons/lesson',item.id]">{{item.name}}</a>
+                </p>
+                <p *ngIf="item.fteacher || item.lesson_type_id=='bt'">
+                  外教老师：{{item.fteacher ? item.fteacher : '无外教'}}
+                </p>
+                <p *ngIf="item.fteacher">
+                  外教时间：{{item.fteacher_time*1000 | _date: 'HH:mm'}}
+                </p>
+                <p *ngIf="item.fteacher">
+                  会议ID：{{item.mid}}
+                </p>
+                <!--<p *ngIf="item.fteacher">-->
+                  <!--上课环境：{{item.mid}}-->
+                <!--</p>-->
+                <p *ngIf="item.lesson_type_id!='bt'">
+                  上课地点：{{item.place}}
+                </p>
+              </nz-timeline-item>
+            </div>
+          </nz-timeline>
+        <nz-empty nzNotFoundContent="今日打烊，好好休息！" *ngIf="today.length == 0"></nz-empty>
+      </nz-card>
+    </div>
+    <div nz-col [nzSpan]="8">
+      <nz-card nzTitle="新报名学员(60天内)" [nzExtra]="">
+        <nz-table #newTable [nzData]="newList" nzSize="middle" [nzShowPagination]="false" [nzFrontPagination]="false" [nzLoading]="newLoading">
+          <thead (nzSortChange)="newSort($event)" nzSingleSort>
+          <tr>
+            <th>姓名</th>
+            <th nzShowSort nzSortKey="created_at" nzSort="descend">录入时间</th>
+            <th nzShowSort nzSortKey="agent">顾问</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let item of newTable.data">
+            <td>
+              <a [routerLink]="['/students/student',item.id]">{{item.name}}</a>{{item.ename}}
+            </td>
+            <td>{{item.created_at*1000 | _date: 'MM/DD'}}</td>
+            <td>{{item.agent}}</td>
+          </tr>
+          </tbody>
+        </nz-table>
+      </nz-card>
+    </div>
+    <div nz-col [nzSpan]="8">
+      <nz-card nzTitle="续费周期学员">
+        <nz-table #xufeiTable [nzData]="xufeiList" nzSize="middle" [nzShowPagination]="false" [nzFrontPagination]="false" [nzLoading]="xufeiLoading">
+          <thead (nzSortChange)="xufeiSort($event)" nzSingleSort>
+          <tr>
+            <th>姓名</th>
+            <th nzShowSort nzSortKey="times" nzSort="ascend">剩课</th>
+            <th nzShowSort nzSortKey="agent">顾问</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let item of xufeiTable.data">
+            <td>
+              <a [routerLink]="['/students/student',item.id]">{{item.name}}</a>{{item.ename}}
+            </td>
+            <td>{{item.times}}次</td>
+            <td>{{item.agent}}</td>
+          </tr>
+          </tbody>
+        </nz-table>
+      </nz-card>
+    </div>
+  </div>
 </div>
+

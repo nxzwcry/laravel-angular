@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { NzModalRef, NzMessageService } from 'ng-zorro-antd';
-import { _HttpClient } from '@delon/theme';
+import {_HttpClient, SettingsService} from '@delon/theme';
 import { SFSchema, SFUISchema } from '@delon/form';
 import {DictionaryService} from "@shared/services/dictionary.service";
 import { Observable, of } from 'rxjs';
@@ -8,6 +8,7 @@ import {AbstractControl, FormBuilder, FormGroup, Validators, FormControl, FormAr
 import {Student} from "@shared/modules/student";
 import {JsonData} from "@shared/shared.module";
 import {forEach} from "@angular/router/src/utils/collection";
+import {ACLService} from "@delon/acl";
 
 @Component({
   selector: 'app-shared-edit-student',
@@ -22,6 +23,20 @@ export class SharedEditStudentComponent implements OnInit {
   formModel: FormGroup;
   req: any = {};
   @Input() id: string;
+  listDisable = {
+    name: false,
+    ename: false,
+    sex: false,
+    birthday: false,
+    grade: false,
+    cteacher_user_id: false,
+    agent_user_id: false,
+    email: false,
+    address: false,
+    desc: false,
+    phones:false,
+  };
+  putUrl = "/students/";
 
   constructor(
     private modal: NzModalRef,
@@ -29,6 +44,7 @@ export class SharedEditStudentComponent implements OnInit {
     public http: _HttpClient,
     private dic: DictionaryService,
     private fb: FormBuilder,
+    private aclService: ACLService,
   ) {
     this.formModel = fb.group({
         name: [null, [Validators.required]],
@@ -58,6 +74,30 @@ export class SharedEditStudentComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    if (!this.aclService.can('admin'))
+    {
+      this.putUrl = "/students/changeInfo/";
+      if (this.aclService.can('cteacher'))
+      {
+        this.listDisable.name = true;
+        this.listDisable.sex = true;
+        this.listDisable.birthday = true;
+        this.listDisable.grade = true;
+        this.listDisable.cteacher_user_id = true;
+        this.listDisable.agent_user_id = true;
+        this.listDisable.email = true;
+        this.listDisable.address = true;
+        this.listDisable.desc = true;
+        this.listDisable.phones = true;
+      }
+      else {
+        this.listDisable.name = true;
+        this.listDisable.sex = true;
+        this.listDisable.ename = true;
+        this.listDisable.cteacher_user_id = true;
+        this.listDisable.agent_user_id = true;
+      }
+    }
     this.sexList = this.dic.getSexList();
     this.gradeList = this.dic.getGradeList();
     this.dic.getCteacherList().subscribe(res => this.cteacherList = res.data);
@@ -133,7 +173,7 @@ export class SharedEditStudentComponent implements OnInit {
       }
       // console.log(this.req.birthday.valueOf());
       if (this.id) {
-        this.http.put(`/students/${this.id}`, this.formModel.value)
+        this.http.put(this.putUrl+this.id, this.formModel.value)
           .subscribe(
             (val) => {
               this.msgSrv.success('保存成功');
