@@ -60,5 +60,7 @@ class Kernel extends HttpKernel
         // spatie权限控制
         'role' => \Spatie\Permission\Middlewares\RoleMiddleware::class,
         'permission' => \Spatie\Permission\Middlewares\PermissionMiddleware::class,
+        'wechat.oauth' => \Overtrue\LaravelWechat\Middleware\OAuthAuthenticate::class,
+        'wechat.checkcon' => \App\Http\Middleware\CheckWechat::class,
     ];
 }

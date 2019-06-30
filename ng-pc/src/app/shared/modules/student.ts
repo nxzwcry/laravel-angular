@@ -12,17 +12,14 @@ export class Student {
    */
 
   age: number;
-  lessonstage: string;
   agent: string;
   cteacher: string;
   team: string;
   score: number;
-  waijiaocost: number;
+  waijiao: number;
   waijiaototal: number;
-  zhongjiaocost: number;
+  zhongjiao: number;
   zhongjiaototal: number;
-  jingpincost: number;
-  jingpintotal: number;
   email: string;
   address: string;
   phones: any[];
