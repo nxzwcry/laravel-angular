@@ -89,7 +89,7 @@
             <nz-table #newLessonsTable [nzData]="student.newlessons" nzSize="small" [nzShowPagination]="false" [nzFrontPagination]="false">
               <thead>
               <tr>
-                <th>课程名称</th>
+                <th nzWidth="100px">课程名称</th>
                 <th>课程类型</th>
                 <th>上课日期</th>
                 <th>上课时间</th>
@@ -104,7 +104,7 @@
               <tr *ngFor="let lesson of newLessonsTable.data">
                 <td>
                   <a [routerLink]="['/lessons/lesson',lesson.id]">
-                    <ellipsis lines="1" style="width: 80px;">
+                    <ellipsis lines="1">
                       {{lesson.name}}
                     </ellipsis>
                   </a>
@@ -135,7 +135,7 @@
             <nz-table #oldLessonsTable [nzData]="student.oldlessons" nzSize="small" [nzPageSize]="6" [nzHideOnSinglePage]="true">
               <thead>
               <tr>
-                <th>课程名称</th>
+                <th nzWidth="100px">课程名称</th>
                 <th>课程类型</th>
                 <th>上课日期</th>
                 <th>上课时间</th>
@@ -149,7 +149,7 @@
               <tr *ngFor="let lesson of oldLessonsTable.data">
                 <td>
                     <a [routerLink]="['/lessons/lesson',lesson.id]">
-                      <ellipsis lines="1" style="width: 80px;">
+                      <ellipsis lines="1">
                         {{lesson.name}}
                       </ellipsis>
                     </a>

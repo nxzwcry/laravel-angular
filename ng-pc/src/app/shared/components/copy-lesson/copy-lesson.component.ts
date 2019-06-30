@@ -15,6 +15,8 @@ export class SharedCopyLessonComponent implements OnInit {
   formModel: FormGroup;
   req: any = {};
   @Input() lessonId: string;
+  @Input() checked: boolean = false;
+  listLoding: boolean = true;
 
   constructor(
     private modal: NzModalRef,
@@ -30,10 +32,36 @@ export class SharedCopyLessonComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.getList();
+  }
+
+  getList(): void {
+    if (this.checked)
+    {
+      this.getAllList();
+    }
+    else {
+      this.getTeamList();
+    }
+  }
+
+  getAllList(): void {
+    this.listLoding = true;
+    this.http.get<JsonData>('/students').subscribe(
+      (data) =>{
+        this.studentsList = data.data;
+        this.listLoding = false;
+      }
+    );
+  }
+
+  getTeamList(): void {
+    this.listLoding = true;
     this.http.get<JsonData>(`/lessons/copy/${this.lessonId}`).subscribe(
       (data) => {
         this.studentsList = data.data;
-        });
+        this.listLoding = false;
+      });
   }
 
   save() {

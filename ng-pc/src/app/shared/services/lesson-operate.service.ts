@@ -133,6 +133,19 @@ export class LessonOperateService {
       }).subscribe(res => this.reload(res));
   }
 
+  copyToAll(lessonId){
+    this.modal.create(
+      SharedCopyLessonComponent,
+      {size: 'sm'},
+      {modalOptions:
+          {
+            nzTitle: '复制课程给学生',
+            nzComponentParams: {lessonId: lessonId, checked: true},
+            nzMaskClosable: false,
+          }
+      }).subscribe(res => this.reload(res));
+  }
+
   noBuke(lessonId){
     if (lessonId)
     {

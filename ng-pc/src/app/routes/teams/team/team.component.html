@@ -30,23 +30,30 @@
       <nz-table #coursesTable [nzData]="team.courses" nzSize="small" [nzShowPagination]="false" [nzFrontPagination]="false">
         <thead>
         <tr>
-          <th>课程名称</th>
+          <th nzWidth="100px">课程名称</th>
           <th>上课日期</th>
           <th>上课时间</th>
           <th>中教老师</th>
           <th>外教老师</th>
-          <th>上课地点</th>
+          <th nzWidth="100px">上课地点</th>
           <th></th>
         </tr>
         </thead>
         <tbody>
         <tr *ngFor="let course of coursesTable.data">
-          <td><a [routerLink]="['/lessons/course',course.id]">{{course.name}}</a></td>
+          <td><a [routerLink]="['/lessons/course',course.id]">
+            <ellipsis lines="1">
+              {{course.name}}
+            </ellipsis>
+          </a></td>
           <td>每{{course.dow | trans:dowList:'value':'label'}}</td>
           <td>{{course.stime*1000 | _date: 'HH:mm'}}~{{course.etime*1000 | _date: 'HH:mm'}}</td>
           <td>{{course.cteacher}}</td>
           <td>{{course.fteacher}}</td>
-          <td>{{course.place}}</td>
+          <td>
+            <ellipsis lines="1">
+              {{course.place}}
+            </ellipsis>
           <td>
             <a (click)="courseOp.deleteCourse(course.id)" acl [acl-ability]="'course-delete'">删除</a>
           </td>
@@ -63,13 +70,13 @@
               <thead>
               <tr>
                 <th nzShowExpand></th>
-                <th>课程名称</th>
+                <th nzWidth="100px">课程名称</th>
                 <th>上课日期</th>
                 <th>上课时间</th>
                 <th>中教老师</th>
                 <th>外教老师</th>
                 <th>外教时间</th>
-                <th>上课地点</th>
+                <th nzWidth="100px">上课地点</th>
                 <th><a (click)="createLesson()" acl [acl-ability]="'lesson-create'">安排课程</a></th>
               </tr>
               </thead>
@@ -79,7 +86,7 @@
                     <td nzShowExpand [(nzExpand)]="lesson.expand"></td>
                     <td>
                       <a [routerLink]="['/lessons/lesson',lesson.id]">
-                        <ellipsis lines="1" style="width: 100px;">
+                        <ellipsis lines="1">
                           {{lesson.name}}
                         </ellipsis>
                       </a>
@@ -90,7 +97,7 @@
                     <td>{{lesson.fteacher ? lesson.fteacher : '无'}}</td>
                     <td>{{lesson.fteacher_time ? (lesson.fteacher_time*1000 | _date: 'HH:mm') : '无'}}</td>
                     <td>
-                      <ellipsis lines="1" style="width: 100px;">
+                      <ellipsis lines="1">
                         {{lesson.place}}
                       </ellipsis>
                     </td>
@@ -109,6 +116,8 @@
                           <td><nz-badge [nzStatus]="'success'" [nzText]="item.status | trans:lessonStatusList:'value':'label'"></nz-badge></td>
                           <td>{{item.waijiao_cost}}外/{{item.zhongjiao_cost}}中</td>
                           <td>
+                            <a (click)="lessonOp.copyToAll(item.id)" acl [acl-ability]="'lesson-create'">复制</a>
+                            <span acl [acl-ability]="{ ability: ['lesson-create', 'lesson-delete'], mode: 'allOf' }"> | </span>
                             <a (click)="lessonOp.deleteLesson(item.id)" acl [acl-ability]="'lesson-delete'">删除</a>
                           </td>
                         </tr>
@@ -125,7 +134,7 @@
               <thead>
               <tr>
                 <th nzShowExpand></th>
-                <th>课程名称</th>
+                <th nzWidth="100px">课程名称</th>
                 <th>上课日期</th>
                 <th>上课时间</th>
                 <th>中教老师</th>
@@ -140,7 +149,7 @@
                     <td nzShowExpand [(nzExpand)]="lesson.expand"></td>
                     <td>
                       <a [routerLink]="['/lessons/lesson',lesson.id]">
-                        <ellipsis lines="1" style="width: 100px;">
+                        <ellipsis lines="1">
                           {{lesson.name}}
                         </ellipsis>
                       </a>

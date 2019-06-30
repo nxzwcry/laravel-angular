@@ -1,11 +1,12 @@
 <form nz-form [formGroup]="formModel">
   <nz-form-item>
     <nz-form-label [nzSpan]="7" nzRequired>上课学生</nz-form-label>
-    <nz-form-control [nzSpan]="12" nzHasFeedback>
-      <nz-select formControlName="students" nzShowSearch nzAllowClear nzPlaceHolder="Choose" [nzMaxMultipleCount]="20" nzMode="multiple" >
+    <nz-form-control [nzSpan]="12" nzHasFeedback >
+      <nz-select style="width: 70%" formControlName="students" nzShowSearch nzAllowClear nzPlaceHolder="Choose" [nzMaxMultipleCount]="20" nzMode="multiple" [nzLoading]="listLoding">
         <nz-option *ngFor="let option of studentsList" [nzValue]="option.id" [nzLabel]="option.name+option.ename"></nz-option>
       </nz-select>
     </nz-form-control>
+    <label nz-checkbox [(ngModel)]="checked" [ngModelOptions]="{standalone: true}" (ngModelChange)="getList()">可选全部</label>
   </nz-form-item>
   <div class="modal-footer">
     <button nz-button type="button" (click)="close()">关闭</button>

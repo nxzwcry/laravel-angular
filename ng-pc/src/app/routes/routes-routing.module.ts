@@ -18,15 +18,13 @@ import {DashboardAgentComponent} from "./dashboard-agent/dashboard-agent.compone
 import {DashboardTeacherComponent} from "./dashboard-teacher/dashboard-teacher.component";
 
 
-let home = { path: '', redirectTo: 'dashboard', pathMatch: 'full' };
-
 const routes: Routes = [
   {
     path: '',
     component: LayoutDefaultComponent,
     canActivate: [SimpleGuard],
     children: [
-      home,
+      { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       { path: 'dashboard-agent', component: DashboardAgentComponent, canActivate: [ ACLGuard ], data: { guard: <ACLType>{ ability: [ 'show-agent-home' ], mode: 'allOf' }, title: '顾问控制面板' } },
       { path: 'dashboard-teacher', component: DashboardTeacherComponent, canActivate: [ ACLGuard ], data: { guard: <ACLType>{ ability: [ 'show-teacher-home' ], mode: 'allOf' }, title: '教师控制面板' } },
       { path: 'dashboard', component: DashboardComponent, data: { title: '首页' }, },
