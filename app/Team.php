@@ -253,6 +253,7 @@ class Team extends Model
         }
         $student->team_id = $this->id;
         $student->status = 0; // 将学生状态设置为班课
+        $student->cteacher_user_id = $this->cteacher_user_id; // 将学生的中教老师设置为班级老师
         $student->save(); //将学生加入班级
 
         //给加入学生添加目前班级的新课
