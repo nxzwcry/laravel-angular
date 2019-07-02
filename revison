@@ -1,3 +1,11 @@
+2019-7-2
+后端：
+    Bug：Auth guard [passport] is not defined 修改activitylog的config文件，auth driver设置为默认
+
+前端：
+    修改未登录自动跳转的ignores设定，但未登录用户点击重置密码时依然跳转到登录页面（无解）
+    修改index文件中的默认url前缀
+
 2019-7-1
 后端：
     Model team 学生加入班级时将学生的中教老师改为班级老师
