@@ -48,7 +48,16 @@ export class LessonsConfirmComponent implements OnInit {
     this.loading = true;
     this.http.get<JsonData>('/lessons/confirm').subscribe(
       (data) =>{
-        this.displayList = data.data;
+        if (this.acl.canAbility('lesson-delete'))
+        {
+          this.displayList = data.data;
+        }
+        else {
+          // 如果不是管理员的话则只筛选该老师名下的学员
+          /** filter data **/
+          const filterFunc = item => (item.cteacher_id == this.userid);
+          this.displayList = data.data.filter(item => filterFunc(item));
+        }
         this.loading = false;
       }
     );

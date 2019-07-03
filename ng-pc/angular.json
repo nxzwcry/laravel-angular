@@ -83,6 +83,7 @@
               "browserTarget": "ng-pc:build:production"
             },
             "hmr": {
+//              "baseHref": "/admin/",
               "browserTarget": "ng-pc:build:hmr",
               "hmr": true
             }
