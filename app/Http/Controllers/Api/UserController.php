@@ -192,7 +192,7 @@ class UserController extends ApiController
     // 未排课学员list
     public function noLessons()
     {
-        $students = null;
+        $students = collect();
         $user = Auth::user();
         if ( !$user->hasRole('admin') )
         {

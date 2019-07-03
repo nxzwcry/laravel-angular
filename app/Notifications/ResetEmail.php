@@ -46,7 +46,7 @@ class ResetEmail extends Notification
         return (new MailMessage)
                     ->line('请点击下面的按钮重置密码')
                     ->action('重置密码',
-                        url("admin/#/passport/reset-password/{$this->token}"));
+                        url("admin#/passport/reset-password/{$this->token}"));
     }
 
     /**

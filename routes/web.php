@@ -32,7 +32,8 @@ Route::get('/', function () {
 //Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
 //Route::post('password/reset', 'Auth\ResetPasswordController@reset');
 
-Route::get('/home', 'HomeController@index')->name('home');
+//Route::get('/home', 'HomeController@index')->name('home');
+
 
 // 绑定微信号（确认微信已登录）
 Route::group(['middleware' => ['wechat.oauth']], function () {

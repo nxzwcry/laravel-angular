@@ -4,8 +4,8 @@
 	<head>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<link rel="stylesheet" type="text/css" href="{{ URL::asset('css/weui.min.css') }}"/>
-		<link rel="stylesheet" type="text/css" href="{{ URL::asset('css/jquery-weui.min.css') }}"/>
+		<link rel="stylesheet" href="https://cdn.bootcss.com/weui/1.1.3/style/weui.min.css">
+		<link rel="stylesheet" href="https://cdn.bootcss.com/jquery-weui/1.2.1/css/jquery-weui.min.css">
 		<style type="text/css">
 			html,body{
 				height: 100%;
@@ -27,7 +27,7 @@
 		</div>
 	   <div class="weui-cell">
 	   		<div class="weui-cell__hd">
-	       {!! Form::label('sid','学生号:',['class' => 'weui-label']) !!}
+	       {!! Form::label('sid','深泉学号:',['class' => 'weui-label']) !!}
 	       	</div>
 	       	<div class="weui-cell__hd">
 	       {!! Form::text('sid','',['class' => 'weui-input']) !!}
@@ -57,9 +57,9 @@
 	   </div>
 		{!! Form::close() !!}
 		</form>
-			
-		<script src="{{ URL::asset('js/jquery-2.1.4.js') }}"></script>		
-		<script src="{{ URL::asset('js/jquery-weui.min.js') }}"></script>
+
+		<script src="https://cdn.bootcss.com/jquery/1.11.0/jquery.min.js"></script>
+		<script src="https://cdn.bootcss.com/jquery-weui/1.2.1/js/jquery-weui.min.js"></script>
 	</div>
 	</body>
 	

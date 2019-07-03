@@ -1,3 +1,17 @@
+2019-7-3
+手机端：
+    info页面跑通
+后端：
+    Bug：修正appdata中菜单显示的acl项
+    Bug：修改重置密码邮件的链接，去除#前面的/
+前端：
+    修改polyfills文件以支持ie
+
+
+2019-7-2
+后端：
+    Bug：停课学员列表为空时报错
+
 2019-7-2
 后端：
     Bug：Auth guard [passport] is not defined 修改activitylog的config文件，auth driver设置为默认
