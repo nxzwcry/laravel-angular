@@ -40,7 +40,7 @@ class CountController extends ApiController
         if ($request->stime && $request->etime)
         {
             $res = collect();
-            $places = Place::all();
+            $places = Place::where('active', true)->get();
             foreach ($places as $place)
             {
                 $res->push($this->dealPlaceData($place->id, $request->stime, $request->etime));
