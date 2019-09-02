@@ -190,6 +190,13 @@ class AppdataController extends ApiController
                             'ability' => ['month-count'],
                         ],
                     ],
+                    [
+                        'text' => '校区统计',
+                        'link' => '/count/place',
+                        'acl' => [
+                            'ability' => ['month-count'],
+                        ],
+                    ],
                 ],
             ],
 //            [

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Place;
 use App\Recharge;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -30,6 +31,85 @@ class CountController extends ApiController
             }
             return new CountResource($data);
         }
+    }
+
+    // 校区统计动作
+    public function getPlaceCount(Request $request)
+    {
+        // 输入信息：stime，etime
+        if ($request->stime && $request->etime)
+        {
+            $res = collect();
+            $places = Place::all();
+            foreach ($places as $place)
+            {
+                $res->push($this->dealPlaceData($place->id, $request->stime, $request->etime));
+            }
+
+            return [
+                'data' => $res,
+                'links' => [
+                    'self' => 'link-value',
+                ],
+            ];
+        }
+    }
+
+    // 生成一个校区的统计数据
+    public function dealPlaceData($place, $stime, $etime)
+    {
+        $stime = Carbon::createFromTimeStamp($stime,'Asia/Shanghai');
+        $etime = Carbon::createFromTimeStamp($etime,'Asia/Shanghai');
+        $data1 = Lesson::getCountList($stime, $etime)->where('place_id', $place)->where('status', '1');
+
+        $stime->subMonth();
+        $etime->subMonth();
+        $data2 = Lesson::getCountList($stime, $etime)->where('place_id', $place)->where('status', '1');
+
+        $keci = $data1->where('lesson_type', 'bt')->count();
+        $renci = $data1->where('lesson_type', '<>', 'bt')->count();
+        $zhongjiao = $data1->where('lesson_type', 'b')->sum('zhongjiao_cost');
+        $waijiao = $data1->where('lesson_type', 'b')->sum('waijiao_cost');
+        $bu = $data1->where('lesson_type', 'bu')->sum('waijiao_cost');
+        $one_zhongjiao = $data1->whereIn('lesson_type', ['w', 'f'])->sum('zhongjiao_cost');
+        $one_waijiao = $data1->whereIn('lesson_type', ['w', 'f'])->sum('waijiao_cost');
+
+        $temp1 = $data1->where('lesson_type', '<>', 'bt')->groupBy('student_id');
+        $temp2 = $data2->where('lesson_type', '<>', 'bt')->groupBy('student_id');
+        $benyue = collect([]);
+        foreach ($temp1 as $id => $data)
+        {
+            $benyue->put($id, ['id' => $id, 'name' => Student::find($id)->name]);
+        }
+        $shangyue = collect([]);
+        foreach ($temp2 as $id => $data)
+        {
+            $shangyue->put($id, ['id' => $id, 'name' => Student::find($id)->name]);
+        }
+        $liuru = $benyue->diffKeys($shangyue);
+        $liuchu = $shangyue->diffKeys($benyue);
+
+        $res = [
+            'id' => $place,
+            'name' => Place::find($place)->name,
+//            'data' => $shangyue,
+            'renci' => $renci,
+            'keci' => $keci,
+            'zhongjiao' => $zhongjiao,
+            'waijiao' => $waijiao,
+            'one_zhongjiao' => $one_zhongjiao,
+            'one_waijiao' => $one_waijiao,
+            'bu' => $bu,
+            'renshu' => $benyue->count(),
+            'liushishu' => $liuchu->count(),
+            'liurushu' => $liuru->count(),
+            'mingdan' => $benyue->values()->all(),
+            'liuru' => $liuru->values()->all(),
+            'liushi' => $liuchu->values()->all()
+        ];
+
+        return $res;
+
     }
 
     // 年度统计动作

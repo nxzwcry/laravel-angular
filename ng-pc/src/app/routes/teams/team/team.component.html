@@ -42,7 +42,7 @@
         <tbody>
         <tr *ngFor="let course of coursesTable.data">
           <td><a [routerLink]="['/lessons/course',course.id]">
-            <ellipsis lines="1">
+            <ellipsis lines="1" nz-tooltip [nzTitle]="course.name">
               {{course.name}}
             </ellipsis>
           </a></td>
@@ -51,7 +51,7 @@
           <td>{{course.cteacher}}</td>
           <td>{{course.fteacher}}</td>
           <td>
-            <ellipsis lines="1">
+            <ellipsis lines="1" nz-tooltip [nzTitle]="course.place">
               {{course.place}}
             </ellipsis>
           <td>
@@ -86,7 +86,7 @@
                     <td nzShowExpand [(nzExpand)]="lesson.expand"></td>
                     <td>
                       <a [routerLink]="['/lessons/lesson',lesson.id]">
-                        <ellipsis lines="1">
+                        <ellipsis lines="1" nz-tooltip [nzTitle]="lesson.name">
                           {{lesson.name}}
                         </ellipsis>
                       </a>
@@ -95,9 +95,9 @@
                     <td>{{lesson.stime*1000 | _date: 'HH:mm'}}~{{lesson.etime*1000 | _date: 'HH:mm'}}</td>
                     <td>{{lesson.cteacher ? lesson.cteacher : '无'}}</td>
                     <td>{{lesson.fteacher ? lesson.fteacher : '无'}}</td>
-                    <td>{{lesson.fteacher_time ? (lesson.fteacher_time*1000 | _date: 'HH:mm') : '无'}}</td>
+                    <td>{{lesson.fteacher ? (lesson.fteacher_time*1000 | _date: 'HH:mm') : '-'}}</td>
                     <td>
-                      <ellipsis lines="1">
+                      <ellipsis lines="1" nz-tooltip [nzTitle]="lesson.place">
                         {{lesson.place}}
                       </ellipsis>
                     </td>
@@ -149,7 +149,7 @@
                     <td nzShowExpand [(nzExpand)]="lesson.expand"></td>
                     <td>
                       <a [routerLink]="['/lessons/lesson',lesson.id]">
-                        <ellipsis lines="1">
+                        <ellipsis lines="1" nz-tooltip [nzTitle]="lesson.name">
                           {{lesson.name}}
                         </ellipsis>
                       </a>

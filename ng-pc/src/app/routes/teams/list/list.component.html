@@ -30,7 +30,7 @@
         <td>{{item.student_count}}</td>
         <td>{{item.cteacher}}</td>
         <td>
-          <ellipsis lines="1">
+          <ellipsis lines="1" nz-tooltip [nzTitle]="item.place">
             {{item.place}}
           </ellipsis>
         </td>

@@ -1,0 +1,102 @@
+<nz-spin nzTip="Loading..." [nzSpinning]="loading">
+  <nz-row>
+    <nz-col [nzSpan]="20">
+      <nz-month-picker [formControl]="month" [nzDisabledDate]="disabledDate" (ngModelChange)="change($event)"></nz-month-picker>
+    </nz-col>
+    <nz-col [nzSpan]="4" style="text-align:right">
+      <button nz-button nzType="default" (click)="load()">刷新列表</button>
+    </nz-col>
+  </nz-row>
+  <nz-card nzTitle="校区统计">
+
+    <nz-table #countTable [nzData]="displayList" nzSize="middle" [nzShowPagination]="false" [nzFrontPagination]="false" [hidden]="hidden" nzBordered>
+      <thead>
+      <tr>
+        <th rowspan="2">编号</th>
+        <th rowspan="2">校区</th>
+        <th colspan="4">班课课时统计</th>
+        <th colspan="2">一对一课时统计</th>
+        <th colspan="4">本月学生数</th>
+      </tr>
+      <tr>
+        <th>课次</th>
+        <th>中教</th>
+        <th>外教</th>
+        <th>补课</th>
+        <th>中教</th>
+        <th>外教</th>
+        <th>上课人次</th>
+        <th>上课人数</th>
+        <th>流入</th>
+        <th>流失</th>
+      </tr>
+      </thead>
+
+      <tbody>
+      <tr *ngFor="let item of countTable.data; index as i">
+        <td>{{item.id}}</td>
+        <td>{{item.name}}</td>
+        <td>{{item.keci}}</td>
+        <td>{{item.zhongjiao}}</td>
+        <td>{{item.waijiao}}</td>
+        <td>{{item.bu}}</td>
+        <td>{{item.one_zhongjiao}}</td>
+        <td>{{item.one_waijiao}}</td>
+        <td>{{item.renci}}</td>
+        <td><a (click)="openRenshu(i)">{{item.renshu}}</a></td>
+        <td><a (click)="openLiuru(i)">{{item.liurushu}}</a></td>
+        <td><a (click)="openLiushi(i)">{{item.liushishu}}</a></td>
+      </tr>
+      </tbody>
+    </nz-table>
+
+  </nz-card>
+
+  <nz-drawer [nzVisible]="visible" [nzWidth]="640" [nzClosable]="false" (nzOnClose)="close()">
+    <p class="title" style=" margin-bottom: 24px;">详细记录</p>
+    <nz-table *ngIf="type == 'renshu'" #mingdanTable [nzData]="displayList[index].mingdan" nzSize="small">
+      <thead>
+      <tr>
+        <th>学号</th>
+        <th>姓名</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let item of mingdanTable.data">
+        <td>{{item.id}}</td>
+        <td>{{item.name}}</td>
+      </tr>
+      </tbody>
+    </nz-table>
+
+    <nz-table *ngIf="type == 'liuru'" #liuruTable [nzData]="displayList[index].liuru" nzSize="small">
+      <thead>
+      <tr>
+        <th>学号</th>
+        <th>姓名</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let item of liuruTable.data">
+        <td>{{item.id}}</td>
+        <td>{{item.name}}</td>
+      </tr>
+      </tbody>
+    </nz-table>
+
+    <nz-table *ngIf="type == 'liushi'" #liushiTable [nzData]="displayList[index].liushi" nzSize="small">
+      <thead>
+      <tr>
+        <th>学号</th>
+        <th>姓名</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let item of liushiTable.data">
+        <td>{{item.id}}</td>
+        <td>{{item.name}}</td>
+      </tr>
+      </tbody>
+    </nz-table>
+  </nz-drawer>
+</nz-spin>

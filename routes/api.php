@@ -127,6 +127,7 @@ Route::middleware('auth:api')->group(function () {
     Route::prefix('count')->group(function () {
         Route::post('/getCount', 'Api\CountController@getCount');
         Route::middleware('permission:month-count')->post('/getYearCount', 'Api\CountController@getYearCount');
+        Route::middleware('permission:month-count')->post('/getPlaceCount', 'Api\CountController@getPlaceCount');
     });
 
     Route::prefix('phone')->group(function () {
