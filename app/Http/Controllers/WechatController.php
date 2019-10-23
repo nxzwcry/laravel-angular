@@ -153,16 +153,16 @@ class WechatController extends Controller
 //                    ],
                 ],
             ],
-//            [
-//                "type" => "view",
-//                "name" => "用户信息",
-//                "url"  => "http://deepspring.cn/wechat/userinfo"
-//            ],
             [
-                "type" => "click",
+                "type" => "view",
                 "name" => "用户信息",
-                "key"  => "BUTTEN_USER"
+                "url"  => "http://deepspring.cn/wechat/userinfo"
             ],
+//            [
+//                "type" => "click",
+//                "name" => "用户信息",
+//                "key"  => "BUTTEN_USER"
+//            ],
 		];
 		$menu->add($buttons);
 		return $menu->all();
@@ -187,7 +187,9 @@ class WechatController extends Controller
 		    'captcha' => 'required|captcha'
 		]);
 		Log::info('after captcha.');
-		$user = session('wechat.oauth_user'); // 拿到授权用户资料
+		$user = session('wechat.oauth_user.default'); // 拿到授权用户资料
+//        Log::info($user->name);
+//        dd($user);
 		$sid = $request -> sid;
 		$students = Student::where('id' , $sid) -> first();
 //		dd($user);
@@ -196,7 +198,7 @@ class WechatController extends Controller
 			if( $request -> sname == $students -> name )
 			{
 				$wechat = Wechat::create(
-					[ 'sid' => $sid,
+					[ 'student_id' => $sid,
 					  'openid' => $user -> id,
 					  'name' => $user -> name,
 					  'nickname' => $user -> nickname

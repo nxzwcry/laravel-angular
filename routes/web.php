@@ -35,16 +35,16 @@ Route::get('/', function () {
 //Route::get('/home', 'HomeController@index')->name('home');
 
 
+Route::any('wechat/connect', function () {
+    return view('student.connect');
+});
 // 绑定微信号（确认微信已登录）
-Route::group(['middleware' => ['wechat.oauth']], function () {
-    Route::any('wechat/connect', function () {
-        return view('student.connect');
-    });
+Route::group(['middleware' => ['wechat.oauth:snsapi_userinfo']], function () {
     Route::any('wechat/connectto','WechatController@connect');
 });
 
 
 // 用户微信操作中间件（拿到用户信息）
-Route::group(['middleware' => ['wechat.oauth' , 'wechat.checkcon']], function () {
+Route::group(['middleware' => ['wechat.oauth:snsapi_userinfo' , 'wechat.checkcon']], function () {
     Route::any('wechat/userinfo', 'StudentController@userinfo');
 });

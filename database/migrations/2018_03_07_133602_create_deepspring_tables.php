@@ -85,8 +85,8 @@ class CreateDeepspringTables extends Migration
             $table->increments('id');
             $table->string('openid');
             $table->unsignedInteger('student_id');
-            $table->string('name');
-            $table->string('nickname');
+            $table->string('name')->nullable($value = true);
+            $table->string('nickname')->nullable($value = true);
             $table->timestamps();
             $table->softDeletes();
         });

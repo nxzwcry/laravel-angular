@@ -12,25 +12,28 @@ class CheckWechat{
 	
 	public function handle($request, Closure $next)
     {
-    	$user = session('wechat.oauth_user'); // 拿到授权用户资料
-    	Log::info('获取用户资料'.$user->getId());
+    	$user = session('wechat.oauth_user.default'); // 拿到授权用户资料
+    	Log::info('获取用户资料');
     	$con = Wechat::where( 'openid' , $user->id ) -> first();
-    	
-//  	dd($con);
+
+//	    dd($con);
     	
         if ( $con == null ) {
+            Log::info('用户未绑定');
             return redirect('wechat/connect');
         }
         
-        $student = Student::where( 'id' , $con -> sid ) -> first();
+        $student = Student::where( 'id' , $con -> student_id ) -> first();
+//        Log::info('学生id'.$con -> sid);
     		
 		if ( $student == null ) {
 			Wechat::where( 'openid' , $user->id ) -> delete();
         	return redirect('wechat/connect');
         }
         
-        $request->session()->put('sid', $con -> sid);
+        $request->session()->put('sid', $con -> student_id);
 
+        Log::info('用户登录成功');
         return $next($request);
     }
 	

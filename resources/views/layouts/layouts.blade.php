@@ -26,12 +26,12 @@
 		    </a>
 		    
 		    <a class="weui-navbar__item" href="#tab2">
-		      课程信息
+		      课程表
 		      
 		    </a>
 		    
 		    <a class="weui-navbar__item" href="#tab3">
-		      课后视频
+		      上课记录
 		      
 		    </a>
 		  </div>

@@ -32,4 +32,14 @@ class Message extends Model
      */
 //    protected $dateFormat = 'U';
 
+    public function student()
+    {
+        return $this->belongsTo('App\Student' , 'sutdent_id');
+    }
+
+    public function wechat()
+    {
+        return $this->belongsTo('App\Student' , 'wechat_id');
+    }
+
 }

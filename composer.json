@@ -12,6 +12,8 @@
         "laravel/framework": "5.5.*",
         "laravel/passport": "4.*",
         "laravel/tinker": "~1.0",
+        "laravelcollective/html": "^5.2.0",
+        "mews/captcha": "^2.3",
         "overtrue/laravel-wechat": "~4.0",
         "spatie/laravel-activitylog": "^3.2",
         "spatie/laravel-permission": "^2.9",

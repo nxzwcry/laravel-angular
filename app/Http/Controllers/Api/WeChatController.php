@@ -239,16 +239,16 @@ class WeChatController extends ApiController
 //                    ],
                 ],
             ],
-//            [
-//                "type" => "view",
-//                "name" => "用户信息",
-//                "url"  => "http://deepspring.cn/wechat/userinfo"
-//            ],
             [
-                "type" => "click",
+                "type" => "view",
                 "name" => "用户信息",
-                "key"  => "BUTTEN_USER"
+                "url"  => "http://deepspring.cn/wechat/userinfo"
             ],
+//            [
+//                "type" => "click",
+//                "name" => "用户信息",
+//                "key"  => "BUTTEN_USER"
+//            ],
         ];
         $menu->create($buttons);
         return $menu->list();
