@@ -19,7 +19,7 @@ class CreateDeepspringTables extends Migration
             $table->string('ename')->nullable($value = true);
             $table->unsignedInteger('sex')->nullable($value = true); // 1:男 2:女
             $table->timestamp('birthday')->nullable($value = true);
-            $table->Integer('grade')->nullable($value = true); // 6表示一年级
+            $table->Integer('grade')->nullable($value = true); // 7表示一年级
             $table->unsignedInteger('agent_user_id')->nullable($value = true);
             $table->unsignedInteger('cteacher_user_id')->nullable($value = true);
             $table->string('email')->nullable($value = true);
