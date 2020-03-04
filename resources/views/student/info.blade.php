@@ -4,7 +4,7 @@
 <style type="text/css">
 	  h1 {
 	  	color: #666;
-	  	margin: 10% 0;
+	  	margin: 10%;
 	  }
 </style>
 @stop

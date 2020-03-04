@@ -49,8 +49,8 @@ class SendStartMassage extends Command
     {
         //
 		Log::info('微信发送上课提醒');
-		$lessons = Lesson::where('start_datetime', '>=', Carbon::now()->addHours(2)-> toDateString())
-						-> where('start_datetime', '<', Carbon::now()->addHours(26)-> toDateString() )
+		$lessons = Lesson::where('start_datetime', '>=', Carbon::now()->timezone('Asia/shanghai')->setTime(12, 0, 0) )
+						-> where('start_datetime', '<', Carbon::now()->timezone('Asia/shanghai')->addDay()->setTime(12, 0, 0) )
 						-> get();
 //		$lessons2 = Lesson::where( 'date' , Carbon::now() -> addDay() -> toDateString() )
 //						-> where( 'stime' , '<' , '12:00:00.000000' )
@@ -61,17 +61,20 @@ class SendStartMassage extends Command
 			$student = Student::find( $lesson -> sid );		
 			if ( $student )
 			{				
-				if ( ( $lesson -> tname <> '' ) && ( $lesson -> cteacher ) )
+				if ( ( $lesson->cteacher ) && ( $lesson -> fteacher ) )
 				{
-					$teacher = $lesson -> tname . ' & ' . $lesson -> cteacher -> tname;
+					$teacher = $lesson->cteacher->ename . '(' . $lesson->cteacher->name . ')' . ' & ' . $lesson -> fteacher -> name;
 				}
 				else
 				{
-					$teacher = $lesson -> tname;
-					if ( $lesson -> cteacher )
+					if ( $lesson->cteacher )
 					{
-						$teacher = $teacher . $lesson -> cteacher -> tname;
+						$teacher = $lesson->cteacher->ename . '(' . $lesson->cteacher->name . ')';
 					}
+					else if( $lesson -> fteacher )
+                    {
+                        $teacher = $lesson -> fteacher -> name;
+                    }
 				}		
 				if ( $lesson -> date > Carbon::now() -> toDateString() )
 				{
@@ -83,7 +86,7 @@ class SendStartMassage extends Command
 				}
 				$message = ['first' => $first , 
 							'sname' => $student -> name . ' ' . $student -> ename , 
-							'time' => $lesson -> date . ' ' . substr( $lesson -> stime , 0 , 5 ) . '~' . substr( $lesson -> etime , 0 , 5 ) ,
+							'time' => substr($lesson->start_datetime->timezone('Asia/shanghai'), 0, 10) . ' ' . numtoweek(Carbon\Carbon::parse($lesson->start_datetime->timezone('Asia/shanghai')) -> dayOfWeek) . ' ' . substr( $lesson->start_datetime->timezone('Asia/shanghai') , 11 , 5 ) . '~' . substr( $lesson->end_datetime->timezone('Asia/shanghai') , 11 , 5 ),
 							'place' => $lesson -> place -> name . '',
 							'teacher' => $teacher,
 							'mid' => $lesson -> mid . ''];
