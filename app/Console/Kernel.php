@@ -77,6 +77,7 @@ class Kernel extends ConsoleKernel
         // 北京时间每月21日0点，添加下月课程
         $schedule->command('CreateMonthLessons')
             ->monthlyOn(20, '16:00');
+            // ->hourlyAt(58);
     }
 
     /**

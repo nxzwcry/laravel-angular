@@ -121,9 +121,9 @@ return [
     |
     */
 
-    'log' => env('APP_LOG', 'daily'),
-
-    'log_level' => env('APP_LOG_LEVEL', 'debug'),
+//    'log' => env('APP_LOG', 'daily'),
+//
+//    'log_level' => env('APP_LOG_LEVEL', 'debug'),
 
     /*
     |--------------------------------------------------------------------------
@@ -164,6 +164,7 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
         Mews\Captcha\CaptchaServiceProvider::class,
+        Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
 
         /*
          * Package Service Providers...
@@ -179,7 +180,7 @@ return [
         App\Providers\RouteServiceProvider::class,
 
         // 阿里云邮件
-        WangYan\DirectMail\DirectMailTransportProvider::class,
+        // WangYan\DirectMail\DirectMailTransportProvider::class,
 
         Collective\Html\HtmlServiceProvider::class,
 

@@ -49,7 +49,7 @@ class Course extends Model
      */
 //    protected $dateFormat = 'U';
 
-//    //edate的时间设定为该日期的最大值
+//    edate的时间设定为该日期的最大值
 //    public function setEdateAttribute($value)
 //    {
 //        if ( $value == null ) {$this->attributes['edate'] = null;}
